@@ -1,69 +1,68 @@
-import React from 'react';
-import './Checkout.css';
-import CartSidebar from '../Components/CartSidebar'; 
+import React, { useContext } from 'react';
 
+import CartSidebar from '../Components/CartSidebar';
+import './Checkout.css';
 
 const Checkout = () => {
-    const product = {
-        name: 'Fuscia suit',
-        mainImage: 'https://via.placeholder.com/150',
-        price: 'Free',
-    };
-    const quantity = 1;
-    const selectedSize = 'M';
-
+  
     return (
         <div className="container">
-            <div className="checkout-form">
-                <h2>Express Checkout</h2>
-                <div className="express-buttons">
-                    <button className="shop-pay">Shop Pay</button>
-                    <button className="paypal">PayPal</button>
-                    <button className="gpay">G Pay</button>
-                </div>
-                <div className="or">OR</div>
-                <div className="contact">
-                    <label htmlFor="contact">Contact</label>
-                    <input type="email" id="contact" placeholder="Email or mobile phone number" />
-                    <input type="checkbox" id="subscribe" />
-                    <label htmlFor="subscribe">Email me with news and offers</label>
-                </div>
-                <div className="delivery">
-                    <h3>Delivery</h3>
-                    <select id="country">
-                        <option value="canada">Canada</option>
-                    </select>
-                    <div className="name">
-                        <input type="text" placeholder="First name (optional)" />
-                        <input type="text" placeholder="Last name" />
+            <div className="checkout-content">
+                <div className="checkout-form">
+                    <h2>Checkout</h2>
+                    <div className="contact">
+                        <div className="floating-label">
+                            <input type="email" id="contact-email" placeholder=" " />
+                            <label htmlFor="contact-email">Email or mobile phone number</label>
+                        </div>
+                        <div className="floating-label">
+                            <input type="text" id="contact-name" placeholder=" " />
+                            <label htmlFor="contact-name">Full Name</label>
+                        </div>
                     </div>
-                    <input type="text" placeholder="Address" />
-                    <input type="text" placeholder="Apartment, suite, etc. (optional)" />
-                    <div className="location">
-                        <input type="text" placeholder="City" />
-                        <select id="province">
-                            <option value="alberta">Alberta</option>
-                        </select>
-                        <input type="text" placeholder="Postal code" />
+                    <div className="delivery">
+                        <h2>Delivery</h2>
+                        <div className="floating-label">
+                            <input type="text" id="country" placeholder=" " />
+                            <label htmlFor="country">Country</label>
+                        </div>
+                        <div className="floating-label">
+                            <input type="text" id="address-line1" placeholder=" " />
+                            <label htmlFor="address-line1">First Line</label>
+                        </div>
+                        <div className="floating-label">
+                            <input type="text" id="address-line2" placeholder=" " />
+                            <label htmlFor="address-line2">Second Line</label>
+                        </div>
+                        <div className="location">
+                            <div className="floating-label">
+                                <input type="text" id="state" placeholder=" " />
+                                <label htmlFor="state">State</label>
+                            </div>
+                            <div className="floating-label">
+                                <input type="text" id="city" placeholder=" " />
+                                <label htmlFor="city">City</label>
+                            </div>
+                            <div className="floating-label">
+                                <input type="text" id="pin-code" placeholder=" " />
+                                <label htmlFor="pin-code">Pin code</label>
+                            </div>
+                        </div>
                     </div>
+                    <div className="shipping-method">
+                        <div className="floating-label">
+                            <input type="text" id="shipping" placeholder=" " />
+                            <label htmlFor="shipping">Landmark</label>
+                        </div>
+                    </div>
+                    <div className="payment">
+                        <h2>Payment</h2>
+                        <p>All transactions are secure and encrypted.</p>
+                    </div>
+                    <button className="complete-order">Complete order</button>
                 </div>
-                <div className="shipping-method">
-                    <label htmlFor="shipping">Shipping method</label>
-                    <input type="text" id="shipping" placeholder="Enter your shipping address to view available shipping methods" />
-                </div>
-                <div className="payment">
-                    <h3>Payment</h3>
-                    <p>All transactions are secure and encrypted.</p>
-                    <p>Your order is free. No payment is required.</p>
-                </div>
-                <button className="complete-order">Complete order</button>
+                
             </div>
-            <CartSidebar 
-                product={product} 
-                quantity={quantity} 
-                selectedSize={selectedSize} 
-                isOpen={true} 
-            />
         </div>
     );
 };

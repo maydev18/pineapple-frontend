@@ -11,7 +11,7 @@ import { ReactTyped as Typed } from 'react-typed';
 const Hero = () => {
   return (
     <>
-      <Header />
+     <Header/>
       <div className="hero">
         <div className="hero-content">
           <h1 className="heading">PINEAPPLE</h1>

@@ -1,82 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
 
 /* Basic reset and styling */
+html, body {
+  height: 100%; 
+  margin: 0; 
+  box-sizing: border-box; 
+}
+
 .container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center; 
   padding: 20px;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  position: relative; /* Ensure the container is positioned correctly */
+  box-sizing: border-box; 
+  /* background-image: url('../images/login_page.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;  */
+  background-color: #F2F2F2; 
+  height: 100vh; 
 }
 
 .checkout-form {
-  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 60%;
-  margin-right: 35%; /* Make space for the sidebar */
+  width: 100%;
+  max-width: 800px; /* Adjust the max-width as needed */
+  background-color: white;
 }
 
-h2, h3 {
+.checkout-form h2 {
   margin-top: 0;
-}
-
-.express-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.express-buttons button {
-  flex: 1;
-  padding: 10px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.express-buttons button:last-child {
-  margin-right: 0;
-}
-
-.express-buttons button.shop-pay { background-color: #5a31f4; color: white; }
-.express-buttons button.paypal { background-color: #ffc439; color: black; }
-.express-buttons button.gpay { background-color: black; color: white; }
-
-.or {
+  margin-bottom: 1rem;
+  font-size: 30px;
+  color: black;
   text-align: center;
-  margin: 20px 0;
-  font-weight: bold;
+  font-family: "Outfit";
 }
 
 .contact, .delivery, .shipping-method, .payment {
   margin-bottom: 20px;
 }
 
-input[type="email"], input[type="text"], select {
+.floating-label {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.floating-label input {
   width: 100%;
   padding: 10px;
-  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background: none;
+  box-sizing: border-box; /* Ensures padding and border do not affect width */
+}
+
+.floating-label label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #999;
+  pointer-events: none;
+  transition: all 0.3s;
+  background-color: #fff; /* Ensures label is on top of the input */
+  padding: 0 5px; /* Optional: Adds space between label and input border */
+}
+
+.floating-label input:focus,
+.floating-label input:not(:placeholder-shown) {
+  border-color: #333;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label {
+  top: 0;
+  left: 10px;
+  font-size: 12px;
+  color: #333;
 }
 
 .name, .location {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
 }
 
-.name input, .location input, .location select {
-  width: 48%;
+.name .floating-label, .location .floating-label {
+  width: 100%;
 }
 
 .complete-order {
   width: 100%;
   padding: 15px;
-  background-color: #007bff;
+  background-color: var(--green);
   color: white;
   border: none;
   border-radius: 4px;
@@ -84,22 +106,60 @@ input[type="email"], input[type="text"], select {
   font-size: 16px;
 }
 
-.order-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.order-item img {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-}
-
-.order-summary {
-  text-align: right;
+.complete-order:hover {
+  background-color: #444;
 }
 
 .order-summary p, .order-summary h4 {
   margin: 5px 0;
 }
+
+.payment p {
+  font-size: 15px;
+  color: black;
+  text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .checkout-form {
+    width: 90%; /* Adjusts width on smaller screens */
+    padding: 15px; /* Adjusts padding for better fit */
+  }
+
+  .name, .location {
+    flex-direction: column; /* Stacks name and location fields vertically on small screens */
+    gap: 10px; /* Reduces gap between fields */
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-form h2 {
+    font-size: 24px; /* Adjusts font size for very small screens */
+  }
+
+  .complete-order {
+    padding: 12px; /* Adjusts padding for smaller buttons on small screens */
+    font-size: 14px; /* Adjusts font size for smaller buttons */
+  }
+}
+
+
+.checkout-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Adjust the spacing between the two containers */
+  padding: 20px;
+}
+
+.checkout-form-container {
+  flex: 2;
+}
+
+.cart-sidebar-container {
+  flex: 1;
+  border: 1px solid #ddd; /* Optional: add a border to visually separate the cart sidebar */
+  padding: 20px;
+  background-color: #f9f9f9; /* Optional: add a background color */
+}
+

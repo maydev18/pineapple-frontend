@@ -3,7 +3,7 @@ import React from 'react';
 import logoBlack from '../images/logo_black.png';
 import loginPageBackground from '../images/login_page.png';
 import { Link } from 'react-router-dom';
-import '../index.css';
+import './Auth.css';
 
 const LoginPage = () => {
   return (

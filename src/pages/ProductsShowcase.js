@@ -1,6 +1,6 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
-import '../index.css';
+import './ProductShowcase.css';
 import back from '../images/back.jpg';
 
 const products = [

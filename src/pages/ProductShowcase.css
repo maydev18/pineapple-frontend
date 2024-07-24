@@ -4,7 +4,7 @@
     text-align: center;
     background: radial-gradient( #0E201D 60%, black );
     color: #f0e5d8;
-    padding: 4rem; /* Adjust padding for smaller screens */
+    padding: 3rem; /* Adjust padding for smaller screens */
   }
   
   
@@ -28,7 +28,7 @@
     cursor: pointer;
     width: 100%;
     opacity: 0;
-    max-width: 400px; 
+    max-width: 300px; 
     
   }
   

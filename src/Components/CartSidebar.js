@@ -11,6 +11,7 @@ const CartSidebar = ({ product, quantity, selectedSize, isOpen, onClose }) => {
         <div className="cart-item-details">
           <h4>{product.name}</h4>
           <p>Size: {selectedSize}</p>
+          <p>Quantity: {quantity}</p>
           <p>Price: {product.price}</p>
         </div>
       </div>
