@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import Footer from './Footer';
 import Header from '../Components/Header';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
 import back from '../images/back.jpg';
 import front from '../images/front.jpg';
-import CustomArrow from '../Components/CustomArrow';
 import CartSidebar from '../Components/CartSidebar';
+import { Icon } from '@iconify/react';
+import arrowLeftCircle from '@iconify-icons/mdi/arrow-left-circle';
+import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
 
 const product = {
   name: 'TECTONEER NAVY REGULAR FIT SHORTS',
@@ -16,15 +15,17 @@ const product = {
   rating: 4,
   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   mainImage: back,
-  images: [front, front, front, front],
+  images: [back, front, front, front],
 };
 
 const sizes = ['S', 'M', 'L', 'XL'];
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [review, setReview] = useState('');
+  
   const handleQuantityChange = (e) => {
     const value = Math.max(1, parseInt(e.target.value, 10));
     setQuantity(value);
@@ -38,46 +39,20 @@ const ProductPage = () => {
     setIsSidebarOpen(false);
   };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <CustomArrow direction="right" />,
-    prevArrow: <CustomArrow direction="left" />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+  const handleReviewChange = (e) => {
+    setReview(e.target.value);
+  };
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    // Handle review submission here
+    setReview('');
   };
 
   return (
     <>
       <Header />
-      <div className="product-page">
+      <div className="products-page">
         <SingleProduct product={product} />
         <div className="product-details">
           <h2>{product.name}</h2>
@@ -92,7 +67,13 @@ const ProductPage = () => {
             <p>Select Size:</p>
             <div className="sizes">
               {sizes.map((size) => (
-                <button key={size} className="size-button">{size}</button>
+                <button
+                  key={size}
+                  className={`size-button ${size === selectedSize ? 'selected' : ''}`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </button>
               ))}
             </div>
           </div>
@@ -112,17 +93,25 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
-      <CartSidebar product={product} quantity={quantity} isOpen={isSidebarOpen} onClose={handleCloseSidebar} />
-      <div className="related-products">
-        <h3>YOU MAY ALSO LIKE</h3>
-        <Slider {...settings}>
-          {Array(5).fill(product).map((relatedProduct, index) => (
-            <div key={index}>
-              <SingleProduct product={relatedProduct} />
-            </div>
-          ))}
-        </Slider>
+      <div className="review-section">
+        <h3>Write a Review</h3>
+        <form onSubmit={handleReviewSubmit} className="review-form">
+          <textarea
+            value={review}
+            onChange={handleReviewChange}
+            placeholder="Write your review here..."
+            required
+          />
+          <button type="submit" className="button submit-review">Submit Review</button>
+        </form>
       </div>
+      <CartSidebar
+        product={product}
+        quantity={quantity}
+        selectedSize={selectedSize}
+        isOpen={isSidebarOpen}
+        onClose={handleCloseSidebar}
+      />
       <Footer />
     </>
   );

@@ -27,9 +27,9 @@ const Hero = () => {
             />
           </div>
           <div className="hero-buttons">
-            <Link to="/signup">
+            {/* <Link to="/signup">
               <button className="button">SIGN UP</button>
-            </Link>
+            </Link> */}
             <Link to="/productspage">
               <button className="button">BUY NOW</button>
             </Link>
