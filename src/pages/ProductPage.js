@@ -1,10 +1,10 @@
 import React from 'react';
-import Card from './Card';
+import Card from '../Components/Card';
 import '../index.css';
 import front from '../images/front.jpg';
 import hoverImage from '../images/back.jpg'; // Assuming you have a hover image
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../Components/Header';
+import Footer from '../Components/Footer';
 
 const products = [
   {

@@ -5,7 +5,7 @@ const CustomArrow = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", background: "transparent", borderRadius: "50%", padding: "1rem", zIndex: 2}}
+      style={{ ...style, display: "block", background: "black", borderRadius: "50%", padding: "1rem", zIndex: 2}}
       onClick={onClick}
     >
       {direction === 'left' ? '<' : '>'}

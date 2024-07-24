@@ -5,12 +5,12 @@ import Modal from './Modal/Modal';
 import modalImage from './images/banner.jpg'; // Replace with your modal image path
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Checkout from './Components/Checkout';
-import Hero from './Components/Hero'
-import ProductView from './Components/ProductView';
-import ProductPage from './Components/ProductPage';
-import LoginPage from './Components/Login';
-import SignupPage from './Components/SignUp';
+import Checkout from './pages/Checkout';
+import Hero from './pages/Hero'
+import ProductView from './pages/ProductView';
+import ProductPage from './pages/ProductPage';
+import LoginPage from './pages/Login';
+import SignupPage from './pages/SignUp';
 
 
 function App() {

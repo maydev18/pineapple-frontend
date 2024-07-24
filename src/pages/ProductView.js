@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
-import Footer from './Footer';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import back from '../images/back.jpg';
 import front from '../images/front.jpg';
 import CartSidebar from '../Components/CartSidebar';
-import { Icon } from '@iconify/react';
-import arrowLeftCircle from '@iconify-icons/mdi/arrow-left-circle';
-import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
+import './ProductsView.css'
 
 const product = {
   name: 'TECTONEER NAVY REGULAR FIT SHORTS',
@@ -77,16 +75,7 @@ const ProductPage = () => {
               ))}
             </div>
           </div>
-          <div className="product-quantity">
-            <label htmlFor="quantity">Quantity:</label>
-            <input
-              type="number"
-              id="quantity"
-              value={quantity}
-              onChange={handleQuantityChange}
-              min="1"
-            />
-          </div>
+          
           <div className="product-buttons">
             <button className="button add-to-cart" onClick={handleAddToCart}>Add to Cart</button>
             <button className="button add-to-wishlist">Wishlist</button>

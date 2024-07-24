@@ -1,5 +1,5 @@
 import React from 'react';
-import '../index.css';
+import './CartSideBar.css';
 
 const CartSidebar = ({ product, quantity, selectedSize, isOpen, onClose }) => {
   return (
@@ -11,7 +11,6 @@ const CartSidebar = ({ product, quantity, selectedSize, isOpen, onClose }) => {
         <div className="cart-item-details">
           <h4>{product.name}</h4>
           <p>Size: {selectedSize}</p>
-          <p>Quantity: {quantity}</p>
           <p>Price: {product.price}</p>
         </div>
       </div>

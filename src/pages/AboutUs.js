@@ -1,6 +1,6 @@
 // src/AboutUs.js
 import React from 'react';
-import '../index.css';
+import './AboutUs.css';
 import backgroundImage from '../images/About.png'; // Make sure to update the path to your image
 
 const AboutUs = () => {

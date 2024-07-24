@@ -1,0 +1,64 @@
+
+/* src/ContactUs.css */
+.contact-us-section {
+    text-align: center;
+    background-color: #0E201D;
+    color: #f0e5d8;
+    padding: 4rem 2rem;
+  }
+  
+  .heading-contact {
+    font-family: "Outfit", sans-serif;
+    font-weight: 100;
+    margin-bottom: 2rem;
+    font-size: 3rem;
+  }
+  
+  .circles {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .circle {
+    background-color: #f0e5d8;
+    width: 15vw;
+    height: 30vh;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .circle img {
+    width: 80%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .heading-contact {
+      font-size: 2rem;
+    }
+  
+    .circles {
+      gap: 1rem;
+    }
+  
+    .circle {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .heading-contact {
+      font-size: 1.5rem;
+    }
+  
+    .circle {
+      width: 60px;
+      height: 60px;
+    }
+  }

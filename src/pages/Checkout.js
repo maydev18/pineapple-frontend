@@ -1,6 +1,6 @@
 import React from 'react';
-import '../index.css';
-import CartSidebar from './CartSidebar'; 
+import './Checkout.css';
+import CartSidebar from '../Components/CartSidebar'; 
 
 
 const Checkout = () => {

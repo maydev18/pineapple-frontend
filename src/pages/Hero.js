@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../index.css';
+import './Hero.css';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
-import ProductsShowcase from '../Components/ProductsShowcase';
-import ContactUs from '../Components/ContactUs';
-import AboutUs from '../Components/AboutUs';
+import ProductsShowcase from '../pages/ProductsShowcase';
+import ContactUs from '../pages/ContactUs';
+import AboutUs from '../pages/AboutUs';
 import { ReactTyped as Typed } from 'react-typed';
 
 const Hero = () => {
