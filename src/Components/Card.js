@@ -1,4 +1,3 @@
-import React from 'react';
 import '../index.css';
 
 const Card = ({ image, hoverImage, title, price, description }) => {

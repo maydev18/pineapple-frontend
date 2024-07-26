@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Hero.css';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
 import ProductsShowcase from '../pages/ProductsShowcase';
 import ContactUs from '../pages/ContactUs';
 import AboutUs from '../pages/AboutUs';
@@ -11,7 +9,6 @@ import { ReactTyped as Typed } from 'react-typed';
 const Hero = () => {
   return (
     <>
-     <Header/>
       <div className="hero">
         <div className="hero-content">
           <h1 className="heading">PINEAPPLE</h1>
@@ -31,7 +28,7 @@ const Hero = () => {
               <button className="button">SIGN UP</button>
             </Link> */}
             <Link to="/productspage">
-              <button className="button">BUY NOW</button>
+              <button  className="button">BUY NOW</button>
             </Link>
           </div>
         </div>
@@ -39,7 +36,6 @@ const Hero = () => {
       <ProductsShowcase />
       <AboutUs />
       <ContactUs />
-      <Footer />
     </>
   );
 };

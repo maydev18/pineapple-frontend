@@ -12,7 +12,7 @@
   position: relative; /* Ensure the container is positioned correctly */
 }
 
-.checkout-form {
+.checkoutForm {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -25,28 +25,7 @@ h2, h3 {
   margin-top: 0;
 }
 
-.express-buttons {
-  display: flex;
-  justify-content: space-between;
-}
 
-.express-buttons button {
-  flex: 1;
-  padding: 10px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.express-buttons button:last-child {
-  margin-right: 0;
-}
-
-.express-buttons button.shop-pay { background-color: #5a31f4; color: white; }
-.express-buttons button.paypal { background-color: #ffc439; color: black; }
-.express-buttons button.gpay { background-color: black; color: white; }
 
 .or {
   text-align: center;
@@ -54,7 +33,7 @@ h2, h3 {
   font-weight: bold;
 }
 
-.contact, .delivery, .shipping-method, .payment {
+.contact, .delivery, .shippingMethod, .payment {
   margin-bottom: 20px;
 }
 
@@ -75,7 +54,7 @@ input[type="email"], input[type="text"], select {
   width: 48%;
 }
 
-.complete-order {
+.completeOrder {
   width: 100%;
   padding: 15px;
   background-color: #007bff;
@@ -86,34 +65,34 @@ input[type="email"], input[type="text"], select {
   font-size: 16px;
 }
 
-.order-item {
+.orderItem {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.order-item img {
+.orderItem img {
   width: 50px;
   height: 50px;
   margin-right: 10px;
 }
 
-.order-summary {
+.orderSummary {
   text-align: right;
 }
 
-.order-summary p, .order-summary h4 {
+.orderSummary p, .orderSummary h4 {
   margin: 5px 0;
 }
 
 /* General styles */
-.auth-page {
+.authPage {
   width: 100%;
   height: 100vh;
   position: relative;
 }
 
-.auth-background {
+.authBackground {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -125,7 +104,7 @@ input[type="email"], input[type="text"], select {
   left: 0;
 }
 
-.auth-overlay {
+.authOverlay {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,7 +115,7 @@ input[type="email"], input[type="text"], select {
   left: 0;
 }
 
-.auth-form-container {
+.authFormContainer {
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border-radius: 1rem;
@@ -146,98 +125,98 @@ input[type="email"], input[type="text"], select {
 }
 
 @media (min-width: 640px) {
-  .auth-form-container {
+  .authFormContainer {
     width: 80%;
   }
 }
 
 @media (min-width: 768px) {
-  .auth-form-container {
+  .authFormContainer {
     padding: 2.5rem;
     width: 60%;
   }
 }
 
 @media (min-width: 1024px) {
-  .auth-form-container {
+  .authFormContainer {
     width: 40%;
   }
 }
 
 @media (min-width: 1280px) {
-  .auth-form-container {
+  .authFormContainer {
     width: 50%;
   }
 }
 
-.logo-container {
+.logoContainer {
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 
-.logo-image {
+.logoImage {
   width: 6rem;
   height: 6rem;
 }
 
 @media (min-width: 640px) {
-  .logo-image {
+  .logoImage {
     width: 8rem;
     height: 8rem;
   }
 }
 
 @media (min-width: 768px) {
-  .logo-image {
+  .logoImage {
     width: 10rem;
     height: 10rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .logo-image {
+  .logoImage {
     width: 12rem;
     height: 12rem;
   }
 }
 
-.auth-form {
+.authForm {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
-  .auth-form {
+  .authForm {
     gap: 2rem;
   }
 }
 
-.form-group {
+.formGroup {
   display: flex;
   flex-direction: column;
 }
 
-.form-label {
+.formLabel {
   font-size: 1rem;
   font-weight: 500;
   color: white;
 }
 
 @media (min-width: 640px) {
-  .form-label {
+  .formLabel {
     font-size: 1.125rem;
   }
 }
 
 @media (min-width: 768px) {
-  .form-label {
+  .formLabel {
     font-size: 1.25rem;
   }
 }
 
-.form-input {
+.formInput {
   margin-top: 0.25rem;
   padding: 0.75rem;
   background-color: rgba(255, 255, 255, 0.2);
@@ -249,22 +228,22 @@ input[type="email"], input[type="text"], select {
 }
 
 @media (min-width: 640px) {
-  .form-input {
+  .formInput {
     padding: 1rem;
   }
 }
 
 @media (min-width: 768px) {
-  .form-input {
+  .formInput {
     padding: 1.25rem;
   }
 }
 
-.form-input::placeholder {
+.formInput::placeholder {
   color: white;
 }
 
-.form-options {
+.formOptions {
   display: flex;
   justify-content: space-between;
 }
@@ -314,57 +293,55 @@ input[type="email"], input[type="text"], select {
   }
 } */
 
-.forgot-password {
+.forgotPassword {
   font-size: 0.875rem;
   color: white;
 }
 
 @media (min-width: 640px) {
-  .forgot-password {
+  .forgotPassword {
     font-size: 1rem;
   }
 }
 
 @media (min-width: 768px) {
-  .forgot-password {
+  .forgotPassword {
     font-size: 1.125rem;
   }
 }
 
-.forgot-password-link {
+.forgotPassword-link {
   font-weight: 500;
   color: white;
   text-decoration: underline;
 }
 
-.form-actions {
+.formActions {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
 
-.auth-link {
+.authLink {
   font-size: 0.875rem;
   color: white;
 }
 
 @media (min-width: 640px) {
-  .auth-link {
+  .authLink {
     font-size: 1rem;
   }
 }
 
 @media (min-width: 768px) {
-  .auth-link {
+  .authLink {
     font-size: 1.125rem;
   }
 }
 
-.auth-link-anchor {
+.authLink-anchor {
   font-weight: 500;
   color: white;
   text-decoration: underline;
 }
-
-

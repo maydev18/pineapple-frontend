@@ -1,5 +1,4 @@
-// src/Components/CartContainer.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CartSidebar from './CartSidebar'; // Import the CartSidebar component
 
 const CartContainer = () => {

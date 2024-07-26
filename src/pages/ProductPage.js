@@ -3,8 +3,6 @@ import Card from '../Components/Card';
 import '../index.css';
 import front from '../images/front.jpg';
 import hoverImage from '../images/back.jpg'; // Assuming you have a hover image
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
 
 const products = [
   {
@@ -47,7 +45,6 @@ const products = [
 const ProductPage = () => {
   return (
     <>
-      <Header />
       <h1 className='product-heading'>Our Products</h1>
       <div className="product-page">
         {products.map((product, index) => (
@@ -64,7 +61,6 @@ const ProductPage = () => {
       <div className="view-all-container">
         <button className="button">View All</button>
       </div>
-      <Footer />
     </>
   );
 };

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
-import Footer from '../Components/Footer';
-import Header from '../Components/Header';
 import back from '../images/back.jpg';
 import front from '../images/front.jpg';
 import CartSidebar from '../Components/CartSidebar';
@@ -49,7 +47,6 @@ const ProductPage = () => {
 
   return (
     <>
-      <Header />
       <div className="products-page">
         <SingleProduct product={product} />
         <div className="product-details">
@@ -101,7 +98,6 @@ const ProductPage = () => {
         isOpen={isSidebarOpen}
         onClose={handleCloseSidebar}
       />
-      <Footer />
     </>
   );
 };

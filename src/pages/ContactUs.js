@@ -1,6 +1,3 @@
-
-// src/ContactUs.js
-import React from 'react';
 import './ContactUs.css';
 import placeholderImage from '../images/logo_green.png'; // Make sure to update the path to your placeholder image
 
