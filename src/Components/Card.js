@@ -1,16 +1,16 @@
 import React from 'react';
-import '../index.css';
+import styles from './Card.module.css';
 
 const Card = ({ image, hoverImage, title, price, description }) => {
   return (
-    <div className="card">
-      <div className="card-image-wrapper">
-        <img src={image} alt={title} className="card-image" />
-        <img src={hoverImage} alt={title} className="card-hover-image" />
+    <div className={styles.card}>
+      <div className={styles.cardImageWrapper}>
+        <img src={image} alt={title} className={styles.cardImage} />
+        <img src={hoverImage} alt={title} className={styles.cardHoverImage} />
       </div>
-      <h2 className="card-title">{title}</h2>
-      <p className="card-price">{price}</p>
-      <p className="card-description">{description}</p>
+      <h2 className={styles.cardTitle}>{title}</h2>
+      <p className={styles.cardPrice}>{price}</p>
+      <p className={styles.cardDescription}>{description}</p>
     </div>
   );
 };

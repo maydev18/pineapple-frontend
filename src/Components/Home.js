@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Hero.css';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
-import ProductsShowcase from '../pages/ProductsShowcase';
-import ContactUs from '../pages/ContactUs';
-import AboutUs from '../pages/AboutUs';
+import Header from './Header';
+import Footer from './Footer';
+import ProductsShowcase from '../Components/ProductsShowcase';
+import ContactUs from '../Components/ContactUs';
+import AboutUs from '../Components/AboutUs';
 import { ReactTyped as Typed } from 'react-typed';
+import styles from './Home.module.css';
 
 const Hero = () => {
   return (
     <>
-     <Header/>
-      <div className="hero">
-        <div className="hero-content">
+      <Header/>
+      <div className={styles.hero}>
+        <div className={styles.heroContent}>
           <h1 className="heading">PINEAPPLE</h1>
-          <div className="typed-text">
+          <div className={styles.typedText}>
             <Typed
               strings={[
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -26,9 +26,9 @@ const Hero = () => {
               loop
             />
           </div>
-          <div className="hero-buttons">
+          <div className={styles.heroButtons}>
             {/* <Link to="/signup">
-              <button className="button">SIGN UP</button>
+              <button className={styles.button}>SIGN UP</button>
             </Link> */}
             <Link to="/productspage">
               <button className="button">BUY NOW</button>

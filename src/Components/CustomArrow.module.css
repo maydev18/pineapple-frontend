@@ -1,0 +1,25 @@
+.customArrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px; 
+  height: 40px; 
+  font-size: 24px; 
+  color: black;
+  background-color: black; 
+  border-radius: 50%; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.customPrevArrow {
+  left: 10px; /* Position left arrow */
+  position: absolute;
+  z-index: 1;
+}
+
+.customNextArrow {
+  right: 10px; /* Position right arrow */
+  position: absolute;
+  z-index: 1;
+  color: #000;
+}

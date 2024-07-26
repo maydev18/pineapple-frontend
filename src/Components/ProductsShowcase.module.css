@@ -1,0 +1,144 @@
+.productShowcase {
+  text-align: center;
+  background: radial-gradient(#0E201D 60%, black);
+  color: #f0e5d8;
+  padding: 3rem;
+}
+
+.productCardAnimate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.productCard {
+  background-color: #f0e5d8;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0;
+  max-width: 300px;
+}
+
+.productCard img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.productCard p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #0a1f1c;
+  font-weight: 300;
+}
+
+.productCard p:hover {
+  text-decoration: underline;
+}
+
+.productCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.viewAll {
+  margin-top: 4rem;
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.viewAll:hover {
+  background-color: #f2f2f2;
+  transform: translateY(-5px);
+  color: var(--green);
+}
+
+.headingProduct {
+  font-family: "Outfit", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  padding: 0;
+  margin-bottom: 3%;
+  font-size: 100px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .headingProduct {
+    font-size: 80px;
+  }
+}
+
+@media (max-width: 992px) {
+  .headingProduct {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .headingProduct {
+    font-size: 40px;
+  }
+  .productShowcase {
+    padding: 2rem;
+  }
+  .products {
+    gap: 1rem;
+  }
+  .productCard {
+    width: 100%;
+    max-width: 100%;
+  }
+  .viewAll {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headingProduct {
+    font-size: 60px;
+    margin-bottom: 8%;
+  }
+  .productShowcase {
+    padding: 1rem;
+  }
+  .viewAll {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -5,24 +5,24 @@ import CartProvider from './Provider/CartContext'; // Ensure this import path is
 import Checkout from './pages/Checkout';
 import ProductPage from './pages/ProductPage';
 import ProductView from './pages/ProductView';
-import Hero from './pages/Hero';
-import LoginPage from './pages/Login';
-import SignupPage from './pages/SignUp';
+import Hero from './Components/Home';
+import CombinedAuthPage from './pages/CombinedAuthPage';
+
 
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Hero />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/productspage" element={<ProductPage />} />
+    <Router>
+      <Routes>
+      <Route path="/login" element={<CombinedAuthPage isSignup={false} />} />
+      <Route path="/signup" element={<CombinedAuthPage isSignup={true} />} />
+      <Route path='/' element={<Hero/>}/>
+        <Route path="/productspage" element={<ProductPage />} />
           <Route path="/productsView" element={<ProductView />} />
           <Route path="/checkout" element={<Checkout />} />
-        </Routes>
-      </Router>
-    </CartProvider>
+          <Route path="/login"></Route>
+      </Routes>
+    </Router>
+   
   );
 }
 
