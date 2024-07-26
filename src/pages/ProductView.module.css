@@ -1,0 +1,237 @@
+.productsPage {
+  display: flex;
+  flex-direction: column; /* Default to column for smaller screens */
+  align-items: center;
+  padding: 1rem;
+  background-color: #e2e2e2;
+}
+
+/* For medium-sized screens and up */
+@media (min-width: 600px) {
+  .productsPage {
+    padding: 2rem;
+  }
+}
+
+/* For large-sized screens and up */
+@media (min-width: 768px) {
+  .productsPage {
+    flex-direction: row;
+    justify-content: center;
+    padding: 3rem;
+  }
+}
+
+/* For extra-large screens and up */
+@media (min-width: 1024px) {
+  .productsPage {
+    padding: 4rem;
+  }
+}
+
+
+
+.productDetails {
+  max-width: 500px;
+  text-align: left;
+}
+
+.productDetails h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.productPrice {
+  font-size: 1.5rem;
+  color: #000;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.productRating {
+  text-align: left;
+}
+
+.productRating .star {
+  color: #ffc107;
+  font-size: 1.2rem;
+}
+
+.productRating .star.filled {
+  color: #ffeb3b;
+}
+
+.productDescription {
+  margin-bottom: 1rem;
+  text-align: left;
+  color: #000;
+}
+
+.productSizes {
+  margin-bottom: 1rem;
+}
+
+.productSizes p {
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.sizes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sizeButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+.sizeButton:hover {
+  background-color: #e0e0e0;
+}
+
+.productQuantity {
+  margin-bottom: 1rem;
+}
+
+.productQuantity label {
+  margin-right: 0.5rem;
+  color: #000;
+}
+
+.productQuantity input {
+  width: 60px;
+  padding: 0.5rem;
+  border: 1px solid black;
+}
+
+.productButtons {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .productPage {
+    flex-direction: column;
+  }
+}
+
+.sizeButton {
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.sizeButton.selected {
+  background-color: #0a1f1c;
+  color: white;
+}
+
+.sizeButton:hover {
+  box-shadow: rgba(0, 0, 0, 0.005);
+}
+
+.reviewSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.reviewSection h3 {
+  font-family: "outfit", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.reviewForm {
+  margin-top: 1rem;
+}
+
+.reviewForm textarea {
+  width: 100%;
+  height: 30vh;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: "outfit", sans-serif;
+  font-size: 15px;
+}
+
+.reviewForm .button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #0a1f1c;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.reviewForm .button:hover {
+  background-color: #0056b3;
+}
+
+.cartSidebar {
+  position: fixed;
+  top: 0;
+  right: -600px;
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.cartSidebar.open {
+  right: 0;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cartHeading {
+  margin-top: 20px;
+  font-family: "Outfit";
+}
+
+.cartItem {
+  display: flex;
+  margin: 20px;
+  color: #000;
+}
+
+.cartItemImage {
+  width: 80px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.cartItemDetails {
+  flex: 1;
+}
+
+.productViewButton {
+padding: 10px 15px;
+font-size: 20px;
+margin-right: 0.5rem;
+}

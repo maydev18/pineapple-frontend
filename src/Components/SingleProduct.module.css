@@ -1,0 +1,11 @@
+.singleProduct {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.mainImage img {
+  width: 100%;
+  height: auto;
+}

@@ -3,9 +3,11 @@ import Slider from 'react-slick';
 import { Icon } from '@iconify/react';
 import arrowLeftCircle from '@iconify-icons/mdi/arrow-left-circle';
 import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
-import '../index.css';
+import classes from './SingleProduct.module.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import back from '../images/back.jpg';
+import front from '../images/front.jpg';
 
 const SingleProduct = ({ product }) => {
   const settings = {
@@ -15,12 +17,12 @@ const SingleProduct = ({ product }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: (
-      <div className="custom-arrow custom-next-arrow">
+      <div className={classes.customArrow + ' ' + classes.customNextArrow}>
         <Icon icon={arrowRightCircle} />
       </div>
     ),
     prevArrow: (
-      <div className="custom-arrow custom-prev-arrow">
+      <div className={classes.customArrow + ' ' + classes.customPrevArrow}>
         <Icon icon={arrowLeftCircle} />
       </div>
     ),
@@ -53,8 +55,8 @@ const SingleProduct = ({ product }) => {
   };
 
   return (
-    <div className="single-product">
-      <div className="main-image">
+    <div className={classes.singleProduct}>
+      <div className={classes.mainImage}>
         <Slider {...settings}>
           {product.images.map((image, index) => (
             <div key={index}>

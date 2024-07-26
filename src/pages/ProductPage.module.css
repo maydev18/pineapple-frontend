@@ -1,0 +1,136 @@
+.productsPage {
+  display: flex;
+  flex-direction: column; /* Default to column for smaller screens */
+  align-items: center;
+  padding: 1rem;
+  background-color: #f4f4f4; /* Light background for the products page */
+}
+
+@media (min-width: 600px) {
+  .productsPage {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .productsPage {
+    padding: 3rem;
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .productsPage {
+    padding: 4rem;
+  }
+}
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 1rem; /* Space between cards */
+  width: 100%;
+  flex: 1; 
+  position: relative;
+  padding-bottom: 8rem;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden; /* Ensure the card contains the images */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 130%; /* Aspect ratio to ensure image container is square */
+}
+
+.cardImage,
+.cardHoverImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure images cover the container */
+  border-radius: 8px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.cardHoverImage {
+  opacity: 0;
+}
+
+.card:hover .cardHoverImage {
+  opacity: 1;
+}
+
+.card:hover .cardImage {
+  opacity: 0;
+}
+
+.cardTitle {
+  font-size: 18px;
+  margin: 12px 0;
+  color: #000;
+}
+
+.cardPrice {
+  font-size: 16px;
+  color: #333;
+}
+
+.cardDescription {
+  font-size: 14px;
+  color: #777;
+}
+
+
+.ProductsPageHeading {
+  color: #000;
+  text-align: center;
+  background-color: #fff4e2;
+  padding: 2rem;
+}
+
+.viewAllContainer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  padding: 10px;
+  width: 100%; /* Full width to ensure it stays at the bottom */
+}
+
+.viewAllButton {
+  background-color: #007bff; /* Change to your preferred color */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px; /* Optional: rounded corners */
+}
+
+.viewAllButton:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}

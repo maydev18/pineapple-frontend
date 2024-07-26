@@ -3,7 +3,7 @@ import SingleProduct from '../Components/SingleProduct';
 import back from '../images/back.jpg';
 import front from '../images/front.jpg';
 import CartSidebar from '../Components/CartSidebar';
-import './ProductsView.css'
+import classes from './ProductView.module.css';
 
 const product = {
   name: 'TECTONEER NAVY REGULAR FIT SHORTS',
@@ -21,7 +21,7 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [review, setReview] = useState('');
-  
+
   const handleQuantityChange = (e) => {
     const value = Math.max(1, parseInt(e.target.value, 10));
     setQuantity(value);
@@ -41,30 +41,29 @@ const ProductPage = () => {
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
-    // Handle review submission here
     setReview('');
   };
 
   return (
     <>
-      <div className="products-page">
+      <div className={classes.productsPage}>
         <SingleProduct product={product} />
-        <div className="product-details">
+        <div className={classes.productDetails}>
           <h2>{product.name}</h2>
-          <p className="product-price">{product.price}</p>
-          <div className="product-rating">
+          <p className={classes.productPrice}>{product.price}</p>
+          <div className={classes.productRating}>
             {[...Array(5)].map((star, index) => (
-              <span key={index} className={`star ${index < product.rating ? 'filled' : ''}`}>&#9733;</span>
+              <span key={index} className={`${classes.star} ${index < product.rating ? classes.filled : ''}`}>&#9733;</span>
             ))}
           </div>
-          <p className="product-description">{product.description}</p>
-          <div className="product-sizes">
+          <p className={classes.productDescription}>{product.description}</p>
+          <div className={classes.productSizes}>
             <p>Select Size:</p>
-            <div className="sizes">
+            <div className={classes.sizes}>
               {sizes.map((size) => (
                 <button
                   key={size}
-                  className={`size-button ${size === selectedSize ? 'selected' : ''}`}
+                  className={`${classes.sizeButton} ${size === selectedSize ? classes.selected : ''}`}
                   onClick={() => setSelectedSize(size)}
                 >
                   {size}
@@ -73,22 +72,22 @@ const ProductPage = () => {
             </div>
           </div>
           
-          <div className="product-buttons">
-            <button className="button add-to-cart" onClick={handleAddToCart}>Add to Cart</button>
-            <button className="button add-to-wishlist">Wishlist</button>
+          <div className={classes.productButtons}>
+            <button className={`${classes.productViewButton} button`} onClick={handleAddToCart}>Add to Cart</button>
+            <button className={`${classes.productViewButton} button`}>Wishlist</button>
           </div>
         </div>
       </div>
-      <div className="review-section">
+      <div className={classes.reviewSection}>
         <h3>Write a Review</h3>
-        <form onSubmit={handleReviewSubmit} className="review-form">
+        <form onSubmit={handleReviewSubmit} className={classes.reviewForm}>
           <textarea
             value={review}
             onChange={handleReviewChange}
             placeholder="Write your review here..."
             required
           />
-          <button type="submit" className="button submit-review">Submit Review</button>
+          <button type="submit" className="button">Submit Review</button>
         </form>
       </div>
       <CartSidebar

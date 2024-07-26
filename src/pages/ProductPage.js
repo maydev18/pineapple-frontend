@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../Components/Card';
-import '../index.css';
+import classes from './ProductPage.module.css';
 import front from '../images/front.jpg';
 import hoverImage from '../images/back.jpg'; // Assuming you have a hover image
 
@@ -45,21 +45,23 @@ const products = [
 const ProductPage = () => {
   return (
     <>
-      <h1 className='product-heading'>Our Products</h1>
-      <div className="product-page">
-        {products.map((product, index) => (
-          <Card
-            key={index}
-            image={product.image}
-            hoverImage={product.hoverImage}
-            title={product.title}
-            price={product.price}
-            description={product.description}
-          />
-        ))}
-      </div>
-      <div className="view-all-container">
-        <button className="button">View All</button>
+      <h1 className={classes.ProductsPageHeading}>Our Products</h1>
+      <div className={classes.productsPage}>
+        <div className={classes.cardContainer}>
+          {products.map((product, index) => (
+            <Card
+              key={index}
+              image={product.image}
+              hoverImage={product.hoverImage}
+              title={product.title}
+              price={product.price}
+              description={product.description}
+            />
+          ))}
+          <div className={classes.viewAllContainer}>
+            <button className="button">View All</button>
+          </div>
+        </div>
       </div>
     </>
   );

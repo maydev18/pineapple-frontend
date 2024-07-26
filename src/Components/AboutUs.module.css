@@ -1,0 +1,62 @@
+.aboutUsSection {
+  position: relative;
+  background-size: cover;
+  background-attachment: fixed; /* This keeps the background image fixed while scrolling */
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-bottom: 3rem; /* Adjust padding as needed */
+  color: #f0e5d8;
+  text-align: center;
+}
+
+.content {
+  max-width: 70%;
+  margin: 0 auto;
+  background: transparent;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+p {
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: #f0e5d8;
+}
+
+h2, h1 {
+  font-family: "Outfit", sans-serif;
+  font-weight: 200;
+  font-size: 80px;
+  color: #ffebd2;
+  border-color: #000;
+}
+
+@media (max-width: 768px) {
+  .aboutUsSection {
+    padding: 5rem 1rem; /* Adjust padding for smaller screens */
+  }
+
+  .heading {
+    font-size: 2.5rem; /* Adjust heading size for smaller screens */
+  }
+
+  p {
+    font-size: 0.9rem; /* Adjust paragraph font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    max-width: 100%;
+  }
+
+  .aboutUsSection {
+    padding: 7rem 3rem; /* Adjust padding for very small screens */
+  }
+
+  p {
+    margin-top: 1rem; /* Adjust paragraph font size for very small screens */
+  }
+}
