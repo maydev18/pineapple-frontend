@@ -7,7 +7,8 @@ import classes from './SingleProduct.module.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-const SingleProduct = ({ images,  title }) => {
+const SingleProduct = ({ images,  title , mainImage , backImage }) => {
+  images = [mainImage , ...images , backImage];
   const settings = {
     dots: true,
     infinite: true,

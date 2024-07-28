@@ -72,12 +72,10 @@ const ProductPage = () => {
   const data = useLoaderData();
   const product = data.product
   const images = product.moreImages;
-  images.unshift(product.mainImage);
-  images.push(product.backImage);
   return (
     <>
       <div className={classes.productsPage}>
-        <SingleProduct images={images} />
+        <SingleProduct images={images} mainImage = {product.mainImage} backImage = {product.backImage} />
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
           <p className={classes.productDescription}>{product.description}</p>
