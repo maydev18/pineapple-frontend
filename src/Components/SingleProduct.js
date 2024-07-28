@@ -15,41 +15,15 @@ const SingleProduct = ({ images,  title }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: (
-      <div className={classes.customArrow + ' ' + classes.customNextArrow}>
+      <div className={`${classes.customArrow} ${classes.customNextArrow}`}>
         <Icon icon={arrowRightCircle} />
       </div>
     ),
     prevArrow: (
-      <div className={classes.customArrow + ' ' + classes.customPrevArrow}>
+      <div className={`${classes.customArrow} ${classes.customPrevArrow}`}>
         <Icon icon={arrowLeftCircle} />
       </div>
     ),
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
   };
 
   return (
@@ -57,7 +31,7 @@ const SingleProduct = ({ images,  title }) => {
       <div className={classes.mainImage}>
         <Slider {...settings}>
           {images.map((image, index) => (
-            <div key={index}>
+            <div key={index} className={classes.imageContainer}>
               <img src={image} alt={`${title} ${index + 1}`} />
             </div>
           ))}

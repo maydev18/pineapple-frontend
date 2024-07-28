@@ -4,15 +4,16 @@ import ProductsShowcase from '../Components/ProductsShowcase';
 import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
 import { ReactTyped as Typed } from 'react-typed';
-import styles from './Home.module.css';
+import classes from './Home.module.css';
+
 
 const Hero = () => {
   return (
     <>
-      <div className={styles.hero}>
-        <div className={styles.heroContent}>
+      <div className={classes.hero}>
+        <div className={classes.heroContent}>
           <h1 className="heading">PINEAPPLE</h1>
-          <div className={styles.typedText}>
+          <div className={classes.typedText}>
             <Typed
               strings={[
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -21,11 +22,12 @@ const Hero = () => {
               typeSpeed={40}
               backSpeed={50}
               loop
+              style= {{color: "#f0e5d8"}}
             />
           </div>
-          <div className={styles.heroButtons}>
+          <div className={classes.heroButtons}>
             {/* <Link to="/signup">
-              <button className={styles.button}>SIGN UP</button>
+              <button className={classes.button}>SIGN UP</button>
             </Link> */}
             <Link to="/productspage">
               <button  className="button">BUY NOW</button>

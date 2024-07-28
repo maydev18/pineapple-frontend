@@ -5,88 +5,6 @@
   padding: 3rem;
 }
 
-.productCardAnimate {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.productCard {
-  background-color: #f0e5d8;
-  padding: 0.4rem;
-  border-radius: 8px;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  cursor: pointer;
-  width: 100%;
-  opacity: 1;
-  max-width: 300px;
-}
-
-.productCard img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-.productCard p {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  color: #0a1f1c;
-  font-weight: 300;
-}
-
-.productCard p:hover {
-  text-decoration: underline;
-}
-
-.productCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.viewAll {
-  margin-top: 4rem;
-  padding: 1rem 3rem;
-  font-size: 1.5rem;
-  background-color: transparent;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.viewAll:hover {
-  background-color: #f2f2f2;
-  transform: translateY(-5px);
-  color: var(--green);
-}
-
-.headingProduct {
-  font-family: "Outfit", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-  padding: 0;
-  margin-bottom: 3%;
-  font-size: 100px;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 @media (max-width: 1200px) {
   .headingProduct {
@@ -142,3 +60,133 @@
     opacity: 1;
   }
 }
+
+
+
+@media (min-width: 600px) {
+  .productsPage {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .productsPage {
+    padding: 3rem;
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .productsPage {
+    padding: 4rem;
+  }
+}
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 1rem;
+  width: 100%;
+  margin-top: 3rem;
+  padding-bottom: 8rem;
+  margin-left: 3rem;
+  
+}
+
+@media (max-width: 1200px) {
+  .cardContainer {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .cardContainer {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .cardContainer {
+    grid-template-columns: 1fr; /* 1 column for very small screens */
+  }
+}
+
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden; /* Ensure the card contains the images */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 130%; /* Aspect ratio to ensure image container is square */
+}
+
+.cardImage,
+.cardHoverImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.cardHoverImage {
+  opacity: 0;
+}
+
+.card:hover .cardHoverImage {
+  opacity: 1;
+}
+
+.card:hover .cardImage {
+  opacity: 0;
+}
+
+.cardTitle {
+  font-size: 18px;
+  margin: 12px 0;
+  color: white;
+}
+
+.cardPrice {
+  font-size: 16px;
+  color: #333;
+}
+
+.cardDescription {
+  font-size: 14px;
+  color: #777;
+}
+
+
+
+.viewAllContainer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  padding: 10px;
+  width: 100%; /* Full width to ensure it stays at the bottom */
+}
+
+

@@ -3,9 +3,56 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  flex-direction: column; /* Stack elements vertically on smaller screens */
 }
 
-.mainImage img {
+.mainImage {
   width: 100%;
+  max-width: 400px; 
+  margin-bottom: 1rem; /* Add space below the image */
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageContainer img {
+  max-width: 100%;
   height: auto;
 }
+
+.customArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.customPrevArrow {
+  left: 10px;
+}
+
+.customNextArrow {
+  right: 10px;
+}
+
+
+@media (min-width: 768px) {
+  .singleProduct {
+    flex-direction: row; 
+  }
+
+  .mainImage {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .customArrow {
+    display: none; 
+  }
+}
+
