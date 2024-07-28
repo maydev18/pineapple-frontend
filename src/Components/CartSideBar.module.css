@@ -1,8 +1,10 @@
+/* Base styles */
 .cartSidebar {
   position: fixed;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 100%;
+  max-width: 400px; /* Restrict max width */
   height: 100vh;
   background-color: white;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
@@ -26,72 +28,51 @@
 }
 
 .cartHeading {
-  text-align: center;
-  margin: 20px 0;
+  text-align: left;
+  margin: 20px;
   color: black;
+  font-size: 36px; /* Adjusted for smaller screens */
 }
 
 .cartItem {
   display: flex;
-  margin: 20px;
+  flex-direction: column; /* Stacked layout for smaller screens */
+  margin: 1rem;
 }
 
 .cartItemImage {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
+  width: 100%; /* Full width for smaller screens */
+  max-width: 200px; /* Restrict max width */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 1rem; /* Space below image */
 }
 
 .cartItemDetails {
-  margin-left: 20px;
+  margin-left: 0; /* Remove margin for stacked layout */
+  text-align: left;
 }
 
-.cartItemDetails p{
+.cartItemDetails p {
   color: black;
-  font-size: 20px;
-}
-
-.quantityControls {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.quantityButton {
-  background-color: #ddd;
-  border: none;
-  border-radius: 4px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.quantityDisplay {
-  margin: 0 10px;
-  font-size: 16px;
+  font-size: 18px; /* Adjust font size for smaller screens */
 }
 
 .checkoutButton {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 2rem; /* Adjusted for better spacing */
 }
 
-.button {
+.Proceedbutton {
   background-color: black;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
+  padding: 18px 55px; /* Adjusted padding */
   cursor: pointer;
   font-size: 16px;
 }
 
-.button:hover {
+.Proceedbutton:hover {
   background-color: var(--green);
 }
 
@@ -100,4 +81,79 @@
   color: #666;
   text-align: center;
   margin-top: 20px;
+}
+
+.quantityBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantityLabel {
+  font-weight: bold;
+}
+
+.quantityInput {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.quantityButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 30px;
+  text-align: center;
+}
+
+.quantityButton:hover {
+  background-color: #e0e0e0;
+}
+
+.cartItemDetails h4 {
+  font-family: "Outfit";
+  font-size: 20px;
+  font-weight: 200;
+  margin-bottom: 12px;
+}
+
+/* Media Queries for Responsive Design */
+@media (min-width: 768px) {
+  .cartSidebar {
+    width: 400px; 
+  }
+
+  .cartHeading {
+    font-size: 48px; 
+  }
+
+  .cartItem {
+    flex-direction: row; 
+  }
+
+  .cartItemImage {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 0;
+  }
+
+  .cartItemDetails {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cartHeading {
+    font-size: 30px; 
+  }
+
+  .Proceedbutton {
+    padding: 8px 20px; 
+  }
 }

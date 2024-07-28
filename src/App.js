@@ -9,10 +9,11 @@ import Hero from './Components/Home';
 import CombinedAuthPage from './pages/CombinedAuthPage';
 
 
+
 function App() {
   return (
     <Router>
-      <Routes>
+       <Routes>
       <Route path="/login" element={<CombinedAuthPage isSignup={false} />} />
       <Route path="/signup" element={<CombinedAuthPage isSignup={true} />} />
       <Route path='/' element={<Hero/>}/>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login"></Route>
       </Routes>
+      
     </Router>
    
   );

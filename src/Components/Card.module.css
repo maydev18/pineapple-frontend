@@ -50,15 +50,15 @@
 .cardTitle {
   font-size: 18px;
   margin: 12px 0;
-  color: #000;
+  color: white;
 }
 
 .cardPrice {
   font-size: 16px;
-  color: #333;
+  color: white;
 }
 
 .cardDescription {
   font-size: 14px;
-  color: #777;
+  color: white;
 }

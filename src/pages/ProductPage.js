@@ -5,6 +5,7 @@ import front from '../images/front.jpg';
 import hoverImage from '../images/back.jpg'; // Assuming you have a hover image
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
+import { Link } from 'react-router-dom';
 
 const products = [
   {
@@ -52,14 +53,14 @@ const ProductPage = () => {
       <div className={classes.productsPage}>
         <div className={classes.cardContainer}>
           {products.map((product, index) => (
-            <Card
+           <Link to='/productsView'> <Card
               key={index}
               image={product.image}
               hoverImage={product.hoverImage}
               title={product.title}
               price={product.price}
               description={product.description}
-            />
+            /></Link>
           ))}
           <div className={classes.viewAllContainer}>
             <button className="button">View All</button>

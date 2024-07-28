@@ -29,17 +29,16 @@
   }
 }
 
-
-
 .productDetails {
   max-width: 500px;
   text-align: left;
+  margin-left: 2rem;
 }
 
 .productDetails h2 {
   font-size: 2rem;
-  margin-bottom: 1rem;
   color: #000;
+  text-align: left;
 }
 
 .productPrice {
@@ -53,13 +52,17 @@
   text-align: left;
 }
 
+.productDescription{
+  margin-bottom: 10rem;
+}
+
 .productRating .star {
-  color: #ffc107;
+  color: yellow; /* Changed to yellow */
   font-size: 1.2rem;
 }
 
 .productRating .star.filled {
-  color: #ffeb3b;
+  color: yellow; /* Changed to yellow */
 }
 
 .productDescription {
@@ -75,6 +78,8 @@
 .productSizes p {
   margin-bottom: 0.5rem;
   color: #000;
+  text-align: left;
+  font-size: 20px;
 }
 
 .sizes {
@@ -87,6 +92,7 @@
   border: 1px solid #ccc;
   cursor: pointer;
   background-color: #f9f9f9;
+  border-radius: 8px;
   transition: background-color 0.3s ease;
 }
 
@@ -94,55 +100,54 @@
   background-color: #e0e0e0;
 }
 
-.productQuantity {
-  margin-bottom: 1rem;
-}
-
-.productQuantity label {
-  margin-right: 0.5rem;
-  color: #000;
-}
-
-.productQuantity input {
-  width: 60px;
-  padding: 0.5rem;
-  border: 1px solid black;
-}
-
-.productButtons {
-  margin-right: 0.5rem;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .productPage {
-    flex-direction: column;
-  }
-}
-
-.sizeButton {
-  margin: 5px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
 .sizeButton.selected {
   background-color: #0a1f1c;
   color: white;
 }
 
-.sizeButton:hover {
-  box-shadow: rgba(0, 0, 0, 0.005);
+
+.productButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.productViewButton {
+  padding: 10px 15px;
+  font-size: 20px;
+  background-color: #0a1f1c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.productViewButton:hover {
+  background-color: #0056b3;
 }
 
 .reviewSection {
-  margin-top: 2rem;
-  padding: 1rem;
+ 
+  margin: 4rem 0 4rem 5rem;
   background-color: #fff;
   border-radius: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.customerReview{
+  margin-left: 15rem;
+  color: #000;
+} 
+
+.reviewInput{
+  margin-left: 25rem;
+  padding: 0 ;
+  align-items: left;
+  color: black;
 }
 
 .reviewSection h3 {
@@ -151,12 +156,41 @@
   font-weight: 400;
 }
 
+.reviewSection p{
+  color: #000;
+  font-size: 15px;
+  text-align: left;
+}
+
+.reviewList {
+  margin-bottom: 1rem;
+  list-style-type: none; 
+  padding: 2rem; 
+}
+
+.reviewItem {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left; /* Align reviews to the left */
+}
+
+.reviewItem strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.reviewRating {
+  display: flex;
+  margin-bottom: 0.5rem;
+  color: rgb(248, 210, 38); 
+}
+
 .reviewForm {
   margin-top: 1rem;
 }
 
 .reviewForm textarea {
-  width: 100%;
+  width: 50vw;
   height: 30vh;
   padding: 0.5rem;
   border: 1px solid #ddd;
@@ -212,6 +246,7 @@
 .cartHeading {
   margin-top: 20px;
   font-family: "Outfit";
+  font-size: 24px;
 }
 
 .cartItem {
@@ -230,8 +265,3 @@
   flex: 1;
 }
 
-.productViewButton {
-padding: 10px 15px;
-font-size: 20px;
-margin-right: 0.5rem;
-}

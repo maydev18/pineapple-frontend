@@ -6,10 +6,10 @@ import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
 import classes from './SingleProduct.module.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import back from '../images/back.jpg';
-import front from '../images/front.jpg';
 
 const SingleProduct = ({ product }) => {
+  console.log('Product Images:', product.images); // Debugging line
+
   const settings = {
     dots: true,
     infinite: true,
@@ -17,49 +17,23 @@ const SingleProduct = ({ product }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: (
-      <div className={classes.customArrow + ' ' + classes.customNextArrow}>
+      <div className={`${classes.customArrow} ${classes.customNextArrow}`}>
         <Icon icon={arrowRightCircle} />
       </div>
     ),
     prevArrow: (
-      <div className={classes.customArrow + ' ' + classes.customPrevArrow}>
+      <div className={`${classes.customArrow} ${classes.customPrevArrow}`}>
         <Icon icon={arrowLeftCircle} />
       </div>
     ),
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
   };
 
   return (
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>
         <Slider {...settings}>
-          {product.images.map((image, index) => (
-            <div key={index}>
+          {product.moreImages.map((image, index) => (
+            <div key={index} className={classes.imageContainer}>
               <img src={image} alt={`${product.name} ${index + 1}`} />
             </div>
           ))}
