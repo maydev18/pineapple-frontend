@@ -7,9 +7,8 @@ import classes from './SingleProduct.module.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-const SingleProduct = ({ product }) => {
-  console.log('Product Images:', product.images); // Debugging line
-
+const SingleProduct = ({ images,  title , mainImage , backImage }) => {
+  images = [mainImage , ...images , backImage];
   const settings = {
     dots: true,
     infinite: true,
@@ -32,9 +31,9 @@ const SingleProduct = ({ product }) => {
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>
         <Slider {...settings}>
-          {product.moreImages.map((image, index) => (
+          {images.map((image, index) => (
             <div key={index} className={classes.imageContainer}>
-              <img src={image} alt={`${product.name} ${index + 1}`} />
+              <img src={image} alt={`${title} ${index + 1}`} />
             </div>
           ))}
         </Slider>

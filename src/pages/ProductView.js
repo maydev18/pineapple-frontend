@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
-import Footer from '../Components/Footer';
-import Header from '../Components/Header';
 import CartSidebar from '../Components/CartSidebar';
 import WishlistSidebar from '../Components/WishListSidebar';
-import classes from './ProductView.module.css';
 import backImage from '../images/back.jpg';
 import frontImage from '../images/front.jpg';
+import classes from './ProductView.module.css';
+import { json , useLoaderData} from 'react-router-dom';
+
+const sizes = ['S', 'M', 'L', 'XL' , 'XXL'];
 
 const product = {
   id: "669cc48798f9104fa632e2ac",
@@ -18,8 +19,6 @@ const product = {
   color: "Blue",
   rating: 4
 };
-
-const sizes = ['S', 'M', 'L', 'XL'];
 
 const dummyReviews = [
   { username: 'John Doe', rating: 4, text: 'Great shorts! Very comfortable and stylish.' },
@@ -70,12 +69,13 @@ const ProductPage = () => {
     setReviews([...reviews, newReview]);
     setReview('');
   };
-
+  const data = useLoaderData();
+  const product = data.product
+  const images = product.moreImages;
   return (
     <>
-      <Header onOpenCart={handleAddToCart} onOpenWishlist={handleAddToWishlist} />
       <div className={classes.productsPage}>
-        <SingleProduct product={product} />
+        <SingleProduct images={images} mainImage = {product.mainImage} backImage = {product.backImage} />
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
           <p className={classes.productDescription}>{product.description}</p>
@@ -153,9 +153,23 @@ const ProductPage = () => {
         isOpen={isWishlistSidebarOpen}
         onClose={handleCloseWishlistSidebar}
       />
-      <Footer />
     </>
   );
 };
 
 export default ProductPage;
+
+export async function loader({params}){
+  const id = params.productID;
+  const res = await fetch('http://localhost:8080/product/' + id);
+  if(!res.ok){
+      throw json({
+          message : "could not fetch event details"
+      } , {
+          status : 500
+      })
+  }
+  else{
+      return res;
+  }
+}

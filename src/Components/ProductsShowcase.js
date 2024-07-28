@@ -2,10 +2,11 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import classes from './ProductsShowcase.module.css';
 import back from '../images/back.jpg';
+import { Link } from 'react-router-dom';
+import {LazyLoadImage } from 'react-lazy-load-image-component';
+import placeholder from '../images/placeholder.png';
+import Card from './Card';
 import front from '../images/front.jpg';
-import {Link} from 'react-router-dom';
-import Card from './Card'
-
 const products = [
   {
     image: back,

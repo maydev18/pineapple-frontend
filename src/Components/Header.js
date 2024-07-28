@@ -26,28 +26,28 @@ const Header = ({ onOpenCart }) => {
           </div>
         </Link>
         <div className={styles.navigationIcons}>
-          <a href="login">
+          <Link to="auth?mode=login">
             <Icon icon="ic:baseline-person-outline" width="24" height="24" color='white' />
-          </a>
-          <a href="#search">
+          </Link>
+          <Link to="#search">
             <Icon icon="ic:baseline-search" width="24" height="24" color='white' />
-          </a>
-          <a href="#favorite">
+          </Link>
+          <Link to="#favorite">
             <Icon icon="ic:baseline-favorite-border" width="24" height="24" color='white' />
-          </a>
-          <a onClick={onOpenCart}>
+          </Link>
+          <Link onClick={onOpenCart}>
             <Icon icon="ic:baseline-shopping-bag" width="24" height="24" color='white' />
-          </a>
+          </Link>
         </div>
       </header>
 
       <div className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
         <nav className={styles.sidebarNav}>
           <img src={logo_black} alt='logo_black' />
-          <a href="#home">HOME</a>
-          <a href="#services">NEW ARRIVALS</a>
-          <a href="#contact">RETURN</a>
-          <a href="#contact">CUSTOMER SUPPORT</a>
+          <Link href="#home">HOME</Link>
+          <Link href="#services">NEW ARRIVALS</Link>
+          <Link href="#contact">RETURN</Link>
+          <Link href="#contact">CUSTOMER SUPPORT</Link>
         </nav>
       </div>
 

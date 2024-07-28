@@ -50,6 +50,8 @@
 .cardTitle {
   font-size: 18px;
   margin: 12px 0;
+  color: #000;
+  text-transform: capitalize;
   color: white;
 }
 

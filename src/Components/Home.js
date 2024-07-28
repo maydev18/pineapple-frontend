@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
 import ProductsShowcase from '../Components/ProductsShowcase';
 import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
@@ -12,7 +10,6 @@ import classes from './Home.module.css';
 const Hero = () => {
   return (
     <>
-     <Header/>
       <div className={classes.hero}>
         <div className={classes.heroContent}>
           <h1 className="heading">PINEAPPLE</h1>
@@ -33,7 +30,7 @@ const Hero = () => {
               <button className={classes.button}>SIGN UP</button>
             </Link> */}
             <Link to="/productspage">
-              <button className="button">BUY NOW</button>
+              <button  className="button">BUY NOW</button>
             </Link>
           </div>
         </div>
@@ -41,7 +38,6 @@ const Hero = () => {
       <ProductsShowcase />
       <AboutUs />
       <ContactUs />
-      <Footer />
     </>
   );
 };

@@ -1,31 +1,63 @@
-// App.js
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {createBrowserRouter, RouterProvider } from 'react-router-dom';
+
 import CartProvider from './Provider/CartContext'; // Ensure this import path is correct
 import Checkout from './pages/Checkout';
 import ProductPage from './pages/ProductPage';
 import ProductView from './pages/ProductView';
 import Hero from './Components/Home';
+import RootLayout from './pages/Root';
+import ErrorPage from './pages/Error';
 import CombinedAuthPage from './pages/CombinedAuthPage';
-
-
-
+import {action as AuthAction} from './pages/CombinedAuthPage';
+import {tokenLoader , checkAuthLoader} from './utils/Auth';
+import {action as logoutAction} from './pages/logout';
+import {loader as ProductsLoader} from './pages/ProductPage';
+import {loader as ProductLoader} from './pages/ProductView';
+const router = createBrowserRouter([
+  {
+    path : '/',
+    element : < RootLayout />,
+    errorElement : <ErrorPage />,
+    id : 'root',
+    loader : tokenLoader,
+    children : [
+      {
+        index : true,
+        element : <Hero />
+      },
+      {
+        path : 'auth',
+        element : <CombinedAuthPage />,
+        action : AuthAction
+      },
+      {
+        path : 'products',
+        children : [
+          {
+            index : true,
+            element : <ProductPage />,
+            loader : ProductsLoader
+          },
+          {
+            path : ':productID',
+            element : <ProductView />,
+            loader : ProductLoader
+          }
+        ]
+      },
+      {
+        path : 'checkout',
+        element : <Checkout />
+      },
+      {
+        path : 'logout',
+        action : logoutAction
+      }
+    ]
+  }
+])
 function App() {
-  return (
-    <Router>
-       <Routes>
-      <Route path="/login" element={<CombinedAuthPage isSignup={false} />} />
-      <Route path="/signup" element={<CombinedAuthPage isSignup={true} />} />
-      <Route path='/' element={<Hero/>}/>
-        <Route path="/productspage" element={<ProductPage />} />
-          <Route path="/productsView" element={<ProductView />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/login"></Route>
-      </Routes>
-      
-    </Router>
-   
-  );
+  return <RouterProvider router={router}/>;
 }
 
 export default App;
