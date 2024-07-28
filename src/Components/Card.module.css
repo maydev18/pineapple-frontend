@@ -51,14 +51,10 @@
   font-size: 18px;
   margin: 12px 0;
   color: #000;
+  text-transform: capitalize;
 }
 
 .cardPrice {
   font-size: 16px;
   color: #333;
-}
-
-.cardDescription {
-  font-size: 14px;
-  color: #777;
 }

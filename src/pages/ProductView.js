@@ -4,17 +4,9 @@ import back from '../images/back.jpg';
 import front from '../images/front.jpg';
 import CartSidebar from '../Components/CartSidebar';
 import classes from './ProductView.module.css';
+import { json , useLoaderData} from 'react-router-dom';
 
-const product = {
-  name: 'TECTONEER NAVY REGULAR FIT SHORTS',
-  price: 'INR 1599',
-  rating: 4,
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  mainImage: back,
-  images: [back, front, front, front],
-};
-
-const sizes = ['S', 'M', 'L', 'XL'];
+const sizes = ['S', 'M', 'L', 'XL' , 'XXL'];
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -43,13 +35,17 @@ const ProductPage = () => {
     e.preventDefault();
     setReview('');
   };
-
+  const data = useLoaderData();
+  const product = data.product
+  const images = product.moreImages;
+  images.unshift(product.mainImage);
+  images.push(product.backImage);
   return (
     <>
       <div className={classes.productsPage}>
-        <SingleProduct product={product} />
+        <SingleProduct images={images} />
         <div className={classes.productDetails}>
-          <h2>{product.name}</h2>
+          <h2>{product.title}</h2>
           <p className={classes.productPrice}>{product.price}</p>
           <div className={classes.productRating}>
             {[...Array(5)].map((star, index) => (
@@ -102,3 +98,18 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
+
+export async function loader({params}){
+  const id = params.productID;
+  const res = await fetch('http://localhost:8080/product/' + id);
+  if(!res.ok){
+      throw json({
+          message : "could not fetch event details"
+      } , {
+          status : 500
+      })
+  }
+  else{
+      return res;
+  }
+}

@@ -6,10 +6,8 @@ import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
 import classes from './SingleProduct.module.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import back from '../images/back.jpg';
-import front from '../images/front.jpg';
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ images,  title }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -58,9 +56,9 @@ const SingleProduct = ({ product }) => {
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>
         <Slider {...settings}>
-          {product.images.map((image, index) => (
+          {images.map((image, index) => (
             <div key={index}>
-              <img src={image} alt={`${product.name} ${index + 1}`} />
+              <img src={image} alt={`${title} ${index + 1}`} />
             </div>
           ))}
         </Slider>

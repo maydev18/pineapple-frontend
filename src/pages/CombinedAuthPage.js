@@ -1,67 +1,50 @@
-import React from 'react';
-import logoBlack from '../images/logo_black.png';
-import authPageBackground from '../images/login_page.png';
-import { Link } from 'react-router-dom';
-import classes from './CombinedAuthPage.module.css';
 
-const CombinedAuthPage = ({ isSignup }) => {
-  return (
-    <div className={classes.authPage}>
-      <img 
-        src={authPageBackground} 
-        className={classes.authBackground} 
-        alt="Hero Page" 
-      />
-      <div className={classes.authOverlay}>
-        <div className={classes.authFormContainer}>
-          <div className={classes.logoContainer}>
-            <img src={logoBlack} alt="Logo" className={classes.logoImage} />
-          </div>
-          <form className={classes.authForm}>
-            <div className={classes.formGroup}>
-            </div>
-            <div className={classes.formGroup}>
-              <label htmlFor="email" className={classes.formLabel}>
-                EMAIL ADDRESS
-              </label>
-              <input
-                type="email"
-                id="email"
-                className={classes.formInput}
-                placeholder="Enter your email address"
-              />
-            </div>
-            <div className={classes.formGroup}>
-              <label htmlFor="password" className={classes.formLabel}>
-                PASSWORD
-              </label>
-              <input
-                type="password"
-                id="password"
-                className={classes.formInput}
-                placeholder="Enter your password"
-              />
-            </div>
-            <div className={classes.formActions}>
-              <button
-                type="submit"
-                className="button"
-              >
-                {isSignup ? 'SIGN UP' : 'LOG IN'}
-              </button>
-              <div className={classes.authLink}>
-                {isSignup ? (
-                  <p>Already have an account? <Link to="/login" className={classes.authLinkAnchor}>Log in</Link></p>
-                ) : (
-                  <p>Don't have an account? <Link to="/signup" className={classes.authLinkAnchor}>Sign up</Link></p>
-                )}
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+import {json , redirect } from 'react-router-dom';
+import AuthForm from '../Components/AuthForm';
+const CombinedAuthPage = () => {
+  return <AuthForm />
 };
 
+
 export default CombinedAuthPage;
+
+export async function action({request}){
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get('mode') || 'login';
+  if(mode !== 'login' &&  mode !== 'signup'){
+      throw json({
+          message : "unsupported mode"
+      } , {
+          status : 422
+      });
+  }
+  const data = await request.formData();
+  const authData = {
+      email : data.get('email'),
+      password : data.get('password')
+  };
+  const res = await fetch('http://localhost:8080/auth/' + mode , {
+      method : mode === 'login' ? 'POST' : "PUT",
+      headers : {
+          'Content-Type' : 'application/json'
+      },
+      body : JSON.stringify(authData)
+  })
+  if(!res.status === 500){
+      throw json({message : "Could not authenticate user"} , {status : 500});
+  }
+  const resData = await res.json();
+  console.log(resData);
+  if(!res.ok){
+    alert(resData.message);
+    return null;
+  }
+  else{
+    const token = resData.token;
+    localStorage.setItem('token' , token);
+    const expiration = new Date();
+    expiration.setSeconds(expiration.getSeconds() + 10);
+    localStorage.setItem('expiration' , expiration.toISOString());
+    return redirect('/');
+  }
+}
