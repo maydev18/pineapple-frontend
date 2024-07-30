@@ -4,7 +4,6 @@ import ProductsShowcase from '../Components/ProductsShowcase';
 import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
 import FadeInComponent from '../Components/Fade';
-import { ReactTyped as Typed } from 'react-typed';
 import classes from './Home.module.css';
 
 

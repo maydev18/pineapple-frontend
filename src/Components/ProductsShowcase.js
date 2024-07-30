@@ -23,7 +23,7 @@ const ProductShowcase = () => {
             animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
           >
-            <Link to='/products'>
+            <Link to={`/products/${product._id}` } style={{textDecoration : "none"}}>
               <Card
                 image={product.mainImage}
                 hoverImage={product.backImage}
@@ -37,7 +37,7 @@ const ProductShowcase = () => {
 
         ))}
       </div>
-      <button className="button">View All</button>
+      <Link to='/products'><button className="button">View All</button></Link>
     </div>
  
       </>

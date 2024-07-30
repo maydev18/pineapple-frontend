@@ -40,11 +40,16 @@ export async function action({request}){
     return null;
   }
   else{
-    const token = resData.token;
-    localStorage.setItem('token' , token);
-    const expiration = new Date();
-    expiration.setHours(expiration.getHours() + 1);
-    localStorage.setItem('expiration' , expiration.toISOString());
-    return redirect('/');
+    if(mode === 'login'){
+      const token = resData.token;
+      localStorage.setItem('token' , token);
+      const expiration = new Date();
+      expiration.setDate(expiration.getDate() + 30);
+      localStorage.setItem('expiration' , expiration.toISOString());
+      return redirect('/');
+    }
+    else if(mode === 'signup'){
+      return res.redirect('/auth?mode=login')
+    }
   }
 }

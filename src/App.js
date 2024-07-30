@@ -11,7 +11,7 @@ import {action as AuthAction} from './pages/CombinedAuthPage';
 import {tokenLoader , checkAuthLoader} from './utils/Auth';
 import {action as logoutAction} from './pages/logout';
 import {loader as ProductsLoader} from './pages/ProductPage';
-import {loader as ProductLoader , action as ReviewAction} from './pages/ProductView';
+import {loader as ProductLoader} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
 const router = createBrowserRouter([
@@ -44,7 +44,6 @@ const router = createBrowserRouter([
             path : ':productID',
             element : <ProductView />,
             loader : ProductLoader,
-            action : ReviewAction
           }
         ]
       },

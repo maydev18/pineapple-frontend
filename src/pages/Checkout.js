@@ -1,27 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
 import CartItem from '../Components/CartItem'; // Ensure this path is correct
-import back from '../images/back.jpg';
 import { Icon } from '@iconify/react';
+import { getAuthToken } from '../utils/Auth';
 
 const Checkout = () => {
-    const [savedAddresses, setSavedAddresses] = useState([
-        {
-            id: 1,
-            name: 'Jatinder Kaur Kohli',
-            country: 'India',
-            addressLine1: 'House no. 138, second floor, R K Puram Sect-12',
-            addressLine2: '',
-            state: 'Delhi',
-            city: 'Delhi',
-            pinCode: '110022',
-            landmark: 'Near Deer Park',
-        },
-    ]);
+    let total = 0;
+    const [cartItems , setCartProducts] = useState([]);
+    const [savedAddresses , setAddresses] = useState([]);
+    const getCartItems = async () => {
+        const res = await fetch("http://localhost:8080/cart" , {
+        headers : {
+            'Authorization' : 'bearer ' + getAuthToken()
+        }
+        });
+        if(!res.ok){
+        alert('failed to fetch cart items');
+        }
+        else{
+            setCartProducts(await res.json());
+        }
+    }
+    const getAddresses = async () => {
+        const res = await fetch("http://localhost:8080/get-addresses" , {
+        headers : {
+            'Authorization' : 'bearer ' + getAuthToken()
+        }
+        });
+        if(!res.ok){
+        alert('failed to fetch addresses items');
+        }
+        else{
+            const add = await res.json();
+            setAddresses(add.addresses);
+        }
+    }
+    useEffect(() => {
+        getCartItems();
+    } , [])
+    useEffect(() => {
+        getAddresses();
+    } , [])
 
     const [newAddress, setNewAddress] = useState({
         name: '',
-        country: '',
+        phone: '',
         addressLine1: '',
         addressLine2: '',
         state: '',
@@ -29,7 +52,6 @@ const Checkout = () => {
         pinCode: '',
         landmark: '',
     });
-
     const [isAddingAddress, setIsAddingAddress] = useState(false);
     const [isEditingAddress, setIsEditingAddress] = useState(false);
     const [editingAddressId, setEditingAddressId] = useState(null);
@@ -39,16 +61,20 @@ const Checkout = () => {
         setNewAddress(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleAddAddress = () => {
-        if (!newAddress.country || !newAddress.addressLine1 || !newAddress.state || !newAddress.city || !newAddress.pinCode) {
-            alert('Please fill in all required fields.');
-            return;
+    const handleAddAddress =async () => {
+        const data = {
+            fullName : newAddress.name,
+            firstLine : newAddress.addressLine1,
+            secondLine : newAddress.addressLine2,
+            state : newAddress.state,
+            city : newAddress.city,
+            phone : newAddress.phone,
+            pincode : newAddress.pinCode,
+            landmark : newAddress.landmark
         }
-
-        setSavedAddresses([...savedAddresses, { ...newAddress, id: savedAddresses.length + 1 }]);
         setNewAddress({
             name: '',
-            country: '',
+            phone: '',
             addressLine1: '',
             addressLine2: '',
             state: '',
@@ -56,21 +82,36 @@ const Checkout = () => {
             pinCode: '',
             landmark: '',
         });
+        const res = await fetch("http://localhost:8080/add-address" , {
+            method : 'POST',
+            headers : {
+                'Authorization' : 'bearer ' + getAuthToken() ,
+                'Content-type' : 'application/json',
+            },
+            body : JSON.stringify(data)
+        });
+        if(!res.ok){
+            alert('adding address failed');
+        }
+        else{
+            const add = await res.json();
+            setAddresses([...savedAddresses , add]);
+        }
         setIsAddingAddress(false);
     };
 
     const handleEditAddress = () => {
-        if (!newAddress.country || !newAddress.addressLine1 || !newAddress.state || !newAddress.city || !newAddress.pinCode) {
+        if (!newAddress.phone || !newAddress.addressLine1 || !newAddress.state || !newAddress.city || !newAddress.pinCode) {
             alert('Please fill in all required fields.');
             return;
         }
 
-        setSavedAddresses(savedAddresses.map(address =>
-            address.id === editingAddressId ? { ...newAddress, id: editingAddressId } : address
-        ));
+        // setSavedAddresses(savedAddresses.map(address =>
+        //     address.id === editingAddressId ? { ...newAddress, id: editingAddressId } : address
+        // ));
         setNewAddress({
             name: '',
-            country: '',
+            phone: '',
             addressLine1: '',
             addressLine2: '',
             state: '',
@@ -84,7 +125,7 @@ const Checkout = () => {
     };
 
     const handleDeleteAddress = (id) => {
-        setSavedAddresses(savedAddresses.filter(address => address.id !== id));
+        // setSavedAddresses(savedAddresses.filter(address => address.id !== id));
     };
 
     const handleEditClick = (address) => {
@@ -93,24 +134,9 @@ const Checkout = () => {
         setIsEditingAddress(true);
         setEditingAddressId(address.id);
     };
-
-    const cartItems = [
-        {
-            id: 1,
-            image: back,
-            size: 'M',
-            quantity: 2,
-            price: 'Rs1500',
-        },
-        {
-            id: 2,
-            image: back,
-            size: 'L',
-            quantity: 1,
-            price: 'Rs 1200',
-        },
-    ];
-
+    cartItems.forEach(item => {
+        total += item.productID.price * item.quantity;
+    })
     return (
         <div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
@@ -122,15 +148,15 @@ const Checkout = () => {
                             {savedAddresses.length > 0 ? (
                                 <div className={classes.savedAddresses}>
                                     {savedAddresses.map(address => (
-                                        <div key={address.id} className={classes.savedAddress}>
+                                        <div key={address.addressID._id} className={classes.savedAddress}>
                                             <div>
-                                                <p><strong>{address.name}</strong></p>
-                                                <p>{address.addressLine1}, {address.state}, {address.city} - {address.pinCode}</p>
-                                                <p>Landmark: {address.landmark}</p>
+                                                <p><strong>{address.addressID.fullName}</strong></p>
+                                                <p>{address.addressID.firstLine + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
+                                                <p>Landmark: {address.addressID.landmark}</p>
                                             </div>
                                             <div className={classes.addressActions}>
                                                 <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address)} fontSize={"20px"}/>
-                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.id)} fontSize={"20px"}/>
+                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.addressID._id)} fontSize={"20px"}/>
                                             </div>
                                         </div>
                                     ))}
@@ -148,11 +174,11 @@ const Checkout = () => {
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
-                                    <label htmlFor="country">Country</label>
+                                    <label htmlFor="phone">phone</label>
                                     <input
                                         type="text"
-                                        name="country"
-                                        value={newAddress.country}
+                                        name="phone"
+                                        value={newAddress.phone}
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
@@ -233,19 +259,20 @@ const Checkout = () => {
                 <div className={classes.cartSummary}>
                     <h2>Cart Summary</h2>
                     <div className={classes.cartItemsContainer}>
-                        {cartItems.map(item => (
+                        {cartItems.map((item , index) => (
                             <CartItem
-                                key={item.id}
-                                image={item.image}
+                                key={index}
+                                image={item.productID.mainImage}
                                 size={item.size}
                                 quantity={item.quantity}
-                                price={item.price} />
+                                price={item.productID.price}
+                                checkout={true} />
                         ))}
                     </div>
                     <div className={classes.cartSummaryFooter}>
                         <h2>Overall Summary</h2>
                         <div>Total Items: {cartItems.length}</div>
-                        <div>Total Price: Rs{cartItems.reduce((total, item) => total + parseInt(item.price.replace('Rs', '')), 0)}</div>
+                        <div>Total Price: Rs.{total}</div>
                     </div>
                 </div>
             </div>

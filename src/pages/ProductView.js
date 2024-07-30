@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
 import WishlistSidebar from '../Components/WishListSidebar';
@@ -6,34 +6,52 @@ import { json, useLoaderData, Form } from 'react-router-dom';
 import classes from './ProductView.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
-import { color } from 'framer-motion';
 import { getAuthToken } from '../utils/Auth';
-
+import { useParams } from 'react-router-dom';
+import {format} from 'date-fns';
+import {Spinner} from 'react-bootstrap';
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
-
-const dummyReviews = [
-  { username: 'John Doe', rating: 4, text: 'Great shorts! Very comfortable and stylish.' },
-  { username: 'Jane Smith', rating: 5, text: 'Absolutely love these shorts! Perfect fit and quality.' },
-  { username: 'Alice Johnson', rating: 3, text: 'Good shorts, but the color fades after a few washes.' }
-];
+const token = getAuthToken();
+const isLoggedIn = (token === null || token === 'EXPIRED') ? false : true;
 
 const ProductPage = () => {
-  const [quantity, setQuantity] = useState(1);
+  const {productID} = useParams();
+  const [reviews, setReviews] = useState([]);
+  const [username  , setUserName] = useState('');
+  const [stars  , setStars] = useState('');
+  const [content  , setContent] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
   const [isWishlistSidebarOpen, setIsWishlistSidebarOpen] = useState(false);
-  const [review, setReview] = useState('');
-  const [reviews, setReviews] = useState(dummyReviews);
   const [isWishlistOpen, setWishlistOpen] = useState(false);
 
-  const handleQuantityChange = (e) => {
-    const value = Math.max(1, parseInt(e.target.value, 10));
-    setQuantity(value);
-  };
-
-  const handleAddToCart = () => {
-    setIsCartSidebarOpen(true);
-    console.log('Adding to cart', product);
+  const handleAddToCart = async() => {
+    setIsSubmitting(true);
+    let size;
+    if(selectedSize === 'S') size = 'small';
+    else if(selectedSize === 'M') size = 'medium';
+    else if(selectedSize === 'L') size = 'large';
+    else if(selectedSize === 'XL') size = 'extraLarge';
+    else if(selectedSize === 'XXL') size = 'doubleExtraLarge';
+    const res = await fetch('http://localhost:8080/add-to-cart' , {
+      method : "post",
+      headers : {
+        'Content-Type': 'application/json',
+        'Authorization' : 'bearer ' + getAuthToken()
+      },
+      body : JSON.stringify({
+        productID : productID,
+        size : size
+      })
+    });
+    if(res.ok){
+      setIsCartSidebarOpen(true);
+    }
+    else{
+      alert('Failed adding to cart');
+    }
+    setIsSubmitting(false);
   };
 
   const handleAddToWishlist = () => {
@@ -48,14 +66,34 @@ const ProductPage = () => {
     setIsWishlistSidebarOpen(false);
   };
 
-  const handleReviewChange = (e) => {
-    setReview(e.target.value);
-  };
 
-  const handleReviewSubmit = (newReview) => {
-
-    setReviews([...reviews, newReview]);
-    setReview('');
+  const handleReviewSubmit = async (event) => {
+    setIsSubmitting(true);
+    event.preventDefault();
+    const res = await fetch('http://localhost:8080/post-review' , {
+      method : 'post',
+      headers : {
+        'Content-type' : 'application/json',
+        'Authorization' : 'bearer ' + getAuthToken()
+      },
+      body : JSON.stringify({
+        stars : stars,
+        content : content,
+        buyer : username,
+        productID : productID
+      })
+    });
+    if(res.ok){
+      const savedReview = await res.json();
+      setReviews([...reviews , savedReview])
+    }
+    else{
+      alert('failed to post a review');
+    }
+    setIsSubmitting(false);
+    setStars('');
+    setContent('');
+    setUserName('');
   };
 
   const sampleProducts = [
@@ -63,13 +101,21 @@ const ProductPage = () => {
     { id: 2, mainImage: 'image2.jpg', selectedSize: 'L', price: '$30', title: 'Product 2', color: 'yellow'},
   ];
 
+  useEffect(() => {
+    const fetchReviews = async() => {
+      const res = await fetch('http://localhost:8080/reviews/' + productID);
+      const data = await res.json();
+      setReviews(data);
+    };
+    fetchReviews();
+    console.log(reviews);
+  } , [productID])
+  
 
   
   const data = useLoaderData();
   const product = data.product;
   const images = product.moreImages;
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
   return (
     <>
       <div className={classes.productsPage}>
@@ -90,7 +136,6 @@ const ProductPage = () => {
             <div className={classes.sizes}>
               {sizes.map((size) => (
                 <button
-                  disabled= {isSubmitting ? true : false}
                   key={size}
                   className={`${classes.sizeButton} ${size === selectedSize ? classes.selected : ''}`}
                   onClick={() => setSelectedSize(size)}
@@ -101,7 +146,7 @@ const ProductPage = () => {
             </div>
           </div>
           <div className={classes.productButtons}>
-            <button className={`${classes.productViewButton}`} onClick={handleAddToCart}>Add to Cart</button>
+            <button className={`${classes.productViewButton}`} onClick={handleAddToCart}>{isSubmitting ? <Spinner animation="border" /> : 'Add to Cart'}</button>
             <button className={`${classes.productViewButton}`}  onClick={() => setWishlistOpen(true)}>Wishlist</button>
           </div>
           <Accordion className='mt-4'>
@@ -139,13 +184,14 @@ const ProductPage = () => {
             <ul className={classes.reviewList}>
               {reviews.map((rev, index) => (
                 <li key={index} className={classes.reviewItem}>
-                  <strong>{rev.username}</strong>
+                  <strong>{rev.buyer}</strong>
                   <div className={classes.reviewRating}>
                     {[...Array(5)].map((star, i) => (
                       <span key={i} className={`${classes.star} ${i < rev.rating ? classes.filled : ''}`}>&#9733;</span>
                     ))}
                   </div>
-                  <p>{rev.text}</p>
+                  <p>{rev.content}</p>
+                  <p>{format(new Date(rev.date) , 'MMMM do, yyyy')}</p>
                 </li>
               ))}
             </ul>
@@ -153,25 +199,25 @@ const ProductPage = () => {
             <p>No reviews yet.</p>
           )}
         </div>
-        <div className={classes.reviewInput}>
+        {isLoggedIn && <div className={classes.reviewInput}>
           <h3>Write a Review</h3>
-          <Form className={classes.reviewForm} method='POST'>
-            <input type="text" name='userName' required placeholder='Your Full Name'/>
-            <input type="text" name='stars' required placeholder='Your Rating'/>
+          <form className={classes.reviewForm} onSubmit={handleReviewSubmit}>
+            <input type="text" name='userName' required placeholder='Your Full Name' value={username} onChange={(e) => setUserName(e.target.value)}  disabled = {isSubmitting}/>
+            <input type="text" name='stars' required placeholder='Your Rating' value={stars} onChange={(e) => setStars(e.target.value)} disabled = {isSubmitting}/>
             <textarea
-              value={review}
-              onChange={handleReviewChange}
               placeholder="Write your review here..."
               required
-              name='content'
-            />
-            <button type="submit" className={classes.reviewFormbutton}>Submit Review</button>
-          </Form>
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              disabled = {isSubmitting}/>
+            <button type="submit" className={classes.reviewFormbutton} disabled = {isSubmitting}>Submit Review</button>
+            {isSubmitting && <Spinner animation="border" />}
+          </form>
         </div>
+      }
       </div>
       <CartSidebar
         product={product}
-        initialQuantity={quantity}
         selectedSize={selectedSize}
         isOpen={isCartSidebarOpen}
         onClose={handleCloseCartSidebar}
@@ -200,31 +246,5 @@ export async function loader({ params }) {
   }
   else {
     return res;
-  }
-}
-
-export async function action({request , params}){
-  try{
-    const id = params.productID;
-    const data = await request.formData();
-    const reviewData = {
-      productID : id,
-      stars : data.get('stars'),
-      content : data.get('content'),
-      buyer : data.get('userName')
-    }
-    const res = fetch('http://localhost:8080/post-review' , {
-      method : 'POST',
-        headers : {
-            'content-type' : "application/json",
-            'authorization' : 'bearer ' + getAuthToken()
-        },
-        body : JSON.stringify(reviewData)
-    });
-    return res;
-  }
-  catch(err){
-    alert('could not post review');
-    return null;
   }
 }
