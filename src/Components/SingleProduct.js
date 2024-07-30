@@ -1,30 +1,47 @@
 import React from 'react';
 import Slider from 'react-slick';
-import { Icon } from '@iconify/react';
-import arrowLeftCircle from '@iconify-icons/mdi/arrow-left-circle';
-import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
 import classes from './SingleProduct.module.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
 const SingleProduct = ({ images,  title , mainImage , backImage }) => {
   images = [mainImage , ...images , backImage];
+  const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+    <button
+      {...props}
+      className={
+        "slick-prev slick-arrow" +
+        (currentSlide === 0 ? " slick-disabled" : "")
+      }
+      aria-hidden="true"
+      aria-disabled={currentSlide === 0 ? true : false}
+      type="button"
+    >
+      Previous
+    </button>
+  );
+  const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+    <button
+      {...props}
+      className={
+        "slick-next slick-arrow" +
+        (currentSlide === slideCount - 1 ? " slick-disabled" : "")
+      }
+      aria-hidden="true"
+      aria-disabled={currentSlide === slideCount - 1 ? true : false}
+      type="button"
+    >
+      Next
+    </button>
+  );
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: (
-      <div className={`${classes.customArrow} ${classes.customNextArrow}`}>
-        <Icon icon={arrowRightCircle} />
-      </div>
-    ),
-    prevArrow: (
-      <div className={`${classes.customArrow} ${classes.customPrevArrow}`}>
-        <Icon icon={arrowLeftCircle} />
-      </div>
-    ),
+    nextArrow: <SlickArrowRight />,
+    prevArrow: <SlickArrowLeft />
   };
 
   return (
@@ -33,7 +50,7 @@ const SingleProduct = ({ images,  title , mainImage , backImage }) => {
         <Slider {...settings}>
           {images.map((image, index) => (
             <div key={index} className={classes.imageContainer}>
-              <img src={image} alt={`${title} ${index + 1}`} />
+              <img src={image} alt={title} />
             </div>
           ))}
         </Slider>

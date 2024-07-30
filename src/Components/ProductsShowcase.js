@@ -1,60 +1,26 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import classes from './ProductsShowcase.module.css';
-import back from '../images/back.jpg';
-import { Link } from 'react-router-dom';
-import {LazyLoadImage } from 'react-lazy-load-image-component';
-import placeholder from '../images/placeholder.png';
+import { Link, useLoaderData } from 'react-router-dom';
 import Card from './Card';
-import front from '../images/front.jpg';
-const products = [
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 1',
-    price: '$10.00',
-    description: 'Description for product 1',
-  },
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 2',
-    price: '$20.00',
-    description: 'Description for product 2',
-  },
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 3',
-    price: '$30.00',
-    description: 'Description for product 3',
-  },
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 3',
-    price: '$30.00',
-    description: 'Description for product 3',
-  },
-  
-];
 
 const ProductShowcase = () => {
   const { ref: productRef, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-
+  const data = useLoaderData();
+  const products = data.products;
   return (
     <div className={classes.productShowcase}>
       <h2 className={classes.headingProduct}>Our products</h2>
 
       <div className={classes.cardContainer}>
           {products.map((product, index) => (
-           <Link to='/productsView'> <Card
+           <Link to={`/products/${product._id}`} style={{textDecoration : "none"}}> <Card
               key={index}
-              image={product.image}
-              hoverImage={product.hoverImage}
+              image={product.mainImage}
+              hoverImage={product.backImage}
               title={product.title}
               price={product.price}
-              description={product.description}
+              color='white'
             /></Link>
           ))}
           <div className={classes.viewAllContainer}>

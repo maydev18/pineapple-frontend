@@ -50,17 +50,9 @@
 .cardTitle {
   font-size: 18px;
   margin: 12px 0;
-  color: #000;
   text-transform: capitalize;
-  color: white;
 }
 
 .cardPrice {
   font-size: 16px;
-  color: white;
-}
-
-.cardDescription {
-  font-size: 14px;
-  color: white;
 }

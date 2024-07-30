@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link , json} from 'react-router-dom';
 import ProductsShowcase from '../Components/ProductsShowcase';
 import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
@@ -29,7 +29,7 @@ const Hero = () => {
             {/* <Link to="/signup">
               <button className={classes.button}>SIGN UP</button>
             </Link> */}
-            <Link to="/productspage">
+            <Link to="/products">
               <button  className="button">BUY NOW</button>
             </Link>
           </div>
@@ -43,3 +43,13 @@ const Hero = () => {
 };
 
 export default Hero;
+
+export async function loader(){
+  try{
+    const response = await fetch('http://localhost:8080/top-products');
+    return response;
+  }
+  catch(err){
+    throw json({message : "Could not fetch events"} , {status : 500})
+  }
+}

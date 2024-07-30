@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Card.module.css';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import placeholder from '../images/placeholder.png';
-const Card = ({ image, hoverImage, title, price}) => {
+const Card = ({ image, hoverImage, title, price , color}) => {
   return (
       <div className={styles.card}>
         <div className={styles.cardImageWrapper}>
@@ -21,8 +21,8 @@ const Card = ({ image, hoverImage, title, price}) => {
             effect='blur'
           />
         </div>
-        <h2 className={styles.cardTitle}>{title}</h2>
-        <p className={styles.cardPrice}>{price}</p>
+        <h2  className={styles.cardTitle} style={{color : color === 'black' ? 'black' : 'white'}}>{title}</h2>
+        <p className={styles.cardPrice} style={{color : color === 'black' ? 'black' : 'white'}}>₹{price}</p>
       </div>
   );
 };

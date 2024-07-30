@@ -2,23 +2,11 @@ import React, { useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
 import WishlistSidebar from '../Components/WishListSidebar';
-import backImage from '../images/back.jpg';
-import frontImage from '../images/front.jpg';
 import classes from './ProductView.module.css';
-import { json , useLoaderData} from 'react-router-dom';
+import { Form, json , useLoaderData , useNavigation} from 'react-router-dom';
+import { getAuthToken } from '../utils/Auth';
 
 const sizes = ['S', 'M', 'L', 'XL' , 'XXL'];
-
-const product = {
-  id: "669cc48798f9104fa632e2ac",
-  title: "Slick Light Blue Distressed Slim Fit Jeans",
-  description: "Lorem ipsum dolor sit amet, consectet ad minim veniam, re dolor in reprehenderit. Excepteur sint occaecat cupidatat non proident anim id est laborum",
-  price: "INR 5000",
-  mainImage: backImage,
-  moreImages: [backImage, frontImage],
-  color: "Blue",
-  rating: 4
-};
 
 const dummyReviews = [
   { username: 'John Doe', rating: 4, text: 'Great shorts! Very comfortable and stylish.' },
@@ -59,19 +47,16 @@ const ProductPage = () => {
     setReview(e.target.value);
   };
 
-  const handleReviewSubmit = (e) => {
-    e.preventDefault();
-    const newReview = {
-      username: 'Anonymous',
-      rating: 4,
-      text: review
-    };
+  const handleReviewSubmit = (newReview) => {
+
     setReviews([...reviews, newReview]);
     setReview('');
   };
   const data = useLoaderData();
   const product = data.product
   const images = product.moreImages;
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
   return (
     <>
       <div className={classes.productsPage}>
@@ -90,6 +75,7 @@ const ProductPage = () => {
             <div className={classes.sizes}>
               {sizes.map((size) => (
                 <button
+                  disabled= {isSubmitting ? true : false}
                   key={size}
                   className={`${classes.sizeButton} ${size === selectedSize ? classes.selected : ''}`}
                   onClick={() => setSelectedSize(size)}
@@ -128,15 +114,18 @@ const ProductPage = () => {
         </div>
         <div className={classes.reviewInput}>
           <h3>Write a Review</h3>
-          <form onSubmit={handleReviewSubmit} className={classes.reviewForm}>
+          <Form className={classes.reviewForm} method='POST'>
+            <input type="text" name='userName' required placeholder='Your Full Name'/>
+            <input type="text" name='stars' required placeholder='Your Rating'/>
             <textarea
               value={review}
               onChange={handleReviewChange}
               placeholder="Write your review here..."
               required
+              name='content'
             />
             <button type="submit" className="button">Submit Review</button>
-          </form>
+          </Form>
         </div>
       </div>
       <CartSidebar
@@ -171,5 +160,31 @@ export async function loader({params}){
   }
   else{
       return res;
+  }
+}
+
+export async function action({request , params}){
+  try{
+    const id = params.productID;
+    const data = await request.formData();
+    const reviewData = {
+      productID : id,
+      stars : data.get('stars'),
+      content : data.get('content'),
+      buyer : data.get('userName')
+    }
+    const res = fetch('http://localhost:8080/post-review' , {
+      method : 'POST',
+        headers : {
+            'content-type' : "application/json",
+            'authorization' : 'bearer ' + getAuthToken()
+        },
+        body : JSON.stringify(reviewData)
+    });
+    return res;
+  }
+  catch(err){
+    alert('could not post review');
+    return null;
   }
 }
