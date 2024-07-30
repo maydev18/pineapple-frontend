@@ -8,8 +8,13 @@ const ProductPage = () => {
   const products = data.products;
   return (
     <>
-      <h1 className={classes.ProductsPageHeading}>Our Products</h1>
+    
+      <div className={classes.banner}/>
+        {/* <h1 className={classes.mainheading}>Our Products</h1> */}
       <div className={classes.productsPage}>
+       
+
+        
         <div className={classes.cardContainer}>
           {products.map((product, index) => (
             <Link to={`/products/${product._id}`} style={{textDecoration : "none"}}>
@@ -19,6 +24,8 @@ const ProductPage = () => {
                 hoverImage={product.backImage}
                 title={product.title}
                 price={product.price}
+                titleColor="black"
+                priceColor="black"
               />
             </Link>
           ))}

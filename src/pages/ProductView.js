@@ -2,23 +2,13 @@ import React, { useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
 import WishlistSidebar from '../Components/WishListSidebar';
-import backImage from '../images/back.jpg';
-import frontImage from '../images/front.jpg';
+import { json, useLoaderData } from 'react-router-dom';
 import classes from './ProductView.module.css';
-import { json , useLoaderData} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Accordion } from 'react-bootstrap';
+import { color } from 'framer-motion';
 
-const sizes = ['S', 'M', 'L', 'XL' , 'XXL'];
-
-const product = {
-  id: "669cc48798f9104fa632e2ac",
-  title: "Slick Light Blue Distressed Slim Fit Jeans",
-  description: "Lorem ipsum dolor sit amet, consectet ad minim veniam, re dolor in reprehenderit. Excepteur sint occaecat cupidatat non proident anim id est laborum",
-  price: "INR 5000",
-  mainImage: backImage,
-  moreImages: [backImage, frontImage],
-  color: "Blue",
-  rating: 4
-};
+const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
 const dummyReviews = [
   { username: 'John Doe', rating: 4, text: 'Great shorts! Very comfortable and stylish.' },
@@ -33,6 +23,7 @@ const ProductPage = () => {
   const [isWishlistSidebarOpen, setIsWishlistSidebarOpen] = useState(false);
   const [review, setReview] = useState('');
   const [reviews, setReviews] = useState(dummyReviews);
+  const [isWishlistOpen, setWishlistOpen] = useState(false);
 
   const handleQuantityChange = (e) => {
     const value = Math.max(1, parseInt(e.target.value, 10));
@@ -41,6 +32,7 @@ const ProductPage = () => {
 
   const handleAddToCart = () => {
     setIsCartSidebarOpen(true);
+    console.log('Adding to cart', product);
   };
 
   const handleAddToWishlist = () => {
@@ -69,22 +61,33 @@ const ProductPage = () => {
     setReviews([...reviews, newReview]);
     setReview('');
   };
+
+  const sampleProducts = [
+    { id: 1, mainImage: 'image1.jpg', selectedSize: 'M', price: '$20', title: 'Product 1', color: 'blue' },
+    { id: 2, mainImage: 'image2.jpg', selectedSize: 'L', price: '$30', title: 'Product 2', color: 'yellow'},
+  ];
+
+
+  
   const data = useLoaderData();
-  const product = data.product
+  const product = data.product;
   const images = product.moreImages;
+
   return (
     <>
       <div className={classes.productsPage}>
-        <SingleProduct images={images} mainImage = {product.mainImage} backImage = {product.backImage} />
+        <SingleProduct images={images} mainImage={product.mainImage} backImage={product.backImage} />
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
-          <p className={classes.productDescription}>{product.description}</p>
-          <p className={classes.productPrice}>{product.price}</p>
           <div className={classes.productRating}>
             {[...Array(5)].map((star, index) => (
               <span key={index} className={`${classes.star} ${index < product.rating ? classes.filled : ''}`}>&#9733;</span>
             ))}
           </div>
+          <p className={classes.productPrice}>INR {product.price} (Inc. of all tax)</p>
+          <p className={classes.productDescription}>{product.description}</p>
+         
+         
           <div className={classes.productSizes}>
             <p>Select Size:</p>
             <div className={classes.sizes}>
@@ -100,9 +103,35 @@ const ProductPage = () => {
             </div>
           </div>
           <div className={classes.productButtons}>
-            <button className={`${classes.productViewButton} button`} onClick={handleAddToCart}>Add to Cart</button>
-            <button className={`${classes.productViewButton} button`} onClick={handleAddToWishlist}>Wishlist</button>
+            <button className={`${classes.productViewButton}`} onClick={handleAddToCart}>Add to Cart</button>
+            <button className={`${classes.productViewButton}`}  onClick={() => setWishlistOpen(true)}>Wishlist</button>
           </div>
+          <Accordion className='mt-4'>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Product Details</Accordion.Header>
+              <Accordion.Body>
+              <ul>
+              <li> Color: {product.color}
+             </li>
+             <li> Material: Denim
+            </li>
+            <li> Care Instructions: Machine wash cold</li>
+              </ul>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Shipping & Returns</Accordion.Header>
+              <Accordion.Body>
+                <ul>
+                  <li>Free shipping on orders over INR 1000.
+                  </li>
+                  <li>
+                  Easy returns within 30 days of purchase.
+                  </li>
+                </ul>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
         </div>
       </div>
       <div className={classes.reviewSection}>
@@ -135,7 +164,7 @@ const ProductPage = () => {
               placeholder="Write your review here..."
               required
             />
-            <button type="submit" className="button">Submit Review</button>
+            <button type="submit" className={classes.reviewFormbutton}>Submit Review</button>
           </form>
         </div>
       </div>
@@ -147,11 +176,10 @@ const ProductPage = () => {
         onClose={handleCloseCartSidebar}
       />
       <WishlistSidebar
-        product={product}
-        initialQuantity={quantity}
-        selectedSize={selectedSize}
-        isOpen={isWishlistSidebarOpen}
-        onClose={handleCloseWishlistSidebar}
+        products={sampleProducts}
+        isOpen={isWishlistOpen}
+        onClose={() => setWishlistOpen(false)}
+        onAddToCart={handleAddToCart}
       />
     </>
   );
@@ -159,17 +187,17 @@ const ProductPage = () => {
 
 export default ProductPage;
 
-export async function loader({params}){
+export async function loader({ params }) {
   const id = params.productID;
   const res = await fetch('http://localhost:8080/product/' + id);
-  if(!res.ok){
-      throw json({
-          message : "could not fetch event details"
-      } , {
-          status : 500
-      })
+  if (!res.ok) {
+    throw json({
+      message: "could not fetch product details"
+    }, {
+      status: 500
+    });
   }
-  else{
-      return res;
+  else {
+    return res;
   }
 }

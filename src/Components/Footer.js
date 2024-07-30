@@ -13,10 +13,7 @@ const Footer = () => {
             <i className="fab fa-instagram"></i>
             <i className="fab fa-twitter"></i>
           </div>
-          {/* <form className={styles.emailForm}>
-            <input type="email" placeholder="Email" />
-            <button type="submit">Submit</button>
-          </form> */}
+          
         </div>
         <div className={styles.footerColumn}>
           <h3>Navigation</h3>

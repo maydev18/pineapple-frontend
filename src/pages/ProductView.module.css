@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column; /* Default to column for smaller screens */
   align-items: center;
+  justify-content: center;
   padding: 1rem;
   background-color: #e2e2e2;
 }
@@ -42,6 +43,10 @@
   text-align: left;
 }
 
+.productDetails p{
+font-size: 17px;
+}
+
 .productPrice {
   font-size: 1.5rem;
   color: #000;
@@ -55,6 +60,7 @@
 
 .productDescription{
   margin-bottom: 10rem;
+  font-size: 10px;
 }
 
 .productRating .star {
@@ -75,6 +81,7 @@
 
 .productSizes {
   margin-bottom: 1rem;
+  
 }
 
 .productSizes p {
@@ -90,7 +97,7 @@
 }
 
 .sizeButton {
-  padding: 0.5rem 1rem;
+  padding: 0.35rem 0.7rem;
   border: 1px solid #ccc;
   cursor: pointer;
   background-color: #f9f9f9;
@@ -112,44 +119,77 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  margin-top: 3rem;
+}
+
+.productViewButton:nth-child(even){
+  background-color: white;
+  color: black;
+
+}
+
+.productViewButton:nth-child(even):hover{
+  
+    color: white;
+    background-color: #000;
+  
 }
 
 .productViewButton {
   padding: 10px 15px;
   font-size: 20px;
-  background-color: #0a1f1c;
-  color: #fff;
+  background-color: black;
+  color: white;
+  border-color: black;
+  border-width: 2px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: "Outfit";
+  font-weight: 200;
 }
 
-.productViewButton:hover {
-  background-color: #0056b3;
-}
+
 
 .reviewSection {
  
-  margin: 4rem 0 4rem 5rem;
+  margin: 4rem 0;
   background-color: #fff;
   border-radius: 8px;
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   
 }
 
-.customerReview{
-  margin-left: 15rem;
+
+/* For medium-sized screens and up */
+@media (max-width: 400px) {
+  .reviewSection {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    align-items: left;
+    justify-content: left;
+  }
+
+}
+
+.customerReview {
+ 
   color: #000;
 } 
 
 .reviewInput{
-  margin-left: 25rem;
+  margin-left: 6rem;
+  margin-top: 0;
   padding: 0 ;
   align-items: left;
   color: black;
+  display: flex;
+  flex-direction: column;
 }
 
 .reviewSection h3 {
@@ -167,13 +207,13 @@
 .reviewList {
   margin-bottom: 1rem;
   list-style-type: none; 
-  padding: 2rem; 
+  padding: 0; 
 }
 
 .reviewItem {
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
-  text-align: left; /* Align reviews to the left */
+  text-align: left; 
 }
 
 .reviewItem strong {
@@ -189,11 +229,13 @@
 
 .reviewForm {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .reviewForm textarea {
   width: 50vw;
-  height: 30vh;
+  height: 20vh;
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -202,9 +244,9 @@
   font-size: 15px;
 }
 
-.reviewForm .button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
+.reviewFormbutton {
+ 
+  padding: 1rem 30px;
   background-color: #0a1f1c;
   font-size: 16px;
   color: #fff;
@@ -213,10 +255,6 @@
   cursor: pointer;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
-}
-
-.reviewForm .button:hover {
-  background-color: #0056b3;
 }
 
 .cartSidebar {
@@ -267,3 +305,8 @@
   flex: 1;
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}

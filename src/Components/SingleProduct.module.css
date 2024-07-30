@@ -2,14 +2,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  flex-direction: column; /* Stack elements vertically on smaller screens */
+  margin-right: 2rem;
+  position: relative;
 }
 
 .mainImage {
   width: 100%;
-  max-width: 400px; 
-  margin-bottom: 1rem; /* Add space below the image */
+  max-width: 400px;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .imageContainer {
@@ -23,36 +24,42 @@
   height: auto;
 }
 
-.customArrow {
-  position: absolute;
+.carousel-control-prev,
+.carousel-control-next {
+  width: 50px;
+  height: 50px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1;
-  cursor: pointer;
+  z-index: 10;
 }
 
-.customPrevArrow {
-  left: 10px;
+.carousel-control-prev {
+  left: -100px;
 }
 
-.customNextArrow {
-  right: 10px;
+.carousel-control-next {
+  right: -100px;
 }
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+  font-size: 30px;
+}
 
 @media (min-width: 768px) {
   .singleProduct {
-    flex-direction: row; 
+    flex-direction: row;
   }
 
   .mainImage {
     margin-bottom: 0;
   }
 }
-
-@media (max-width: 480px) {
-  .customArrow {
-    display: none; 
-  }
-}
-

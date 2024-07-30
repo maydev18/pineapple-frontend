@@ -1,106 +1,89 @@
 .Checkoutcontainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-start;
   padding: 20px;
-  gap: 50px;
+  margin-top: 4rem;
 }
 
 .container {
-  display: flex;
   width: 100%;
-}
-
-h2 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 40px;
-  color: black;
-  text-align: center;
-}
-
-p {
-  color: black;
-  margin-bottom: 12px;
-  text-align: center;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .checkoutContent {
-  flex: 3;
+  flex: 2;
+  margin-right: 20px;
 }
 
 .checkoutForm {
-  padding-left: 10vw;
-  padding-right: 10vw;
-  padding-top: 4vw;
-  padding-bottom: 5vw;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: white;
-}
-
-.checkoutForm h2 {
-  color: black;
-  font-size: 40px;
-}
-
-.cartSummary {
-  flex: 1;
-  padding: 20px;
-  background-color: white;
-  height: 100%;
-  margin-left: 2rem;
+  background: #fff;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.cartItemsContainer {
-  overflow-y: auto;
-  flex: 1;
-  padding-bottom: 20px;
+.contact, .delivery, .payment {
+  margin-bottom: 2rem;
+ 
 }
 
-.cartSummaryFooter {
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
+.delivery h2{
   text-align: left;
+  margin-bottom: 3rem;
 }
 
-.cartSummaryFooter div {
-  margin-bottom: 8px;
-  text-align: left;
-}
-
-.cartSummary h2 {
-  margin-top: 0;
+.savedAddresses {
   margin-bottom: 20px;
-  text-align: left;
 }
 
-.cartItem {
+.savedAddress {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 1px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 5px;
+  position: relative;
 }
 
-.cartItemImage {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
+.savedAddress p {
+  color: black;
+  text-align: left;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
 }
 
-.cartItemDetails {
+.deleteIcon, .editIcon {
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+.addressActions {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.floatingLabel {
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
 }
 
-.cartItemDetails p {
-  margin: 0;
+.floatingLabel label {
+  margin-bottom: 5px;
+}
+
+.floatingLabel input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .quantityBar {
@@ -136,79 +119,39 @@ p {
   background-color: #e0e0e0;
 }
 
-span {
+span, p {
   color: black;
-  font-weight: 500;
 }
 
 p {
-  color: black;
   font-size: 20px;
-}
-
-.delivery {
-  margin-top: 3rem;
-  margin-bottom: 20px;
-  position: relative;
-}
-
-.savedAddress {
-  position: relative;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 10px;
-}
-
-.savedAddress p {
-  color: black;
-  text-align: left;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.deleteIcon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  color: var(--green);
-  font-size: 24px;
 }
 
 .ButtonClass {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 6rem;
+  margin: 20px 0 6rem 0;
 }
 
-.showAddAddressButton {
+.showAddAddressButton, .addAddressButton {
+ 
+  padding: 15px;
   background-color: var(--green);
   color: white;
-  padding: 10px;
   border: none;
-  border-radius: 4px;
+  font-weight: 200;
   cursor: pointer;
-  margin-top: 10px;
+  font-size: 16px;
+  margin-bottom: 2rem;
 }
 
 .showAddAddressButton:hover {
   background-color: var(--green);
 }
 
-.addAddressButton {
-  background-color: var(--green);
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .delivery p {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .deliveryForm {
@@ -217,28 +160,26 @@ p {
 }
 
 .payment p {
-  color: black;
   text-align: center;
 }
 
 .completeOrder {
   width: 100%;
   padding: 15px;
-  background-color: var(--green);
+  background-color: black;
   color: white;
   border: none;
-  border-radius: 4px;
+  font-weight: 200;
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 2rem;
 }
 
-.cartSummary h2 {
-  color: black;
-  font-size: 40px;
+.completeOrder:hover{
+  background-color: var(--green);
 }
 
-.cartSummaryFooter p {
+.cartSummary h2, .cartSummaryFooter p {
   color: black;
 }
 
@@ -249,8 +190,7 @@ p {
     align-items: center;
   }
 
-  .checkoutContent,
-  .cartSummary {
+  .checkoutContent, .cartSummary {
     width: 100%;
     margin-left: 0;
     margin-bottom: 20px;
@@ -281,10 +221,6 @@ p {
     padding-right: 2vw;
   }
 
-  h2 {
-    font-size: 32px;
-  }
-
   p {
     font-size: 18px;
   }
@@ -293,24 +229,15 @@ p {
     width: 80px;
     height: 80px;
   }
-
-  .cartSummary h2 {
-    font-size: 32px;
-  }
 }
 
 @media (max-width: 480px) {
   .container {
-    display: flex;
     flex-direction: column;
   }
 
-  .checkoutContent {
+  .checkoutContent, .cartSummary {
     order: 1;
-  }
-
-  .cartSummary {
-    order: 2;
   }
 
   .checkoutForm {
@@ -318,9 +245,7 @@ p {
     padding-right: 1vw;
   }
 
-  h2 {
-    font-size: 24px;
-  }
+  
 
   p {
     font-size: 16px;
@@ -329,10 +254,6 @@ p {
   .cartItemImage {
     width: 60px;
     height: 60px;
-  }
-
-  .cartSummary h2 {
-    font-size: 24px;
   }
 
   .quantityInput {

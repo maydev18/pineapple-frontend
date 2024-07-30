@@ -1,0 +1,66 @@
+.orderItem {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 50px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f2f2f2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.itemDetails {
+  display: flex;
+  align-items: center;
+}
+
+.orderItemImage {
+  width: 70px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.detailsText {
+  flex-grow: 1;
+  margin: 0;
+}
+
+.detailsText h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.detailsText h4 {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.arrowButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: var(--green);
+  color: white;
+  
+  border: 0.5px Solid BLACK;
+  padding: 0.8rem 0.2rem;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin: 1rem;
+  margin-left: 0;
+}
+
+.cancelButton:HOVER{
+  background-color: WHITE;
+  color: BLACK;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+}

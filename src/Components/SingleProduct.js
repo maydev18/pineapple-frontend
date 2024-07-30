@@ -1,42 +1,33 @@
 import React from 'react';
-import Slider from 'react-slick';
-import { Icon } from '@iconify/react';
-import arrowLeftCircle from '@iconify-icons/mdi/arrow-left-circle';
-import arrowRightCircle from '@iconify-icons/mdi/arrow-right-circle';
+import { Carousel } from 'react-bootstrap';
 import classes from './SingleProduct.module.css';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const SingleProduct = ({ images,  title , mainImage , backImage }) => {
-  images = [mainImage , ...images , backImage];
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: (
-      <div className={`${classes.customArrow} ${classes.customNextArrow}`}>
-        <Icon icon={arrowRightCircle} />
-      </div>
-    ),
-    prevArrow: (
-      <div className={`${classes.customArrow} ${classes.customPrevArrow}`}>
-        <Icon icon={arrowLeftCircle} />
-      </div>
-    ),
-  };
+const SingleProduct = ({ images, title }) => {
+  images = [
+    "http://localhost:8080/front.jpg",
+    "http://localhost:8080/back.jpg",
+    "http://localhost:8080/1.jpg",
+    "http://localhost:8080/2.jpg",
+    "http://localhost:8080/3.jpg"
+  ];
 
   return (
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>
-        <Slider {...settings}>
+        <Carousel
+          
+          nextIcon={<span className={`carousel-control-next-icon ${classes.carouselArrow}`} />}
+          prevIcon={<span className={`carousel-control-prev-icon ${classes.carouselArrow}`} />}
+        >
           {images.map((image, index) => (
-            <div key={index} className={classes.imageContainer}>
-              <img src={image} alt={`${title} ${index + 1}`} />
-            </div>
+            <Carousel.Item key={index}>
+              <div className={classes.imageContainer}>
+                <img src={image} alt={`${title} ${index + 1}`} className="d-block w-100" />
+              </div>
+            </Carousel.Item>
           ))}
-        </Slider>
+        </Carousel>
       </div>
     </div>
   );

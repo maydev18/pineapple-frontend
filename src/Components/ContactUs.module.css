@@ -2,14 +2,19 @@
   text-align: center;
   background-color: #0E201D;
   color: #f0e5d8;
-  padding: 4rem 2rem;
+  padding: 7rem;
+  
 }
 
 .headingContact {
   font-family: "Outfit", sans-serif;
-  font-weight: 100;
-  margin-bottom: 2rem;
-  font-size: 3rem;
+  font-weight: 400;
+  text-shadow: 3px 3px black;
+  font-size: 60px;
+  color: #ffebd2;
+  padding-bottom: 2rem;
+  text-decoration: none;
+  text-align: center;
 }
 
 .circles {

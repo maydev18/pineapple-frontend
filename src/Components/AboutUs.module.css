@@ -1,12 +1,13 @@
 .aboutUsSection {
   position: relative;
   background-size: cover;
-  background-attachment: fixed; /* This keeps the background image fixed while scrolling */
+  background-attachment: fixed; 
   background-position: center;
   background-repeat: no-repeat;
-  padding-bottom: 3rem; /* Adjust padding as needed */
+  padding-bottom: 3rem; 
   color: #f0e5d8;
   text-align: center;
+ 
 }
 
 .content {
@@ -25,12 +26,14 @@ p {
   color: #f0e5d8;
 }
 
-h2, h1 {
+.heading {
   font-family: "Outfit", sans-serif;
-  font-weight: 200;
+  font-weight: 400;
+  text-shadow: 3px 3px black;
   font-size: 80px;
   color: #ffebd2;
-  border-color: #000;
+  
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {
@@ -50,6 +53,10 @@ h2, h1 {
 @media (max-width: 480px) {
   .content {
     max-width: 100%;
+  }
+
+  h1 {
+    font-size: 1.5rem; /* Adjust heading size for smaller screens */
   }
 
   .aboutUsSection {

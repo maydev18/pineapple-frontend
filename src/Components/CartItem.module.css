@@ -14,15 +14,18 @@
 h2 {
   margin-top: 0;
   margin-bottom: 1rem;
+  margin-left: 1rem;
   font-size: 40px;
   color: black;
-  text-align: center;
+  text-align: left;
+  font-weight: 300;
 }
 
 p {
   color: black;
   margin-bottom: 12px;
   text-align: center;
+  font-size: 10px;
 }
 
 .checkoutContent {
@@ -140,11 +143,7 @@ p {
 span {
   color: black;
   font-weight: 500;
-}
-
-p {
-  color: black;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .delivery {
@@ -315,6 +314,7 @@ p {
 .cartItemDetails h4 {
   font-family: "Outfit";
   font-weight: 200;
+  font-size: 15px;
 }
 
 .quantityButton:hover {

@@ -1,0 +1,12 @@
+.ordersPage {
+    padding: 20px;
+    background: #fff;
+    max-width: 1200px;
+    margin: 5rem auto;
+  }
+  
+  .ordersPage h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
