@@ -1,4 +1,4 @@
-/* Hero Section */
+
 .hero {
   display: flex;
   align-items: center;
@@ -13,12 +13,12 @@
 .heroContent {
   text-align: center;
   color: white;
-  animation: fadeIn 2s ease-in-out;
 }
 
 .heroTitle {
   font-size: 4rem;
   margin: 0;
+  animation: fadeIn 2s ease-in-out;
 }
 
 .heroSubtitle {
@@ -26,12 +26,17 @@
   margin: 0.5rem 0;
 }
 
-.typedText {
-  font-size: 1.9rem;
+.typedText p {
+  font-size: 20px;
   color: #f0e5d8;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  padding: 0 2rem 1rem 2rem ;
+  width: 90vh;
+  margin-left: 5rem;
+  text-align: center;
+  
 }
+
+
 
 .heroButtons {
   margin-top: 1.5rem;

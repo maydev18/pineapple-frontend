@@ -1,13 +1,21 @@
+/* Card.module.css */
+
+/* Existing styles */
+
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
+  border-color: transparent;
+  background-color: white;
   padding: 8px;
   margin: 0;
-  width: 80%;
+  width: 100%; /* Full width on small screens */
+  max-width: 300px; /* Limit the max-width for larger screens */
+  height: auto; /* Auto height based on content */
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden; /* Ensure the card contains the images */
 }
@@ -20,7 +28,8 @@
 .cardImageWrapper {
   position: relative;
   width: 100%;
-  padding-top: 130%; /* Aspect ratio to ensure image container is square */
+  padding-top: 130%;
+  text-decoration: none;
 }
 
 .cardImage,
@@ -30,8 +39,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure images cover the container */
-  border-radius: 8px;
+  object-fit: cover; 
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -48,11 +56,57 @@
 }
 
 .cardTitle {
-  font-size: 18px;
+  font-size: 20px;
   margin: 12px 0;
   text-transform: capitalize;
+  text-decoration: none;
 }
 
 .cardPrice {
   font-size: 16px;
+  text-decoration: none;
+}
+
+.cardDescription {
+  font-size: 14px;
+  color: white;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%; /* Full width on smaller screens */
+    padding: 12px; /* Increased padding for better spacing */
+  }
+
+  .cardTitle {
+    font-size: 18px; /* Adjust font size for smaller screens */
+  }
+
+  .cardPrice {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .cardDescription {
+    font-size: 12px; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    max-width: 100%; /* Full width on extra-small screens */
+    padding: 8px; /* Reduced padding for very small screens */
+  }
+
+  .cardTitle {
+    font-size: 16px; /* Adjust font size for extra-small screens */
+  }
+
+  .cardPrice {
+    font-size: 12px; /* Adjust font size for extra-small screens */
+  }
+
+  .cardDescription {
+    font-size: 10px; /* Adjust font size for extra-small screens */
+  }
 }

@@ -3,27 +3,25 @@ import { Link , json} from 'react-router-dom';
 import ProductsShowcase from '../Components/ProductsShowcase';
 import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
+import FadeInComponent from '../Components/Fade';
 import { ReactTyped as Typed } from 'react-typed';
 import classes from './Home.module.css';
 
 
+
 const Hero = () => {
   return (
-    <>
+    <>  
       <div className={classes.hero}>
         <div className={classes.heroContent}>
-          <h1 className="heading">PINEAPPLE</h1>
+        {/* <h4>Explore new-in products and bestsellers</h4> */}
+        <FadeInComponent>
+          <h1 className="heading">SET THE STANDARD</h1>
+        
           <div className={classes.typedText}>
-            <Typed
-              strings={[
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-              ]}
-              typeSpeed={40}
-              backSpeed={50}
-              loop
-              style= {{color: "#f0e5d8"}}
-            />
+            <p>loreMinim excepteur nisi nulla ad eiusmod voluptate aute ipsum id dolore.
+               Quis enim tempor magna eu cupidatat proident cupidatat labore veniam. 
+              </p>
           </div>
           <div className={classes.heroButtons}>
             {/* <Link to="/signup">
@@ -32,9 +30,14 @@ const Hero = () => {
             <Link to="/products">
               <button  className="button">BUY NOW</button>
             </Link>
+           
           </div>
+          </FadeInComponent>
         </div>
-      </div>
+        
+      </div> 
+    
+ 
       <ProductsShowcase />
       <AboutUs />
       <ContactUs />

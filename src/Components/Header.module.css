@@ -5,6 +5,7 @@
   background-color: #0E201D;
   padding: 10px 20px;
   color: #fff;
+  box-shadow: #ddd;
 }
 
 .menuIcon {
@@ -24,8 +25,24 @@
   background-color: #fff;
 }
 
+.logo{
+  display: flex;
+  flex-direction: row;
+}
+
+.logo h2{
+  font-size: 30px;
+  color: #ddd;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-left: 0;
+  text-decoration: none;
+}
+
 .logo img {
-  height: 100px; 
+  height: 80px; 
+  margin-right: 0;
+ 
 }
 
 .navigation {

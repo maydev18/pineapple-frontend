@@ -1,6 +1,5 @@
 import {createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-import CartProvider from './Provider/CartContext'; // Ensure this import path is correct
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Checkout from './pages/Checkout';
 import ProductPage from './pages/ProductPage';
 import ProductView from './pages/ProductView';
@@ -14,6 +13,7 @@ import {action as logoutAction} from './pages/logout';
 import {loader as ProductsLoader} from './pages/ProductPage';
 import {loader as ProductLoader , action as ReviewAction} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
+import Orderspage from './Components/Orderspage';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -55,7 +55,12 @@ const router = createBrowserRouter([
       {
         path : 'logout',
         action : logoutAction
-      }
+      },
+      {
+        path : 'orders',
+        element : <Orderspage/>
+      },
+      
     ]
   }
 ])
@@ -64,3 +69,4 @@ function App() {
 }
 
 export default App;
+

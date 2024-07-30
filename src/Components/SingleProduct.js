@@ -1,59 +1,25 @@
 import React from 'react';
-import Slider from 'react-slick';
+import { Carousel } from 'react-bootstrap';
 import classes from './SingleProduct.module.css';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const SingleProduct = ({ images,  title , mainImage , backImage }) => {
-  images = [mainImage , ...images , backImage];
-  const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
-    <button
-      {...props}
-      className={
-        "slick-prev slick-arrow" +
-        (currentSlide === 0 ? " slick-disabled" : "")
-      }
-      aria-hidden="true"
-      aria-disabled={currentSlide === 0 ? true : false}
-      type="button"
-    >
-      Previous
-    </button>
-  );
-  const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
-    <button
-      {...props}
-      className={
-        "slick-next slick-arrow" +
-        (currentSlide === slideCount - 1 ? " slick-disabled" : "")
-      }
-      aria-hidden="true"
-      aria-disabled={currentSlide === slideCount - 1 ? true : false}
-      type="button"
-    >
-      Next
-    </button>
-  );
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: <SlickArrowRight />,
-    prevArrow: <SlickArrowLeft />
-  };
-
+const SingleProduct = ({ images, title }) => {
   return (
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>
-        <Slider {...settings}>
+        <Carousel
+          
+          nextIcon={<span className={`carousel-control-next-icon ${classes.carouselArrow}`} />}
+          prevIcon={<span className={`carousel-control-prev-icon ${classes.carouselArrow}`} />}
+        >
           {images.map((image, index) => (
-            <div key={index} className={classes.imageContainer}>
-              <img src={image} alt={title} />
-            </div>
+            <Carousel.Item key={index}>
+              <div className={classes.imageContainer}>
+                <img src={image} alt={`${title} ${index + 1}`} className="d-block w-100" />
+              </div>
+            </Carousel.Item>
           ))}
-        </Slider>
+        </Carousel>
       </div>
     </div>
   );

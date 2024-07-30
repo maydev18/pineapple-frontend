@@ -5,6 +5,18 @@
   padding: 3rem;
 }
 
+.productShowcase .headingProduct{
+  text-align: left;
+  margin-top: 3vw;
+  margin-left: 8vw;
+  margin-bottom: 4vw;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  text-shadow: 3px 3px black;
+  font-size: 60px;
+  color: #ffebd2;
+  text-decoration: none;
+}
 
 @media (max-width: 1200px) {
   .headingProduct {
@@ -52,18 +64,7 @@
   }
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-
-
-@media (min-width: 600px) {
+@media (min-width: 300px) {
   .productsPage {
     padding: 2rem;
   }
@@ -86,12 +87,12 @@
 .cardContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 columns */
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
-  margin-top: 3rem;
-  padding-bottom: 8rem;
-  margin-left: 3rem;  
+  margin-bottom: 5rem;
+  padding: 1rem 8rem 2rem 10rem; 
 }
+
 
 @media (max-width: 1200px) {
   .cardContainer {
@@ -107,76 +108,12 @@
 
 @media (max-width: 600px) {
   .cardContainer {
-    grid-template-columns: 1fr; /* 1 column for very small screens */
+    grid-template-columns: 1fr; 
+    margin: 0.5rem;
+    padding: 0.5rem;
+   
   }
 }
-
-
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: px;
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden; /* Ensure the card contains the images */
-}
-
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.cardImageWrapper {
-  position: relative;
-  width: 100%;
-  padding-top: 130%; /* Aspect ratio to ensure image container is square */
-}
-
-.cardImage,
-.cardHoverImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.cardHoverImage {
-  opacity: 0;
-}
-
-.card:hover .cardHoverImage {
-  opacity: 1;
-}
-
-.card:hover .cardImage {
-  opacity: 0;
-}
-
-.cardTitle {
-  font-size: 18px;
-  margin: 12px 0;
-  color: white;
-}
-
-.cardPrice {
-  font-size: 16px;
-  color: #333;
-}
-
-.cardDescription {
-  font-size: 14px;
-  color: #777;
-}
-
-
 
 .viewAllContainer {
   position: absolute;
@@ -189,3 +126,10 @@
 }
 
 
+/* .banner{
+  height: 100vh;
+  background-image: url('../images/banner.jpg'); 
+  background-size: cover;
+  background-position: center;
+  position: relative;
+} */
