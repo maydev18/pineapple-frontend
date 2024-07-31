@@ -13,25 +13,7 @@ function getsize(size){
   if(size === 'extraLarge') return 'XL';
   if(size === 'doubleExtraLarge') return 'XXL';
 }
-const CartSidebar = ({isOpen, onClose }) => {
-  const [cartproducts , setCartProducts] = useState([]);
-  const getCartItems = async () => {
-    const res = await fetch("http://localhost:8080/cart" , {
-      headers : {
-        'Authorization' : 'bearer ' + token
-      }
-    });
-    if(!res.ok){
-      alert('failed to fetch cart items');
-    }
-    else{
-      const cartItems = await res.json();
-      setCartProducts(cartItems);
-    }
-  }
-  useEffect(() => {
-    getCartItems();
-  } , [])
+const CartSidebar = ({isOpen, onClose , getCartItems , cartproducts}) => {
   return (
     <div className={`${styles.cartSidebar} ${isOpen ? styles.open : ''}`}>
       <button className={styles.closeButton} onClick={onClose}>X</button>

@@ -37,11 +37,8 @@ const Checkout = () => {
     }
     useEffect(() => {
         getCartItems();
-    } , [])
-    useEffect(() => {
         getAddresses();
     } , [])
-
     const [newAddress, setNewAddress] = useState({
         name: '',
         phone: '',
@@ -95,7 +92,7 @@ const Checkout = () => {
         }
         else{
             const add = await res.json();
-            setAddresses([...savedAddresses , add]);
+            setAddresses([...savedAddresses , {addressID : add}]);
         }
         setIsAddingAddress(false);
     };
@@ -124,8 +121,22 @@ const Checkout = () => {
         setIsAddingAddress(false);
     };
 
-    const handleDeleteAddress = (id) => {
+    const handleDeleteAddress = async(id) => {
         // setSavedAddresses(savedAddresses.filter(address => address.id !== id));
+        const res = await fetch('http://localhost:8080/delete-address' , {
+            method : 'delete',
+            body : JSON.stringify({addressID : id}),
+            headers : {
+                'Content-type' : 'application/json',
+                'authorization' : 'bearer ' + getAuthToken()
+            }
+        });
+        if(!res.ok){
+            alert('failed to delete address');
+        }
+        else{
+            getAddresses();
+        }
     };
 
     const handleEditClick = (address) => {
@@ -151,8 +162,9 @@ const Checkout = () => {
                                         <div key={address.addressID._id} className={classes.savedAddress}>
                                             <div>
                                                 <p><strong>{address.addressID.fullName}</strong></p>
-                                                <p>{address.addressID.firstLine + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
+                                                <p>{address.addressID.firstLine +" " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
+                                                <p>Phone: {address.addressID.phone}</p>
                                             </div>
                                             <div className={classes.addressActions}>
                                                 <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address)} fontSize={"20px"}/>
@@ -279,5 +291,4 @@ const Checkout = () => {
         </div>
     );
 };
-
 export default Checkout;

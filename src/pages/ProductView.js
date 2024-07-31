@@ -22,6 +22,7 @@ const ProductPage = () => {
   const [content  , setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const [cartproducts , setCartProducts] = useState([]);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
   const [isWishlistSidebarOpen, setIsWishlistSidebarOpen] = useState(false);
   const [isWishlistOpen, setWishlistOpen] = useState(false);
@@ -46,6 +47,7 @@ const ProductPage = () => {
       })
     });
     if(res.ok){
+      getCartItems();
       setIsCartSidebarOpen(true);
     }
     else{
@@ -53,7 +55,23 @@ const ProductPage = () => {
     }
     setIsSubmitting(false);
   };
-
+  const getCartItems = async () => {
+    const res = await fetch("http://localhost:8080/cart" , {
+      headers : {
+        'Authorization' : 'bearer ' + token
+      }
+    });
+    if(!res.ok){
+      alert('failed to fetch cart items');
+    }
+    else{
+      const cartItems = await res.json();
+      setCartProducts(cartItems);
+    }
+  }
+  useEffect(() => {
+    getCartItems();
+  } , [])
   const handleAddToWishlist = () => {
     setIsWishlistSidebarOpen(true);
   };
@@ -108,7 +126,6 @@ const ProductPage = () => {
       setReviews(data);
     };
     fetchReviews();
-    console.log(reviews);
   } , [productID])
   
 
@@ -221,6 +238,8 @@ const ProductPage = () => {
         selectedSize={selectedSize}
         isOpen={isCartSidebarOpen}
         onClose={handleCloseCartSidebar}
+        cartproducts={cartproducts}
+        getCartItems={getCartItems}
       />
       <WishlistSidebar
         products={sampleProducts}
