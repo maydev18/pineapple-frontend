@@ -2,49 +2,14 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import classes from './ProductsShowcase.module.css';
-import back from '../images/back.jpg';
-import { Link } from 'react-router-dom';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import placeholder from '../images/placeholder.png';
+import { Link , useLoaderData } from 'react-router-dom';
 import Card from './Card';
-import front from '../images/front.jpg';
-import banner from '../images/banner.jpg'
 import FadeInComponent from './Fade';
-
-const products = [
-  {
-    image: back,
-    hoverImage: front,
-    title: 'tecnoteer shorts',
-    price: 'Rs10.00',
-    description: 'Description for product 1',
-  },
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 2',
-    price: '$20.00',
-    description: 'Description for product 2',
-  },
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 3',
-    price: '$30.00',
-    description: 'Description for product 3',
-  },
-  {
-    image: back,
-    hoverImage: front,
-    title: 'Product 3',
-    price: '$30.00',
-    description: 'Description for product 3',
-  },
-];
 
 const ProductShowcase = () => {
   const { ref: productRef, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-
+  const data = useLoaderData();
+  const products = data.products;
   return (
     <><div className={classes.productShowcase}>
       <FadeInComponent>
@@ -58,13 +23,12 @@ const ProductShowcase = () => {
             animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
           >
-            <Link to='/products'>
+            <Link to={`/products/${product._id}` } style={{textDecoration : "none"}}>
               <Card
-                image={product.image}
-                hoverImage={product.hoverImage}
+                image={product.mainImage}
+                hoverImage={product.backImage}
                 title={product.title}
                 price={product.price}
-                description={product.description}
                 titleColor="black"
                 priceColor="black" />
             </Link>
@@ -73,7 +37,7 @@ const ProductShowcase = () => {
 
         ))}
       </div>
-      <button className="button">View All</button>
+      <Link to='/products'><button className="button">View All</button></Link>
     </div>
  
       </>

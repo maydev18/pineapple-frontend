@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link , json} from 'react-router-dom';
 import ProductsShowcase from '../Components/ProductsShowcase';
 import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
 import FadeInComponent from '../Components/Fade';
-import { ReactTyped as Typed } from 'react-typed';
 import classes from './Home.module.css';
 
 
@@ -46,3 +45,13 @@ const Hero = () => {
 };
 
 export default Hero;
+
+export async function loader(){
+  try{
+    const response = await fetch('http://localhost:8080/top-products');
+    return response;
+  }
+  catch(err){
+    throw json({message : "Could not fetch events"} , {status : 500})
+  }
+}

@@ -3,15 +3,8 @@ import { Carousel } from 'react-bootstrap';
 import classes from './SingleProduct.module.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SingleProduct = ({ images, title }) => {
-  images = [
-    "http://localhost:8080/front.jpg",
-    "http://localhost:8080/back.jpg",
-    "http://localhost:8080/1.jpg",
-    "http://localhost:8080/2.jpg",
-    "http://localhost:8080/3.jpg"
-  ];
-
+const SingleProduct = ({ images, title , mainImage , backImage}) => {
+  images = [mainImage , ...images , backImage];
   return (
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>

@@ -17,8 +17,9 @@ const ProductPage = () => {
         
         <div className={classes.cardContainer}>
           {products.map((product, index) => (
-            <Link to={`/products/${product._id}`} style={{textDecoration : "none"}}>
+            <Link to={`/products/${product._id}`} style={{textDecoration : "none"}} key={product._id}>
               <Card
+                color = 'black'
                 key={product._id}
                 image={product.mainImage}
                 hoverImage={product.backImage}
@@ -38,9 +39,11 @@ const ProductPage = () => {
 export default ProductPage;
 
 export async function loader(){
-  const response = await fetch('http://localhost:8080/products');
-  if (!response.ok) {
-      throw json({message : "Could not fetch events"} , {status : 500})
-  } 
-  return response;
+  try{
+    const response = await fetch('http://localhost:8080/products');
+    return response;
+  }
+  catch(err){
+    throw json({message : "Could not fetch events"} , {status : 500})
+  }
 }

@@ -12,6 +12,7 @@ import {tokenLoader , checkAuthLoader} from './utils/Auth';
 import {action as logoutAction} from './pages/logout';
 import {loader as ProductsLoader} from './pages/ProductPage';
 import {loader as ProductLoader} from './pages/ProductView';
+import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
 const router = createBrowserRouter([
   {
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
     children : [
       {
         index : true,
-        element : <Hero />
+        element : <Hero />,
+        loader : TopProductsLoader
       },
       {
         path : 'auth',
@@ -41,7 +43,7 @@ const router = createBrowserRouter([
           {
             path : ':productID',
             element : <ProductView />,
-            loader : ProductLoader
+            loader : ProductLoader,
           }
         ]
       },

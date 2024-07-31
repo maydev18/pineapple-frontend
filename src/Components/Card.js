@@ -8,14 +8,14 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor }) => {
     <div className={styles.card}>
       <div className={styles.cardImageWrapper}>
         <LazyLoadImage
-          src={"http://localhost:8080/front.jpg"}
+          src={image}
           alt={title}
           className={styles.cardImage}
           placeholderSrc={placeholder}
           effect='blur'
         />
         <LazyLoadImage
-          src={"http://localhost:8080/back.jpg"}
+          src={hoverImage}
           alt={title}
           className={styles.cardHoverImage}
           placeholderSrc={placeholder}
