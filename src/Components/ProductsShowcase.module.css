@@ -5,7 +5,7 @@
   padding: 3rem;
 }
 
-.productShowcase .headingProduct{
+.productShowcase .headingProduct {
   text-align: left;
   margin-top: 3vw;
   margin-left: 8vw;
@@ -90,9 +90,8 @@
   gap: 0.5rem;
   width: 100%;
   margin-bottom: 5rem;
-  padding: 1rem 8rem 2rem 10rem; 
+  padding: 1rem 8rem 2rem 10rem;
 }
-
 
 @media (max-width: 1200px) {
   .cardContainer {
@@ -111,7 +110,6 @@
     grid-template-columns: 1fr; 
     margin: 0.5rem;
     padding: 0.5rem;
-   
   }
 }
 
@@ -124,12 +122,3 @@
   padding: 10px;
   width: 100%; /* Full width to ensure it stays at the bottom */
 }
-
-
-/* .banner{
-  height: 100vh;
-  background-image: url('../images/banner.jpg'); 
-  background-size: cover;
-  background-position: center;
-  position: relative;
-} */

@@ -52,7 +52,7 @@ const Header = ({ onOpenCart }) => {
           <div></div>
           <div></div>
         </div>
-        <Link to="/">
+        <Link to="/" className={styles.logoContainer}>
           <div className={styles.logo}>
             <img src={logo} alt="Logo" />
           </div>

@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@400;700&display=swap');
 
@@ -11,18 +10,15 @@
 /* Root variables */
 :root {
   --green: #0E201D; 
-  margin: 0;
-  padding: 0;
 }
 
-p,h1,h2,h3,h4, div{
+p, h1, h2, h3, h4, div {
   font-family: "Outfit", sans-serif;
   font-weight: 300;
   font-style: normal;
-  
 }
 
-.heading{
+.heading {
   font-family: "Outfit", sans-serif;
   font-weight: 200;
   font-style: normal;
@@ -40,7 +36,6 @@ p,h1,h2,h3,h4, div{
   padding: 0;
   font-style: normal;
   font-size: 70px;
- 
 }
 
 .button {
@@ -79,102 +74,85 @@ p,h1,h2,h3,h4, div{
 .button:hover {
   color: beige;
   scale: 1.1;
-  box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
+  box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
 }
 
 .button:active {
   scale: 1;
 }
 
-
 /* Responsive styles */
 @media (max-width: 1200px) {
-  .logo img {
-    height: 80px; /* Adjust logo size for smaller screens */
+  .heading {
+    font-size: 7rem;
   }
 
-  .navigation a {
-    margin-right: 10px; /* Adjust margin for smaller screens */
+  .sub-heading {
+    font-size: 60px;
   }
 
-  .sign-up-button {
-    padding: 8px 16px; /* Adjust button padding for smaller screens */
-  }
-
-  .hero-title {
-    font-size: 3rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
+  .button {
+    font-size: 1.4rem;
+    padding: 10px 60px;
   }
 }
 
 @media (max-width: 992px) {
   .heading {
-    font-size: 50px;
-    
+    font-size: 6rem;
   }
 
   .sub-heading {
-    font-size: 100px;
+    font-size: 50px;
   }
 
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
+  .button {
+    font-size: 1.3rem;
+    padding: 10px 50px;
   }
 }
 
 @media (max-width: 768px) {
   .heading {
-    font-size: 80px;
-    margin-top: 5vh;
-  }
-
-  .sub-heading {
-    font-size: 80px;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.75rem;
-  }
-
-  .button {
-    padding: 10px 50px;
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .heading {
-    font-size: 20px;
-    margin-top: 3vh;
+    font-size: 5rem;
   }
 
   .sub-heading {
     font-size: 40px;
   }
 
-  .hero-title {
-    font-size: 1.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.5rem;
-  }
-
   .button {
-    padding: 10px 30px;
     font-size: 1.2rem;
+    padding: 10px 40px;
   }
 }
 
+@media (max-width: 576px) {
+  .heading {
+    font-size: 4rem;
+  }
 
+  .sub-heading {
+    font-size: 30px;
+  }
+
+  .button {
+    font-size: 1.1rem;
+    padding: 10px 30px;
+  }
+}
+
+@media (max-width: 400px) {
+  .heading {
+    font-size: 3rem;
+  }
+
+  .sub-heading {
+    font-size: 25px;
+  }
+
+  .button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}

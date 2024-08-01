@@ -3,9 +3,7 @@
   flex-direction: column; /* Default to column for smaller screens */
   align-items: center;
   padding: 1rem;
-  margin: 0 8rem;
-
-  
+  margin: 0 auto; /* Center the content */
 }
 
 @media (min-width: 600px) {
@@ -18,7 +16,9 @@
   .productsPage {
     padding: 3rem;
     flex-direction: row;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
     justify-content: center;
+    margin: 0; /* Remove side margins */
   }
 }
 
@@ -33,10 +33,19 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
   gap: 30px; 
   width: 100%;
-  flex: 1; 
-  position: relative;
   padding-bottom: 8rem;
- 
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    grid-template-columns: repeat(2, 1fr); /* Display two cards per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .cardContainer {
+    grid-template-columns: 1fr; /* Display one card per row */
+  }
 }
 
 .ProductsPageHeading {
@@ -47,13 +56,11 @@
 }
 
 .viewAllContainer {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
   padding: 10px;
-  width: 100%;}
+  width: 100%; /* Full width to ensure it stays at the bottom */
+  position: relative; /* Adjust to be inside the content */
+}
 
 .viewAllButton {
   background-color: #007bff; /* Change to your preferred color */
@@ -76,19 +83,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('../images/4.jpg');
-  width: 100vw;
-  height: 60vh;
+  background-image: url('../images/4.png.png');
+  width: 100%;
+  height: 90vh; /* Adjusted height */
   background-size: cover;
   background-position: center;
-
+  margin: 0;
 }
 
-.mainheading{
+@media (max-width: 768px) {
+  .banner {
+    height: 40vh; /* Adjust height for smaller screens */
+  }
+}
 
+@media (max-width: 480px) {
+  .banner {
+    height: 30vh; /* Further adjust height for very small screens */
+  }
+}
+
+.mainheading {
   color: black;
-  font-size: 8rem;
+  font-size: 4rem; /* Adjusted for better readability */
   font-weight: 400;
   text-align: center;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Optional: adds a shadow to make the text stand out */
+}
+
+@media (max-width: 768px) {
+  .mainheading {
+    font-size: 3rem; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .mainheading {
+    font-size: 2rem; /* Further adjust font size for very small screens */
+  }
 }

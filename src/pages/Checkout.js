@@ -149,7 +149,7 @@ const Checkout = () => {
         total += item.productID.price * item.quantity;
     })
     return (
-        <div className={classes.Checkoutcontainer}>
+        <><div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
                 <div className={classes.checkoutContent}>
                     <div className={classes.checkoutForm}>
@@ -162,13 +162,13 @@ const Checkout = () => {
                                         <div key={address.addressID._id} className={classes.savedAddress}>
                                             <div>
                                                 <p><strong>{address.addressID.fullName}</strong></p>
-                                                <p>{address.addressID.firstLine +" " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
+                                                <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
                                                 <p>Phone: {address.addressID.phone}</p>
                                             </div>
                                             <div className={classes.addressActions}>
-                                                <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address)} fontSize={"20px"}/>
-                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.addressID._id)} fontSize={"20px"}/>
+                                                <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address)} fontSize={"20px"} />
+                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.addressID._id)} fontSize={"20px"} />
                                             </div>
                                         </div>
                                     ))}
@@ -256,22 +256,22 @@ const Checkout = () => {
                             {!isAddingAddress && (
                                 <div className={classes.ButtonClass}>
                                     <button onClick={() => setIsAddingAddress(true)} className={classes.showAddAddressButton}>
-                                       + Add New Address
+                                        + Add New Address
                                     </button>
                                 </div>
                             )}
                         </div>
                         {/* <div className={classes.payment}>
-                            <h2>Payment</h2>
-                            <p>All transactions are secure and encrypted.</p>
-                        </div> */}
+        <h2>Payment</h2>
+        <p>All transactions are secure and encrypted.</p>
+    </div> */}
                         <button className={`${classes.completeOrder} `}>Proceed to Payment</button>
                     </div>
                 </div>
                 <div className={classes.cartSummary}>
                     <h2>Cart Summary</h2>
                     <div className={classes.cartItemsContainer}>
-                        {cartItems.map((item , index) => (
+                        {cartItems.map((item, index) => (
                             <CartItem
                                 key={index}
                                 image={item.productID.mainImage}
@@ -281,14 +281,16 @@ const Checkout = () => {
                                 checkout={true} />
                         ))}
                     </div>
-                    <div className={classes.cartSummaryFooter}>
-                        <h2>Overall Summary</h2>
-                        <div>Total Items: {cartItems.length}</div>
-                        <div>Total Price: Rs.{total}</div>
-                    </div>
+
                 </div>
+
             </div>
-        </div>
+
+        </div><div className={classes.cartSummaryFooter}>
+                <h2>Overall Summary</h2>
+                <div><strong>Total Items : </strong> {cartItems.length}</div>
+                <div><strong>Total Price: </strong> Rs.{total}</div>
+            </div></>
     );
 };
 export default Checkout;
