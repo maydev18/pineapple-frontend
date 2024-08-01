@@ -10,7 +10,7 @@ const ProductPage = () => {
     <>
     
       <div className={classes.banner}/>
-        {/* <h1 className={classes.mainheading}>Our Products</h1> */}
+        <h1 className={classes.mainheading}></h1>
       <div className={classes.productsPage}>
        
 

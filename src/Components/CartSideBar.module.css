@@ -38,19 +38,7 @@
 .cartItem {
   display: flex;
   flex-direction: column; /* Stacked layout for smaller screens */
-  margin: 1rem;
-}
-
-.cartItemImage {
-  width: 100%; /* Full width for smaller screens */
-  max-width: 200px; /* Restrict max width */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 1rem; /* Space below image */
-}
-
-.cartItemDetails {
-  margin-left: 0; /* Remove margin for stacked layout */
-  text-align: left;
+ 
 }
 
 .cartItemDetails p {

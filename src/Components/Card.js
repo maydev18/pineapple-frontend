@@ -22,8 +22,8 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor }) => {
           effect='blur'
         />
       </div>
-      <h2 className={styles.cardTitle} style={{ color: titleColor,textAlign: 'center'}}>{title}</h2>
-      <p className={styles.cardPrice} style={{ color: priceColor }}>{price}</p>
+      <h2 className={styles.cardTitle} style={{ color: titleColor,textAlign: 'center', fontWeight: 400}}>{title}</h2>
+      <p className={styles.cardPrice} style={{ color: priceColor }}>INR {price}</p>
     </div>
   );
 };

@@ -4,6 +4,7 @@
   align-items: flex-start;
   padding: 20px;
   margin-top: 4rem;
+  
 }
 
 .container {
@@ -11,6 +12,7 @@
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
+ 
 }
 
 .checkoutContent {
@@ -23,6 +25,7 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .contact, .delivery, .payment {
@@ -31,12 +34,22 @@
 }
 
 .delivery h2{
-  text-align: left;
-  margin-bottom: 3rem;
+  text-align: center;
+  margin-bottom: 2REM;
+  font-weight: 300 ;
+  font-size: 40px;
 }
 
 .savedAddresses {
-  margin-bottom: 20px;
+  
+  cursor: pointer;
+}
+
+.savedAddress:hover {
+  border: 2px solid black;
+  box-shadow: 2px 2px 2px  black;
+  border-radius: 10px;
+  
 }
 
 .savedAddress {
@@ -61,29 +74,14 @@
 
 .deleteIcon, .editIcon {
   cursor: pointer;
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
 .addressActions {
   position: absolute;
   right: 10px;
   top: 10px;
-}
 
-.floatingLabel {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.floatingLabel label {
-  margin-bottom: 5px;
-}
-
-.floatingLabel input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
 .quantityBar {
@@ -135,7 +133,6 @@ p {
 }
 
 .showAddAddressButton, .addAddressButton {
- 
   padding: 15px;
   background-color: var(--green);
   color: white;
@@ -144,10 +141,9 @@ p {
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 2rem;
-}
-
-.showAddAddressButton:hover {
-  background-color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-items: center;
 }
 
 .delivery p {
@@ -172,16 +168,54 @@ p {
   font-weight: 200;
   cursor: pointer;
   font-size: 16px;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .completeOrder:hover{
   background-color: var(--green);
 }
 
+.cartSummaryFooter {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  text-align: right;
+  margin: 4rem;
+  
+}
+
+.cartSummaryFooter div {
+  margin-bottom: 10px;
+  text-align: right;
+  font-size: 20px;
+  font-weight: 300;
+}
+.cartSummaryFooter strong{
+  font-weight: 500;
+}
+
+
+.cartSummary {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  height: 100%;
+  margin-left: 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+
 .cartSummary h2, .cartSummaryFooter p {
   color: black;
+  font-size: 40px;
+  font-weight: 300;
 }
+
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1024px) {

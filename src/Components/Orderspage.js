@@ -2,14 +2,7 @@ import React, { useEffect, useState } from 'react';
 import OrderItem from './OrderItem';
 import classes from './Orderspage.module.css';
 import { getAuthToken } from '../utils/Auth';
-
-function getsize(size){
-  if(size === 'small') return 'S';
-  if(size === 'medium') return 'M';
-  if(size === 'large') return 'L';
-  if(size === 'extraLarge') return 'XL';
-  if(size === 'doubleExtraLarge') return 'XXL';
-}
+import { format } from 'date-fns';
 const OrdersPage = () => {
   const [orders,onOrdersChange] = useState([]);
   useEffect(() => {
@@ -23,7 +16,6 @@ const OrdersPage = () => {
         alert('failed to fetch orders');
       }
       const resData = await res.json();
-      console.log(resData);
       onOrdersChange(resData);
     }
     orderLoader();
@@ -40,11 +32,11 @@ const OrdersPage = () => {
           key={order.orderID}
           orderID={order.orderID}
           paymentID={order.paymentID}
-          image={order.products[0].image}
-          size={getsize(order.products[0].size)}
-          price={order.products[0].price}
-          quantity={order.products[0].quantity}
+          products={order.products}
+          address={order.address}
+          time={format(new Date(order.time) , 'MMMM do, yyyy')}
           onCancel={() => handleCancel(order.id)}
+          completed={order.completed}
         />
       ))}
     </div>

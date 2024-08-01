@@ -210,7 +210,7 @@ const Checkout = () => {
             "image": logo,
             "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             "handler": function (response){
-                verifySignature(response)
+                createOrder(response)
             },
             "prefill": {
                 "name": "Mayank Sharma",
@@ -233,31 +233,11 @@ const Checkout = () => {
         });
         rzp1.open();
     }
-    const verifySignature = async (orderData) => {
-        const data = {
-            orderID : orderData.razorpay_order_id,
-            paymentID : orderData.razorpay_payment_id,
-            signature : orderData.razorpay_signature
-        }
-        const res = await fetch('http://localhost:8080/validate-payment' , {
-            method : 'post',
-            headers : {
-                'Content-type' : 'application/json',
-                'Authorization' : 'bearer ' + getAuthToken()
-            },
-            body : JSON.stringify(data)
-        });
-        if(!res.ok){
-            alert('payment failed');
-            return;
-        }
-        const resdata = await res.json();
-        createOrder(resdata);
-    }
     const createOrder = async (data) => {
         const order = {
-            orderID : data.orderID,
-            paymentID : data.paymentID,
+            orderID : data.razorpay_order_id,
+            paymentID : data.razorpay_payment_id,
+            signature : data.razorpay_signature,
             addressID : savedAddresses[0].addressID._id
         }
         const res = await fetch('http://localhost:8080/create-order' , {
@@ -269,7 +249,7 @@ const Checkout = () => {
             body : JSON.stringify(order)
         });
         if(!res.ok){
-            alert("cannot create order");
+            alert("Payment failed");
         }
         else{
             const resdata = await res.json();
@@ -278,7 +258,7 @@ const Checkout = () => {
         }
     }
     return (
-        <div className={classes.Checkoutcontainer}>
+        <><div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
                 <div className={classes.checkoutContent}>
                     <div className={classes.checkoutForm}>
@@ -291,7 +271,7 @@ const Checkout = () => {
                                         <div key={address.addressID._id} className={classes.savedAddress}>
                                             <div>
                                                 <p><strong>{address.addressID.fullName}</strong></p>
-                                                <p>{address.addressID.firstLine +" " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
+                                                <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
                                                 <p>Phone: {address.addressID.phone}</p>
                                             </div>
@@ -385,7 +365,7 @@ const Checkout = () => {
                             {!isAddingAddress && (
                                 <div className={classes.ButtonClass}>
                                     <button onClick={() => setIsAddingAddress(true)} className={classes.showAddAddressButton}>
-                                       + Add New Address
+                                        + Add New Address
                                     </button>
                                 </div>
                             )}
@@ -400,7 +380,7 @@ const Checkout = () => {
                 <div className={classes.cartSummary}>
                     <h2>Cart Summary</h2>
                     <div className={classes.cartItemsContainer}>
-                        {cartItems.map((item , index) => (
+                        {cartItems.map((item, index) => (
                             <CartItem
                                 key={index}
                                 image={item.productID.mainImage}
@@ -410,14 +390,15 @@ const Checkout = () => {
                                 checkout={true} />
                         ))}
                     </div>
-                    <div className={classes.cartSummaryFooter}>
-                        <h2>Overall Summary</h2>
-                        <div>amount Items: {cartItems.length}</div>
-                        <div>amount Price: Rs.{amount}</div>
-                    </div>
                 </div>
+
             </div>
-        </div>
+
+        </div><div className={classes.cartSummaryFooter}>
+                <h2>Overall Summary</h2>
+                <div><strong>Total Items : </strong> {cartItems.length}</div>
+                <div><strong>Total Price: </strong> Rs.{amount}</div>
+            </div></>
     );
 };
 export default Checkout;

@@ -63,7 +63,7 @@ const CartItem = ({ id , image, size, quantity, price, title , getCartItems , ch
       <div className={classes.cartItemDetails}>
         <h2>{title}</h2>
         <h4><span>Size:</span> {size}</h4>
-        <h4><span>Price: </span>{price*quantity}</h4>
+        <h4><span>Price: </span>INR {price*quantity}</h4>
         {checkout &&  <h4><span>Quantity: </span>{quantity}</h4>}
         {!checkout && <div className={classes.quantityBar}>
           <div className={classes.quantity}>
