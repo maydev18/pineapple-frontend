@@ -50,8 +50,7 @@
 
 .modalStatus {
   background-color: rgb(245, 200, 200);
-  
-  color: red;
+
   border-radius: 10px;
   padding: 5px 7px;
 }
@@ -83,6 +82,7 @@ padding: 0;
 .orderSummary {
   flex: 1;
   display: flex;
+  width: 100%;
 }
 
 .orderSummaryFooter{
@@ -113,6 +113,12 @@ padding: 0;
   color: #555;
   text-align: left;
 }
+.products{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
 
 .productImage {
   width: 160px; 
@@ -121,7 +127,6 @@ padding: 0;
   border-radius: 8px;
   align-items: left;
 }
-
 
 .productInfo h5, .orderSummary h5 {
   font-weight: 600;

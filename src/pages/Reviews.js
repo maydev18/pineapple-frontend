@@ -1,22 +1,9 @@
 // Reviews.js
 import React, { useState } from 'react';
 
-const initialReviews = [
-  {
-    name: 'John Doe',
-    rating: 4,
-    comment: 'Great product, really enjoyed it!',
-  },
-  {
-    name: 'Jane Smith',
-    rating: 5,
-    comment: 'Excellent quality and fit. Highly recommend!',
-  },
-  // Add more reviews as needed
-];
 
 const Reviews = () => {
-  const [reviews, setReviews] = useState(initialReviews);
+  const [reviews, setReviews] = useState([]);
   const [name, setName] = useState('');
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
