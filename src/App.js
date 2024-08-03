@@ -14,6 +14,7 @@ import {loader as ProductsLoader} from './pages/ProductPage';
 import {loader as ProductLoader} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
+import ReviewPage from './pages/ReviewPage';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -44,7 +45,15 @@ const router = createBrowserRouter([
             path : ':productID',
             element : <ProductView />,
             loader : ProductLoader,
-          }
+            children: [
+              {
+                path : 'reviews',
+                element : <ReviewPage />,
+                loader : ProductLoader,
+              }
+            ]
+          },
+          
         ]
       },
       {
@@ -59,6 +68,7 @@ const router = createBrowserRouter([
         path : 'orders',
         element : <Orderspage/>
       },
+      
       
     ]
   }

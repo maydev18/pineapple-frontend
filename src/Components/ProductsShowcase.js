@@ -1,10 +1,12 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
-import { motion } from 'framer-motion';
+import { color, motion } from 'framer-motion';
 import classes from './ProductsShowcase.module.css';
 import { Link , useLoaderData } from 'react-router-dom';
 import Card from './Card';
 import FadeInComponent from './Fade';
+import title from '../images/title_products.png'
+
 
 const ProductShowcase = () => {
   const { ref: productRef, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -13,7 +15,9 @@ const ProductShowcase = () => {
   return (
     <><div className={classes.productShowcase}>
       <FadeInComponent>
-      <h2 className={classes.headingProduct}>Our products</h2>
+      <div className={classes.content}>
+      <img src={title} alt='our products' style={{marginBottom:'2rem'}}/>
+      </div>
       </FadeInComponent>
       <div className={classes.cardContainer} ref={productRef}>
         {products.map((product, index) => (

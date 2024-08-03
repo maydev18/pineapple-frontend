@@ -7,7 +7,6 @@
   padding-bottom: 3rem; 
   color: #f0e5d8;
   text-align: center;
- 
 }
 
 .content {
@@ -16,6 +15,17 @@
   background: transparent;
   padding: 2rem;
   border-radius: 8px;
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content */
+}
+
+.content img {
+  margin: 2rem;
+  max-width: 100%; /* Ensure image does not exceed the container width */
+  width:30%; /* Make image take full width of its container */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure aspect ratio is preserved */
 }
 
 p {
@@ -26,33 +36,24 @@ p {
   color: #f0e5d8;
 }
 
-.heading {
-  font-family: "Outfit", sans-serif;
-  font-weight: 400;
-  text-shadow: 3px 3px black;
-  font-size: 80px;
-  color: #ffebd2;
-  
-  text-decoration: none;
-}
-
 @media (max-width: 768px) {
   .aboutUsSection {
     padding: 5rem 1rem; /* Adjust padding for smaller screens */
   }
 
-  .heading {
-    font-size: 2.5rem; /* Adjust heading size for smaller screens */
+  .content {
+    padding: 1rem; /* Adjust padding for smaller screens */
   }
 
   p {
-    font-size: 0.9rem; /* Adjust paragraph font size for smaller screens */
+    font-size: 1rem; /* Adjust paragraph font size for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .content {
     max-width: 100%;
+    padding: 1rem; /* Adjust padding for very small screens */
   }
 
   h1 {
@@ -60,10 +61,14 @@ p {
   }
 
   .aboutUsSection {
-    padding: 7rem 3rem; /* Adjust padding for very small screens */
+    padding: 7rem 1rem; /* Adjust padding for very small screens */
   }
 
   p {
-    margin-top: 1rem; /* Adjust paragraph font size for very small screens */
+    margin-top: 1rem; /* Adjust paragraph margin for very small screens */
+  }
+
+  .content img{
+    width: 70%;
   }
 }

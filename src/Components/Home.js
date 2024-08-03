@@ -15,7 +15,7 @@ const Hero = () => {
         <div className={classes.heroContent}>
         {/* <h4>Explore new-in products and bestsellers</h4> */}
         <FadeInComponent>
-          <h1 className="heading">SET THE STANDARD</h1>
+          <h1 className="sub-heading">Set the Standard</h1>
         
           <div className={classes.typedText}>
             <p>loreMinim excepteur nisi nulla ad eiusmod voluptate aute ipsum id dolore.

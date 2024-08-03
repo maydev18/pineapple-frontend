@@ -155,7 +155,7 @@ const Checkout = () => {
                     <div className={classes.checkoutForm}>
                         {/* <h1>Checkout</h1> */}
                         <div className={classes.delivery}>
-                            <h2>Delivery</h2>
+                            <h2 className=''>Delivery</h2>
                             {savedAddresses.length > 0 ? (
                                 <div className={classes.savedAddresses}>
                                     {savedAddresses.map(address => (

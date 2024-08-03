@@ -1,0 +1,41 @@
+.reviewPage {
+    padding: 20px;
+  }
+  
+  .reviewList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .reviewItem {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .reviewRating {
+    display: flex;
+  }
+  
+  .star {
+    font-size: 1.2em;
+    margin-right: 5px;
+  }
+  
+  .filled {
+    color: gold;
+  }
+  
+  .backButton {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3;
+  }
+  

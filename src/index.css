@@ -31,11 +31,13 @@ p, h1, h2, h3, h4, div {
 
 .sub-heading {
   font-family: "Qwitcher Grypen", cursive;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
+  font-weight: 200;
   font-style: normal;
-  font-size: 70px;
+  padding: 0;
+  margin-bottom: 0%;
+  font-size: 170px;
+  color: #f0e5d8;
+  text-shadow: 3px 3px black;
 }
 
 .button {
@@ -88,7 +90,7 @@ p, h1, h2, h3, h4, div {
   }
 
   .sub-heading {
-    font-size: 60px;
+    font-size: 7rem;
   }
 
   .button {
@@ -103,7 +105,7 @@ p, h1, h2, h3, h4, div {
   }
 
   .sub-heading {
-    font-size: 50px;
+    font-size: 6rem;
   }
 
   .button {
@@ -118,7 +120,7 @@ p, h1, h2, h3, h4, div {
   }
 
   .sub-heading {
-    font-size: 40px;
+    font-size: 5rem;
   }
 
   .button {
@@ -133,7 +135,7 @@ p, h1, h2, h3, h4, div {
   }
 
   .sub-heading {
-    font-size: 30px;
+    font-size: 4rem;
   }
 
   .button {
@@ -148,7 +150,7 @@ p, h1, h2, h3, h4, div {
   }
 
   .sub-heading {
-    font-size: 25px;
+    font-size: 3rem;
   }
 
   .button {
