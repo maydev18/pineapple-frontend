@@ -23,15 +23,15 @@ const ProductShowcase = () => {
             animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
           >
-            <Link to={`/products/${product._id}` } style={{textDecoration : "none"}}>
-              <Card
-                image={product.mainImage}
-                hoverImage={product.backImage}
-                title={product.title}
-                price={product.price}
-                titleColor="black"
-                priceColor="black" />
-            </Link>
+          <Link to={`/products/${product._id}` } style={{textDecoration : "none"}}>
+            <Card
+              image={product.mainImage}
+              hoverImage={product.backImage}
+              title={product.title}
+              price={product.price}
+              titleColor="black"
+              priceColor="black" />
+          </Link>
 
           </motion.div>
 

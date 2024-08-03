@@ -2,22 +2,26 @@ import React, { useState } from 'react';
 import classes from './OrderItem.module.css';
 import OrderDetailsModal from '../Modal/OrderModal';
 
-const OrderItem = ({ image, size, price, title, onCancel }) => {
+const OrderItem = ({onCancel , orderID , paymentID , products , address , time , completed}) => {
   const [showModal, setShowModal] = useState(false);
-
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
-
-  const orderDetails = { image, size, price, title };
-
+  const totalPrice = () => {
+    let total = 0;
+    products.forEach(pro => {
+      total += pro.quantity * pro.price;
+    });
+    return total;
+  }
   return (
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
-        <img src={image} alt="Product" className={classes.orderItemImage} />
         <div className={classes.detailsText}>
-          <h2>{title}</h2>
-          <h4><span>Price: </span>{price}</h4>
-          <h4><span>Size: </span>{size}</h4>
+          <h2>{orderID}</h2>
+          <h4><span>Order Date: </span>{time}</h4>
+          <h4><span>Total Amount: </span>{totalPrice()}</h4>
+          <h4><span>Payment ID: </span>{paymentID}</h4>
+          
         </div>
         <button className={classes.arrowButton} onClick={handleShow}>&#x2192;</button>
       </div>
@@ -29,7 +33,11 @@ const OrderItem = ({ image, size, price, title, onCancel }) => {
       <OrderDetailsModal
         show={showModal}
         handleClose={handleClose}
-        orderDetails={orderDetails}
+        products={products}
+        orderID={orderID}
+        paymentID={paymentID}
+        completed={completed}
+        address={address}
       />
     </div>
   );

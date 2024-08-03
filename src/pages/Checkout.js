@@ -3,11 +3,21 @@ import classes from './Checkout.module.css';
 import CartItem from '../Components/CartItem'; // Ensure this path is correct
 import { Icon } from '@iconify/react';
 import { getAuthToken } from '../utils/Auth';
-
+import { add } from 'date-fns';
+import logo from '../images/logo_black.png';
+import { redirect } from 'react-router-dom';
+function getsize(size){
+    if(size === 'small') return 'S';
+    if(size === 'medium') return 'M';
+    if(size === 'large') return 'L';
+    if(size === 'extraLarge') return 'XL';
+    if(size === 'doubleExtraLarge') return 'XXL';
+}
 const Checkout = () => {
-    let total = 0;
     const [cartItems , setCartProducts] = useState([]);
     const [savedAddresses , setAddresses] = useState([]);
+    const [amount , setAmount] = useState(null);
+
     const getCartItems = async () => {
         const res = await fetch("http://localhost:8080/cart" , {
         headers : {
@@ -18,7 +28,13 @@ const Checkout = () => {
         alert('failed to fetch cart items');
         }
         else{
-            setCartProducts(await res.json());
+            const data = await res.json();
+            setCartProducts(data);
+            let total = 0
+            data.forEach(item => {
+                total += item.productID.price * item.quantity;
+            })
+            setAmount(total);
         }
     }
     const getAddresses = async () => {
@@ -40,45 +56,47 @@ const Checkout = () => {
         getAddresses();
     } , [])
     const [newAddress, setNewAddress] = useState({
-        name: '',
+        fullName: '',
         phone: '',
-        addressLine1: '',
-        addressLine2: '',
+        firstLine: '',
+        secondLine: '',
         state: '',
         city: '',
-        pinCode: '',
-        landmark: '',
+        pincode: '',
+        landmark: ''
     });
     const [isAddingAddress, setIsAddingAddress] = useState(false);
     const [isEditingAddress, setIsEditingAddress] = useState(false);
-    const [editingAddressId, setEditingAddressId] = useState(null);
-
+    const [editingAddressID , setEditingAddressID] = useState(null);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewAddress(prev => ({ ...prev, [name]: value }));
     };
-
-    const handleAddAddress =async () => {
+    const getAddressData = () => {
         const data = {
-            fullName : newAddress.name,
-            firstLine : newAddress.addressLine1,
-            secondLine : newAddress.addressLine2,
+            fullName : newAddress.fullName,
+            firstLine : newAddress.firstLine,
+            secondLine : newAddress.secondLine,
             state : newAddress.state,
             city : newAddress.city,
             phone : newAddress.phone,
-            pincode : newAddress.pinCode,
+            pincode : newAddress.pincode,
             landmark : newAddress.landmark
         }
         setNewAddress({
-            name: '',
+            fullName: '',
             phone: '',
-            addressLine1: '',
-            addressLine2: '',
+            firstLine: '',
+            secondLine: '',
             state: '',
             city: '',
-            pinCode: '',
+            pincode: '',
             landmark: '',
         });
+        return data;
+    }
+    const handleAddAddress =async () => {
+        const data = getAddressData();
         const res = await fetch("http://localhost:8080/add-address" , {
             method : 'POST',
             headers : {
@@ -97,28 +115,53 @@ const Checkout = () => {
         setIsAddingAddress(false);
     };
 
-    const handleEditAddress = () => {
-        if (!newAddress.phone || !newAddress.addressLine1 || !newAddress.state || !newAddress.city || !newAddress.pinCode) {
-            alert('Please fill in all required fields.');
-            return;
+    const handleEditAddress = async () => {
+        const data = getAddressData();
+        data.addressID = editingAddressID;
+        const res = await fetch('http://localhost:8080/edit-address' , {
+            method : "POST",
+            headers : {
+                'Content-type' : 'application/json',
+                'Authorization' : 'Bearer ' + getAuthToken()
+            },
+            body : JSON.stringify(data)
+        })
+        if(!res.ok){
+            alert("failed editing address");
         }
-
-        // setSavedAddresses(savedAddresses.map(address =>
-        //     address.id === editingAddressId ? { ...newAddress, id: editingAddressId } : address
-        // ));
-        setNewAddress({
-            name: '',
-            phone: '',
-            addressLine1: '',
-            addressLine2: '',
-            state: '',
-            city: '',
-            pinCode: '',
-            landmark: '',
-        });
+        else{
+            setNewAddress({
+                fullName: '',
+                phone: '',
+                firstLine: '',
+                secondLine: '',
+                state: '',
+                city: '',
+                pincode: '',
+                landmark: '',
+            });
+            const add = await res.json();
+            setAddresses(savedAddresses.map(address =>
+                address.addressID._id === editingAddressID ? { addressID : add } : address
+            ));
+        }
         setIsEditingAddress(false);
-        setEditingAddressId(null);
         setIsAddingAddress(false);
+    };
+    const handleEditClick = async (address) => {
+        setNewAddress({
+            fullName : address.fullName,
+            phone : address.phone,
+            firstLine : address.firstLine,
+            secondLine : address.secondLine,
+            pincode : address.pincode,
+            landmark : address.landmark,
+            city : address.city,
+            state : address.state
+        });
+        setEditingAddressID(address._id);
+        setIsAddingAddress(true);
+        setIsEditingAddress(true);
     };
 
     const handleDeleteAddress = async(id) => {
@@ -138,16 +181,82 @@ const Checkout = () => {
             getAddresses();
         }
     };
-
-    const handleEditClick = (address) => {
-        setNewAddress(address);
-        setIsAddingAddress(true);
-        setIsEditingAddress(true);
-        setEditingAddressId(address.id);
-    };
-    cartItems.forEach(item => {
-        total += item.productID.price * item.quantity;
-    })
+    const generateOrderId = async() => {
+        const res = await fetch('http://localhost:8080/checkout' , {
+            headers : {
+                'Authorization' : 'Bearer ' + getAuthToken()
+            }
+        })
+        if(!res.ok){
+            alert('payment failed');
+        }
+        else{
+            const data = await res.json();
+            return {
+                amount : data.amount,
+                id : data.id
+            }
+        }
+    }
+    const handleCheckout = async () => {
+        const {amount , id} = await generateOrderId();
+        console.log(amount , id);
+        var options = {
+            "key": "rzp_test_uY9lNpacaDbu5m", // Enter the Key ID generated from the Dashboard
+            "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Pineapple fashion",
+            "description": "Test Transaction",
+            "image": logo,
+            "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+                createOrder(response)
+            },
+            "prefill": {
+                "name": "Mayank Sharma",
+                "email": "ms772254@gmail.com",
+                "contact": "8750355389"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new window.Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+        rzp1.open();
+    }
+    const createOrder = async (data) => {
+        const order = {
+            orderID : data.razorpay_order_id,
+            paymentID : data.razorpay_payment_id,
+            signature : data.razorpay_signature,
+            addressID : savedAddresses[0].addressID._id
+        }
+        const res = await fetch('http://localhost:8080/create-order' , {
+            method : 'POST',
+            headers : {
+                'Content-type' : 'application/json',
+                'Authorization' : 'bearer ' + getAuthToken()
+            },
+            body : JSON.stringify(order)
+        });
+        if(!res.ok){
+            alert("Payment failed");
+        }
+        else{
+            const resdata = await res.json();
+            console.log(resdata)
+            return redirect('/orders');
+        }
+    }
     return (
         <><div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
@@ -167,8 +276,8 @@ const Checkout = () => {
                                                 <p>Phone: {address.addressID.phone}</p>
                                             </div>
                                             <div className={classes.addressActions}>
-                                                <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address)} fontSize={"20px"} />
-                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.addressID._id)} fontSize={"20px"} />
+                                                <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address.addressID)} fontSize={"20px"}/>
+                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.addressID._id)} fontSize={"20px"}/>
                                             </div>
                                         </div>
                                     ))}
@@ -181,8 +290,8 @@ const Checkout = () => {
                                     <label htmlFor="name">Full Name</label>
                                     <input
                                         type="text"
-                                        name="name"
-                                        value={newAddress.name}
+                                        name="fullName"
+                                        value={newAddress.fullName}
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
@@ -194,19 +303,19 @@ const Checkout = () => {
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
-                                    <label htmlFor="addressLine1">Address Line 1</label>
+                                    <label htmlFor="firstLine">Address Line 1</label>
                                     <input
                                         type="text"
-                                        name="addressLine1"
-                                        value={newAddress.addressLine1}
+                                        name="firstLine"
+                                        value={newAddress.firstLine}
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
-                                    <label htmlFor="addressLine2">Address Line 2</label>
+                                    <label htmlFor="secondLine">Address Line 2</label>
                                     <input
                                         type="text"
-                                        name="addressLine2"
-                                        value={newAddress.addressLine2}
+                                        name="secondLine"
+                                        value={newAddress.secondLine}
                                         onChange={handleInputChange}
                                         placeholder=" " />
                                     <label htmlFor="state">State</label>
@@ -225,11 +334,11 @@ const Checkout = () => {
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
-                                    <label htmlFor="pinCode">Pin code</label>
+                                    <label htmlFor="pincode">Pin code</label>
                                     <input
                                         type="text"
-                                        name="pinCode"
-                                        value={newAddress.pinCode}
+                                        name="pincode"
+                                        value={newAddress.pincode}
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
@@ -262,10 +371,10 @@ const Checkout = () => {
                             )}
                         </div>
                         {/* <div className={classes.payment}>
-        <h2>Payment</h2>
-        <p>All transactions are secure and encrypted.</p>
-    </div> */}
-                        <button className={`${classes.completeOrder} `}>Proceed to Payment</button>
+                            <h2>Payment</h2>
+                            <p>All transactions are secure and encrypted.</p>
+                        </div> */}
+                        <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
                     </div>
                 </div>
                 <div className={classes.cartSummary}>
@@ -275,13 +384,12 @@ const Checkout = () => {
                             <CartItem
                                 key={index}
                                 image={item.productID.mainImage}
-                                size={item.size}
+                                size={getsize(item.size)}
                                 quantity={item.quantity}
                                 price={item.productID.price}
                                 checkout={true} />
                         ))}
                     </div>
-
                 </div>
 
             </div>
@@ -289,7 +397,7 @@ const Checkout = () => {
         </div><div className={classes.cartSummaryFooter}>
                 <h2>Overall Summary</h2>
                 <div><strong>Total Items : </strong> {cartItems.length}</div>
-                <div><strong>Total Price: </strong> Rs.{total}</div>
+                <div><strong>Total Price: </strong> Rs.{amount}</div>
             </div></>
     );
 };
