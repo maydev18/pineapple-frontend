@@ -152,17 +152,17 @@ font-size: 17px;
 
 
 .reviewSection {
- 
-  margin: 4rem 0;
+
+  padding: 3rem;
   background-color: #fff;
   border-radius: 8px;
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  text-align: center;
   align-items: center;
-  justify-content: center;
-  
 }
+
 
 
 /* For medium-sized screens and up */
@@ -178,7 +178,7 @@ font-size: 17px;
 }
 
 .customerReview {
- 
+  
   color: #000;
 } 
 
@@ -192,16 +192,21 @@ font-size: 17px;
   flex-direction: column;
 }
 
-.reviewSection h3 {
+.CustomerReviews{
+  padding: 6rem;
+}
+.reviewSection h3, .CustomerReviews h3 {
   font-family: "outfit", sans-serif;
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 400;
+  padding: 1.5rem;
 }
 
-.reviewSection p{
+.reviewSection p, .CustomerReviews p{
   color: #000;
   font-size: 15px;
   text-align: left;
+  
 }
 
 .reviewList {
@@ -256,6 +261,15 @@ font-size: 17px;
   cursor: pointer;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.ReviewBar{
+  display: flex;
+  flex-direction: column;
+  width: 50vh;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+
 }
 
 .cartSidebar {
@@ -313,13 +327,11 @@ ul {
 }
 
 .addressActions {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-
+ position: absolute;
+ right: 100px;
 }
 
 .deleteIcon, .editIcon {
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 1rem;
 }

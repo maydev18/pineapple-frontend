@@ -1,0 +1,173 @@
+/* Dashboard.module.css */
+body {
+    font-family: 'Source Code Pro', monospace;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #f3f4f6;
+  }
+  
+  .dashboard {
+    padding: 2rem;
+  }
+  
+  .heading {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333;
+  }
+
+  .OrdersBox{
+    background: white;
+    padding: 10rem;
+    margin: 2rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    width: 80vw;
+
+  }
+  
+  .boxContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .boxed{
+    background: white;
+    padding: 1.5rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .box {
+    background: rgb(255, 253, 253);
+    padding: 1.5rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .alignProducts{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  .productsBox{
+    background: white;
+    padding: 4rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: left;
+    margin: 2rem;
+    width: 50vw;
+
+  }
+  .box h3 {
+    font-size: 2rem;
+    margin: 1rem 0;
+    color: #333;
+  }
+  
+  .box p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .btn {
+    display: inline-block;
+    margin: 3rem;
+
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: black;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    text-decoration: none;
+  }
+  
+  .btn:hover {
+    background: #555;
+  }
+  
+  .Formlabel{
+    font-weight: 300;
+  }
+
+  .imagePreview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+   
+  }
+  
+
+  .previewImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid black;
+  }  
+
+  .container {
+    padding: 10px;
+  }
+  
+  .table {
+
+    margin: 20px 20px;
+  }
+  
+  th, td {
+    text-align: center;
+  }
+  
+  .form-select {
+    width: 100%;
+  }
+  
+  Form.Group{
+    margin: 2rem;
+  }
+
+  .container {
+    padding: 20px;
+  }
+  
+  .productList {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    gap: 30px;
+  }
+  
+  .productCard {
+    margin-bottom: 10px;
+
+  }
+  
+  .productCard.selected {
+    border: 2px solid #007bff;
+  }
+
+  .ProductInfo p{
+    text-align: left;
+    color: #333;
+    font-size: 18px;
+    padding: 0;
+  }
+  
+  .form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  

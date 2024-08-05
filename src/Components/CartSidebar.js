@@ -22,7 +22,7 @@ const CartSidebar = ({ isOpen, onClose, getCartItems, cartproducts }) => {
       <h1 className={styles.cartHeading}>Cart</h1>
       <hr />
       {cartproducts.map((product, index) => (
-        <CartItem 
+        <><CartItem
           key={index}
           image={product.productID.mainImage}
           size={getsize(product.size)}
@@ -31,11 +31,10 @@ const CartSidebar = ({ isOpen, onClose, getCartItems, cartproducts }) => {
           title={product.productID.title}
           getCartItems={getCartItems}
           id={product.productID._id}
-          checkout={false}
-        />
+          checkout={false} /><hr /></>
       ))}
-      <div className={styles.checkoutButton}>
-        <Link to='/checkout'><button className={styles.ProceedButton}>Proceed to Payment</button></Link>
+      <div className={styles.proceedbutton}>
+        <Link to='/checkout'><button className={styles.checkoutButton} style={{textDecoration: "none"}}>Proceed to Payment</button></Link>
       </div>
     </div>
   );

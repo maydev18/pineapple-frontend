@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
 import WishlistSidebar from '../Components/WishListSidebar';
-import { json, useLoaderData, Form, Link } from 'react-router-dom';
+import { json, useLoaderData, Form } from 'react-router-dom';
 import classes from './ProductView.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
@@ -10,24 +10,26 @@ import { getAuthToken } from '../utils/Auth';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Spinner } from 'react-bootstrap';
-import StarRating from '../Components/StarRating';
+import { Icon } from '@iconify/react';
+import RatingSummary from '@keyvaluesystems/react-star-rating-summary';
+import { color } from 'framer-motion';
 
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 const token = getAuthToken();
-const isLoggedIn = (token === null || token === 'EXPIRED') ? false : true;
+const isLoggedIn = token === null || token === 'EXPIRED' ? false : true;
 
 const ProductPage = () => {
   const { productID } = useParams();
   const [reviews, setReviews] = useState([]);
-  const [username, setUserName] = useState('');
-  const [stars, setStars] = useState('');
-  const [content, setContent] = useState('');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [cartproducts, setCartProducts] = useState([]);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
   const [isWishlistSidebarOpen, setIsWishlistSidebarOpen] = useState(false);
   const [isWishlistOpen, setWishlistOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]); // Manage addresses
+  const [showAllReviews, setShowAllReviews] = useState(false); // Manage number of reviews displayed
 
   const handleAddToCart = async () => {
     setIsSubmitting(true);
@@ -41,12 +43,12 @@ const ProductPage = () => {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'bearer ' + getAuthToken()
+        Authorization: 'bearer ' + getAuthToken(),
       },
       body: JSON.stringify({
         productID: productID,
-        size: size
-      })
+        size: size,
+      }),
     });
     if (res.ok) {
       getCartItems();
@@ -58,10 +60,10 @@ const ProductPage = () => {
   };
 
   const getCartItems = async () => {
-    const res = await fetch("http://localhost:8080/cart", {
+    const res = await fetch('http://localhost:8080/cart', {
       headers: {
-        'Authorization': 'bearer ' + token
-      }
+        Authorization: 'bearer ' + token,
+      },
     });
     if (!res.ok) {
       alert('failed to fetch cart items');
@@ -69,11 +71,11 @@ const ProductPage = () => {
       const cartItems = await res.json();
       setCartProducts(cartItems);
     }
-  }
+  };
 
   useEffect(() => {
     getCartItems();
-  }, [])
+  }, []);
 
   const handleAddToWishlist = () => {
     setIsWishlistSidebarOpen(true);
@@ -87,32 +89,13 @@ const ProductPage = () => {
     setIsWishlistSidebarOpen(false);
   };
 
-  const handleReviewSubmit = async (event) => {
-    setIsSubmitting(true);
-    event.preventDefault();
-    const res = await fetch('http://localhost:8080/post-review', {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': 'bearer ' + getAuthToken()
-      },
-      body: JSON.stringify({
-        stars: stars,
-        content: content,
-        buyer: username,
-        productID: productID
-      })
-    });
-    if (res.ok) {
-      const savedReview = await res.json();
-      setReviews([...reviews, savedReview]);
-    } else {
-      alert('failed to post a review');
-    }
-    setIsSubmitting(false);
-    setStars('');
-    setContent('');
-    setUserName('');
+ 
+  const handleEditClick = (address) => {
+   
+  };
+
+  const handleDeleteAddress = async (addressID) => {
+  
   };
 
   const sampleProducts = [
@@ -127,11 +110,20 @@ const ProductPage = () => {
       setReviews(data);
     };
     fetchReviews();
-  }, [productID])
+  }, [productID]);
 
   const data = useLoaderData();
   const product = data.product;
   const images = product.moreImages;
+
+  const ratingValues = {
+    5: 100,
+    4: 200,
+    3: 300,
+    2: 1000,
+    1: 400
+  };
+
 
   return (
     <>
@@ -161,10 +153,12 @@ const ProductPage = () => {
             </div>
           </div>
           <div className={classes.productButtons}>
-            <button className={`${classes.productViewButton}`} onClick={handleAddToCart}>{isSubmitting ? <Spinner animation="border" /> : 'Add to Cart'}</button>
+            <button className={`${classes.productViewButton}`} onClick={handleAddToCart}>
+              {isSubmitting ? <Spinner animation="border" /> : 'Add to Cart'}
+            </button>
             <button className={`${classes.productViewButton}`} onClick={() => setWishlistOpen(true)}>Wishlist</button>
           </div>
-          <Accordion className='mt-4'>
+          <Accordion className="mt-4">
             <Accordion.Item eventKey="0">
               <Accordion.Header>Product Details</Accordion.Header>
               <Accordion.Body>
@@ -188,68 +182,86 @@ const ProductPage = () => {
         </div>
       </div>
       <div className={classes.reviewSection}>
-        <div>
-          <h3>Customer Reviews</h3>
-          {reviews.length > 0 ? (
+        <h3>Customer Reviews</h3>
+        <div className={classes.ReviewBar}>
+    
+
+      
+           
+          <div >
+        
+          <RatingSummary
+      ratings={ratingValues}
+      barColors={{
+        5: '#0a1f1c',
+        4: '#0a1f1c',
+        3: '#0a1f1c',
+        2: '#0a1f1c',
+        1: '#0a1f1c'
+      }}
+      ratingAverageIconProps={{
+        fillColor: '#0a1f1c',
+        bgColor: '#0a1f1c'
+      }}
+      styles={{
+       
+        Average: { color: '#0a1f1c' },
+        AverageStarIcon: {
+          width: '20px',
+          height: '20px',
+        
+        },
+        
+        LabelStarIcon: () => ({
+          width: '15px',
+          height: '15px',
+          color: '#0a1f1c' 
+          
+          
+          
+        }),
+        Label: (ratingId) => ({ fontSize: '12px' }),
+        
+      }}
+    />
+          </div>
+        </div>  
+      </div>
+      <div className={classes.CustomerReviews}>
+      {reviews.length > 0 ? (
             <>
               <ul className={classes.reviewList}>
-                {reviews.slice(0, 2).map((rev, index) => (
+                {reviews.slice(0, showAllReviews ? reviews.length : 2).map((rev, index) => (
                   <li key={index} className={classes.reviewItem}>
                     <strong>{rev.buyer}</strong>
+                    <div className={classes.addressActions}>
+                      <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(rev.address)} fontSize={"20px"} />
+                      <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(rev.addressID)} fontSize={"20px"} />
+                    </div>
                     <div className={classes.reviewRating}>
                       {[...Array(5)].map((star, i) => (
                         <span key={i} className={`${classes.star} ${i < rev.rating ? classes.filled : ''}`}>&#9733;</span>
                       ))}
                     </div>
+                    
                     <p>{rev.content}</p>
                     <p>{format(new Date(rev.date), 'MMMM do, yyyy')}</p>
+                   
                   </li>
                 ))}
               </ul>
               {reviews.length > 2 && (
-                <Link to={`/product/${productID}/reviews`} className={`${classes.reviewFormbutton}`} style={{textDecoration :"none"}}>
-                  View All
-                </Link>
+                <button className={`${classes.reviewFormbutton} button`} onClick={() => setShowAllReviews(!showAllReviews)}>
+                  {showAllReviews ? 'Show Less' : 'View All'}
+                </button>
               )}
             </>
           ) : (
             <p>No reviews yet.</p>
           )}
-        </div>
-        {isLoggedIn && (
-          <div className={classes.reviewInput}>
-            <h3>Write a Review</h3>
-            <form className={classes.reviewForm} onSubmit={handleReviewSubmit}>
-            <div>
-                <label>Rating:</label>
-                <StarRating rating={stars} onRatingChange={setStars} disabled={isSubmitting} /> 
-              </div>
-              
-              <input
-                type="text"
-                name="userName"
-                required
-                placeholder="Your Full Name"
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
-                disabled={isSubmitting}
-              />
-              
-              <textarea
-                placeholder="Write your review here..."
-                required
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                disabled={isSubmitting}
-              />
-              <button type="submit" className={`${classes.reviewFormbutton}`} disabled={isSubmitting}>
-                Submit Review
-              </button>
-              {isSubmitting && <Spinner animation="border" />}
-            </form>
-          </div>
-        )}
       </div>
+       
+      
       <CartSidebar
         product={product}
         selectedSize={selectedSize}
@@ -267,17 +279,21 @@ const ProductPage = () => {
     </>
   );
 };
+
 export default ProductPage;
 
 export async function loader({ params }) {
   const id = params.productID;
   const res = await fetch('http://localhost:8080/product/' + id);
   if (!res.ok) {
-    throw json({
-      message: "could not fetch product details"
-    }, {
-      status: 500
-    });
+    throw json(
+      {
+        message: 'could not fetch product details',
+      },
+      {
+        status: 500,
+      }
+    );
   } else {
     return res;
   }

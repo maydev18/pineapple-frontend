@@ -3,13 +3,12 @@ import { Carousel } from 'react-bootstrap';
 import classes from './SingleProduct.module.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SingleProduct = ({ images, title , mainImage , backImage}) => {
-  images = [mainImage , ...images , backImage];
+const SingleProduct = ({ images, title, mainImage, backImage }) => {
+  images = [mainImage, ...images, backImage];
   return (
     <div className={classes.singleProduct}>
       <div className={classes.mainImage}>
         <Carousel
-          
           nextIcon={<span className={`carousel-control-next-icon ${classes.carouselArrow}`} />}
           prevIcon={<span className={`carousel-control-prev-icon ${classes.carouselArrow}`} />}
         >

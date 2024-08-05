@@ -24,34 +24,12 @@
   height: auto;
 }
 
-.carousel-control-prev,
-.carousel-control-next {
-  width: 50px;
-  height: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-}
 
-.carousel-control-prev {
-  left: -100px;
-}
-
-.carousel-control-next {
-  right: -100px;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: rgba(0, 0, 0, 0.9);
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-}
-
-.carousel-control-prev-icon::before,
-.carousel-control-next-icon::before {
-  font-size: 30px;
+.carouselArrow{
+  background-color: black;
+  border-radius: 20px;
+  height: 30px;
+  width: 30px;
 }
 
 @media (min-width: 768px) {

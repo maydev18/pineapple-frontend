@@ -15,6 +15,12 @@ import {loader as ProductLoader} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
 import ReviewPage from './pages/ReviewPage';
+import AlertModal from './Modal/AlertModal'
+import Dashboard from './Components/admin/Dashboard';
+import AddProducts from './Components/admin/AddProducts';
+import PlacedOrder from './Components/admin/PlacedOrders';
+import EditProduct from './Components/admin/EditProduct';
+import Inventory from './Components/admin/Inventory';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -68,6 +74,31 @@ const router = createBrowserRouter([
         path : 'orders',
         element : <Orderspage/>
       },
+      {
+        path : 'popup',
+        element : <AlertModal/>
+      },
+      {
+        path : 'admin',
+        element : <Dashboard/>
+      },
+      {
+        path : 'addproducts',
+        element : <AddProducts/>
+      },
+      {
+        path : 'placedorder',
+        element : <PlacedOrder/>
+      },
+      {
+        path : 'edit',
+        element : <EditProduct/>
+      },
+      {
+        path : 'inventory',
+        element : <Inventory/>
+      },
+      
       
       
     ]

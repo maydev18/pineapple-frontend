@@ -72,8 +72,11 @@ const CartItem = ({ id , image, size, quantity, price, title , getCartItems , ch
           <button className={classes.quantityButton} onClick={handleIncrease}>{isAddSubmitting ? <Spinner animation="border" /> : '+'}</button>
           </div>
         </div>}
+        
       </div>
+      
     </div>
+    
   );
 };
 

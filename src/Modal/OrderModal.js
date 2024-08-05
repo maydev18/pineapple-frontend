@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import styles from './OrderModal.module.css'; // Import the CSS module
+import styles from './OrderModal.module.css'; 
 function getsize(size){
   if(size === 'small') return 'S';
   if(size === 'medium') return 'M';
@@ -10,7 +10,7 @@ function getsize(size){
 }
 const OrderDetailsModal = ({ show, handleClose, products , orderID , paymentID , address , completed , date}) => {
   return (
-    <Modal show={show} onHide={handleClose} size="lg">
+    <Modal size="lg">
       <Modal.Header closeButton className={styles.modalHeader}>
         <div className={styles.modalHeading}>
         <Modal.Title className={styles.modalTitle}>Order ID: {orderID}</Modal.Title>

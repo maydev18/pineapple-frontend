@@ -21,7 +21,6 @@ const OrdersPage = () => {
     orderLoader();
   } , [])
   const handleCancel = (orderId) => {
-    // Handle cancel order logic here
     console.log(`Cancel order with ID: ${orderId}`);
   };
   return (
