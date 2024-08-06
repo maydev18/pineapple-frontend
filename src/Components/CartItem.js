@@ -58,24 +58,24 @@ const CartItem = ({ id , image, size, quantity, price, title , getCartItems , ch
   };
 
   return (
-    <div className={classes.cartItem}>
+    <><div className={classes.cartItem}>
       <img src={image} alt="Product" className={classes.cartItemImage} />
       <div className={classes.cartItemDetails}>
         <h2>{title}</h2>
         <h4><span>Size:</span> {size}</h4>
-        <h4><span>Price: </span>INR {price*quantity}</h4>
-        {checkout &&  <h4><span>Quantity: </span>{quantity}</h4>}
+        <h4><span>Price: </span>INR {price * quantity}</h4>
+        {checkout && <h4><span>Quantity: </span>{quantity}</h4>}
         {!checkout && <div className={classes.quantityBar}>
           <div className={classes.quantity}>
-          <button className={classes.quantityButton} onClick={handleDecrease}>{isRemoveSubmitting ? <Spinner animation="border" /> : '-'}</button>
-          <input type="number" className={classes.quantityInput} value={quantity} readOnly />
-          <button className={classes.quantityButton} onClick={handleIncrease}>{isAddSubmitting ? <Spinner animation="border" /> : '+'}</button>
+            <button className={classes.quantityButton} onClick={handleDecrease}>{isRemoveSubmitting ? <Spinner animation="border" /> : '-'}</button>
+            <input type="number" className={classes.quantityInput} value={quantity} readOnly />
+            <button className={classes.quantityButton} onClick={handleIncrease}>{isAddSubmitting ? <Spinner animation="border" /> : '+'}</button>
           </div>
         </div>}
-        
+
       </div>
-      
-    </div>
+
+    </div><hr /></>
     
   );
 };

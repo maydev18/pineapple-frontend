@@ -1,6 +1,6 @@
 import React from 'react';
-import classes from './StarRating.module.css'; // Create corresponding CSS module
-
+import classes from './StarRating.module.css'; 
+import { Icon } from '@iconify/react';
 const StarRating = ({ rating, onRatingChange, disabled }) => {
   const handleStarClick = (value) => {
     if (!disabled) {
@@ -16,7 +16,7 @@ const StarRating = ({ rating, onRatingChange, disabled }) => {
           className={`${classes.star} ${index < rating ? classes.filled : ''}`}
           onClick={() => handleStarClick(index + 1)}
         >
-          &#9733;
+         <Icon icon='material-symbols:star' />
         </span>
       ))}
     </div>

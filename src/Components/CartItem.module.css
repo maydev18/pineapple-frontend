@@ -54,12 +54,15 @@ p {
   margin-top: 0;
   margin-bottom: 20px;
   text-align: left;
+  font-weight: 200;
+  text-transform: capitalize;
 }
 
 .cartItem {
   display: flex;
   gap: 10px;
   margin-bottom: 1px;
+  margin-top: 2rem;
   /* border-bottom: 1px solid #ddd; */
   padding-bottom: 1rem;
   padding-left: 1rem;
@@ -77,43 +80,67 @@ p {
 .cartItemDetails {
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
 .cartItemDetails p {
   margin: 0;
 }
 
+.cartItemDetails h2{
+  color: black;
+  text-align: left;
+  
+}
+
+.quantity{
+  margin: 0;
+  padding: 0;
+}
+
 .quantityBar {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0px;
+  margin: 0;
 }
 
 .quantityLabel {
   font-weight: bold;
 }
 
+
+
+.quantityButton:hover {
+  background-color: #e0e0e0;
+}
+
+
 .quantityInput {
+ 
+  padding: 3.9px 0 4px 0;
+  border: 0.5px solid #ddd;
+  outline: none;
   width: 50px;
-  padding: 5px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius:0 ;
   text-align: center;
 }
 
 .quantityButton {
-  background-color: #f0f0f0;
+  background-color: transparent;
+  color: black;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
+  border-radius: 0;
+  padding: 3.8px 0px;
   cursor: pointer;
   font-size: 16px;
+  outline: none;
+  margin: 1rem 0;
   width: 30px;
   text-align: center;
-}
-
-.quantityButton:hover {
-  background-color: #e0e0e0;
 }
 
 span {
@@ -194,41 +221,15 @@ span {
 
 .cartItemDetails h2 {
   color: black;
-  margin-bottom: 2REM;
+  margin-bottom: 2rem;
+  margin-right: 2rem;
   font-size: 15px;
   font-family: "Outfit";
-  font-weight: 300;
-  text-transform: uppercase;
+  font-weight: 400;
+  text-transform: capitalize;
   
 }
 
-.quantityBar {
-  display: flex;
-  align-items: center;
-  gap: 1;
-  margin-right: 3rem;
-}
-
-.quantityInput {
-  width: 40px;
-  padding: 5.6px 0 5.4px 0;
-  border: 1px solid #ddd;
-  border-left: none;
-  border-right: none;
-  text-align: right;
-  outline: none;
-}
-
-.quantityButton {
-  background-color: transparent;
-  color: black;
-  border: 1px solid #ddd;
-  padding: 3.8px 6px;
-  cursor: pointer;
-  font-size: 16px;
-  outline: none;
-  margin: 1rem 0;
-}
 
 .cartItemDetails h4 {
   font-family: "Outfit";

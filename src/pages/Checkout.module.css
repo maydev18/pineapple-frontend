@@ -15,6 +15,10 @@
  
 }
 
+.savedAddresscard{
+  margin-bottom: 1rem;
+}
+
 .checkoutContent {
   flex: 2;
   margin-right: 20px;
@@ -37,51 +41,47 @@
   text-align: center;
   margin-bottom: 2REM;
   font-weight: 300 ;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .savedAddresses {
-  
+  margin-left: 1rem;
+  margin-top: 0;
   cursor: pointer;
-}
-
-.savedAddress:hover {
-  border: 2px solid black;
-  box-shadow: 2px 2px 2px  black;
-  border-radius: 10px;
   
 }
 
-.savedAddress {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
+.savedAddress h6{
+  text-transform: capitalize;
 }
 
 .savedAddress p {
   color: black;
   text-align: left;
-  font-size: 20px;
+  font-size: 15px;
+  text-transform: capitalize;
   padding: 0;
   margin: 0;
 }
 
-.deleteIcon, .editIcon {
-  cursor: pointer;
-  margin-left: 20px;
+.addressActions {
+  display: flex;
+  width: 100%;
+
+}
+.addressActions div{
+  margin-left: 1rem;
 }
 
-.addressActions {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+.addressbuttons{
+  padding: 10px 120px;
+  background-color: #ddd;
+  border: none;
+  
+}
 
+.addressbuttons:hover{
+  background-color: #f0f0f0;
 }
 
 .quantityBar {
@@ -133,17 +133,18 @@ p {
 }
 
 .showAddAddressButton, .addAddressButton {
-  padding: 15px;
-  background-color: var(--green);
-  color: white;
+  padding: 3px;
+  background-color: white;
+  color: var(--green);
   border: none;
-  font-weight: 200;
+  font-weight: 400;
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-items: center;
+  text-decoration: underline;
 }
 
 .delivery p {
@@ -212,8 +213,9 @@ p {
 
 .cartSummary h2, .cartSummaryFooter p {
   color: black;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 300;
+  text-align: center;
 }
 
 
@@ -296,5 +298,60 @@ p {
 
   .quantityButton {
     width: 25px;
+  }
+}
+
+
+
+@media (max-width: 1024px) {
+  .addressActions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .addressActions button {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 5px;
+  }
+
+  .addressActions button:last-child {
+    margin-bottom: 0;
+   
+  }
+}
+
+@media (max-width: 768px) {
+  .savedAddressCard h6 {
+    font-size: 16px;
+  }
+
+  .savedAddressCard p {
+    font-size: 14px;
+  }
+
+  .addressActions button {
+    font-size: 12px;
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .savedAddressCard {
+    padding: 10px;
+  }
+
+  .savedAddressCard h6 {
+    font-size: 14px;
+  }
+
+  .savedAddressCard p {
+    font-size: 12px;
+  }
+
+  .addressActions button {
+    padding: 5px;
+    margin: 1rem;
+    font-size: 12px;
   }
 }

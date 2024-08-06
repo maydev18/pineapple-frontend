@@ -31,7 +31,7 @@ const CartSidebar = ({ isOpen, onClose, getCartItems, cartproducts }) => {
           title={product.productID.title}
           getCartItems={getCartItems}
           id={product.productID._id}
-          checkout={false} /><hr /></>
+          checkout={false} /></>
       ))}
       <div className={styles.proceedbutton}>
         <Link to='/checkout'><button className={styles.checkoutButton} style={{textDecoration: "none"}}>Proceed to Payment</button></Link>

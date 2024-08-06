@@ -13,6 +13,7 @@ import { Spinner } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import RatingSummary from '@keyvaluesystems/react-star-rating-summary';
 import { color } from 'framer-motion';
+import ReviewPage from './ReviewPage';
 
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 const token = getAuthToken();
@@ -231,14 +232,17 @@ const ProductPage = () => {
       </div>
       <div className={classes.CustomerReviews}>
       {reviews.length > 0 ? (
-            <>
+           <div className={classes.customerReviewscard}>
+             
               <ul className={classes.reviewList}>
                 {reviews.slice(0, showAllReviews ? reviews.length : 2).map((rev, index) => (
                   <li key={index} className={classes.reviewItem}>
+                    <div className={classes.alignCard}>
                     <strong>{rev.buyer}</strong>
                     <div className={classes.addressActions}>
                       <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(rev.address)} fontSize={"20px"} />
                       <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(rev.addressID)} fontSize={"20px"} />
+                    </div>
                     </div>
                     <div>
                       {
@@ -265,10 +269,13 @@ const ProductPage = () => {
                   {showAllReviews ? 'Show Less' : 'View All'}
                 </button>
               )}
-            </>
+            
+            </div>
           ) : (
             <p>No reviews yet.</p>
           )}
+          <ReviewPage/>
+             
       </div>
        
       

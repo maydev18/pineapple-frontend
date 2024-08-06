@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import { getAuthToken } from '../utils/Auth';
 import { add } from 'date-fns';
 import logo from '../images/logo_black.png';
+import { Form, Card } from 'react-bootstrap';
 import { redirect } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 function getsize(size){
@@ -267,24 +268,38 @@ const Checkout = () => {
                     <div className={classes.checkoutForm}>
                         {/* <h1>Checkout</h1> */}
                         <div className={classes.delivery}>
-                            <h2 className=''>Delivery</h2>
+                        <h2 className=''>Delivery</h2>
                             {savedAddresses.length > 0 ? (
-                                <div className={classes.savedAddresses}>
-                                    {savedAddresses.map(address => (
+                                savedAddresses.map(address => (
+                                <Card className={classes.savedAddresscard}>
+                                   <Card.Body>
+                                    <Form.Check type='radio'
+                                    label={<div className={classes.savedAddresses}>
+                                    
                                         <div key={address.addressID._id} className={classes.savedAddress}>
                                             <div>
-                                                <p><strong>{address.addressID.fullName}</strong></p>
+                                                <h6><strong>{address.addressID.fullName}</strong></h6>
                                                 <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
                                                 <p>Phone: {address.addressID.phone}</p>
                                             </div>
+                                            <hr/>
                                             <div className={classes.addressActions}>
-                                                <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(address.addressID)} fontSize={"20px"}/>
-                                                <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(address.addressID._id)} fontSize={"20px"}/>
+                                                <div>
+                                                    <button className={classes.addressbuttons} onClick={() => handleEditClick(address.addressID)}>Edit </button>
+                                                </div>
+                                                <div>
+                                                    <button className={classes.addressbuttons} onClick={() => handleDeleteAddress(address.addressID._id)}>Delete </button>
+                                                </div>
+                                         
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
+                                    
+                                    </div>
+                                     } />
+                                   </Card.Body>
+                                </Card>
+                                ))
                             ) : (
                                 <p style={{ color: "black" }}>No saved addresses. Please add a new address below.</p>
                             )}
@@ -388,6 +403,7 @@ const Checkout = () => {
                                 key={index}
                                 image={item.productID.mainImage}
                                 size={getsize(item.size)}
+                                title={item.productID.title}
                                 quantity={item.quantity}
                                 price={item.productID.price}
                                 checkout={true} />

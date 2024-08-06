@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import classes from './OrderItem.module.css';
 import OrderDetailsModal from '../Modal/OrderModal';
+import { Icon } from '@iconify/react';
 
-const OrderItem = ({onCancel , orderID , paymentID , products , address , time , completed}) => {
+const OrderItem = ({onCancel , orderID , paymentID , products , address , time , completed, image}) => {
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
@@ -14,15 +15,16 @@ const OrderItem = ({onCancel , orderID , paymentID , products , address , time ,
     return total;
   }
   return (
-    <div className={classes.orderItem}>
+    <div className={classes.orderItem }>
       <div className={classes.itemDetails}>
         <div className={classes.detailsText}>
+          
           <h2>{orderID}</h2>
-          <h4><span>Order Date: </span>{time}</h4>
-          <h4><span>Total Amount: </span>{totalPrice()}</h4>
-          <h4><span>Payment ID: </span>{paymentID}</h4>
+          <p><span>Order Date: </span>{time}</p>
+          <p><span>Total Amount: ₹</span>{totalPrice()}</p>
+          {/* <h4><span>Payment ID: </span>{paymentID}</h4> */}
         </div>
-        <button className={classes.arrowButton} onClick={handleShow}>&#x2192;</button>
+        <button className={classes.arrowButton} onClick={handleShow}><Icon icon="weui:arrow-outlined" fontSize={'30px'} style={{color: "black"} } /></button>
       </div>
       <div className={classes.buttons}>
         <button className={classes.cancelButton} onClick={onCancel}>Return</button>

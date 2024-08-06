@@ -8,9 +8,39 @@
 }
 
 /* For medium-sized screens and up */
-@media (min-width: 600px) {
+@media (max-width: 600px) {
+  .reviewSection {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    align-items: left;
+    justify-content: left;
+  }
+
+  .CustomerReviews{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+  }
+
+  .reviewInput{
+    
+    width: 80vw;
+    margin-top: 2rem;
+    
+  }
+
+
+}
+
+/* For medium-sized screens and up */
+@media (max-width: 600) {
   .productsPage {
     padding: 2rem;
+  }
+
+  .CustomerReviews{
+    display: flex;
   }
 }
 
@@ -20,6 +50,11 @@
     flex-direction: row;
     justify-content: center;
     padding: 3rem;
+  }
+
+  .CustomerReviews{
+    display: flex;
+    
   }
 }
 
@@ -165,36 +200,43 @@ font-size: 17px;
 
 
 
-/* For medium-sized screens and up */
-@media (max-width: 400px) {
-  .reviewSection {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    align-items: left;
-    justify-content: left;
-  }
 
-}
 
 .customerReview {
-  
+  position: fixed;
   color: #000;
 } 
 
 .reviewInput{
-  margin-left: 6rem;
+  margin-left: 2rem;
   margin-top: 0;
   padding: 0 ;
   align-items: left;
   color: black;
   display: flex;
   flex-direction: column;
+
+  
+}
+
+.reviewInput h3{
+  font-size: 30px;
 }
 
 .CustomerReviews{
   padding: 6rem;
+  display: flex;
+ 
+  align-items: center;
+  justify-content: center;
+  
 }
+.customerReviewscard{
+ 
+  width: 60vw;
+ 
+}
+
 .reviewSection h3, .CustomerReviews h3 {
   font-family: "outfit", sans-serif;
   font-size: 40px;
@@ -219,6 +261,12 @@ font-size: 17px;
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
   text-align: left; 
+
+}
+
+.alignCard{
+  display: flex;
+  justify-content: space-between;
 }
 
 .reviewItem strong {
@@ -240,7 +288,7 @@ font-size: 17px;
 }
 
 .reviewForm textarea {
-  width: 50vw;
+  width: 40vw;
   height: 20vh;
   padding: 0.5rem;
   border: 1px solid #ddd;
@@ -260,7 +308,7 @@ font-size: 17px;
   border-radius: 2px;
   cursor: pointer;
   margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .ReviewBar{
@@ -324,11 +372,11 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  text-transform: capitalize;
 }
 
 .addressActions {
- position: absolute;
- right: 100px;
+
 }
 
 .deleteIcon, .editIcon {
