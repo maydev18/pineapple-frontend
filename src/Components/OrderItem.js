@@ -21,7 +21,6 @@ const OrderItem = ({onCancel , orderID , paymentID , products , address , time ,
           <h4><span>Order Date: </span>{time}</h4>
           <h4><span>Total Amount: </span>{totalPrice()}</h4>
           <h4><span>Payment ID: </span>{paymentID}</h4>
-          
         </div>
         <button className={classes.arrowButton} onClick={handleShow}>&#x2192;</button>
       </div>

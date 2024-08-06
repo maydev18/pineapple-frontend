@@ -6,6 +6,7 @@ import { getAuthToken } from '../utils/Auth';
 import { add } from 'date-fns';
 import logo from '../images/logo_black.png';
 import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function getsize(size){
     if(size === 'small') return 'S';
     if(size === 'medium') return 'M';
@@ -14,6 +15,7 @@ function getsize(size){
     if(size === 'doubleExtraLarge') return 'XXL';
 }
 const Checkout = () => {
+    const navigate = useNavigate();
     const [cartItems , setCartProducts] = useState([]);
     const [savedAddresses , setAddresses] = useState([]);
     const [amount , setAmount] = useState(null);
@@ -209,8 +211,9 @@ const Checkout = () => {
             "description": "Test Transaction",
             "image": logo,
             "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler": function (response){
-                createOrder(response)
+            "handler":async function (response){
+                await createOrder(response)
+                navigate('/orders');
             },
             "prefill": {
                 "name": "Mayank Sharma",

@@ -30,7 +30,7 @@ const ProductPage = () => {
   const [isWishlistOpen, setWishlistOpen] = useState(false);
   const [addresses, setAddresses] = useState([]); // Manage addresses
   const [showAllReviews, setShowAllReviews] = useState(false); // Manage number of reviews displayed
-
+  const [ratingValues , setRatingValues] = useState({5: 0,4: 0,3: 0,2: 0,1: 0});
   const handleAddToCart = async () => {
     setIsSubmitting(true);
     let size;
@@ -98,16 +98,22 @@ const ProductPage = () => {
   
   };
 
-  const sampleProducts = [
-    { id: 1, mainImage: 'image1.jpg', selectedSize: 'M', price: '$20', title: 'Product 1', color: 'blue' },
-    { id: 2, mainImage: 'image2.jpg', selectedSize: 'L', price: '$30', title: 'Product 2', color: 'yellow' },
-  ];
 
   useEffect(() => {
     const fetchReviews = async () => {
       const res = await fetch('http://localhost:8080/reviews/' + productID);
       const data = await res.json();
       setReviews(data);
+      let stars = [0,0,0,0,0];
+      data.forEach(review => {
+        stars[review.stars-1]++;
+      })
+      ratingValues[1] = stars[0];
+      ratingValues[2] = stars[1];
+      ratingValues[3] = stars[2];
+      ratingValues[4] = stars[3];
+      ratingValues[5] = stars[4];
+      setRatingValues(ratingValues);
     };
     fetchReviews();
   }, [productID]);
@@ -115,16 +121,6 @@ const ProductPage = () => {
   const data = useLoaderData();
   const product = data.product;
   const images = product.moreImages;
-
-  const ratingValues = {
-    5: 100,
-    4: 200,
-    3: 300,
-    2: 1000,
-    1: 400
-  };
-
-
   return (
     <>
       <div className={classes.productsPage}>
@@ -160,16 +156,32 @@ const ProductPage = () => {
           </div>
           <Accordion className="mt-4">
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Product Details</Accordion.Header>
+              <Accordion.Header>Fit & Size</Accordion.Header>
               <Accordion.Body>
                 <ul>
-                  <li>Color: {product.color}</li>
-                  <li>Material: Denim</li>
-                  <li>Care Instructions: Machine wash cold</li>
+                  <li>Fit: {product.fit}</li>
+                  <li>Size: {product.size}</li>
                 </ul>
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
+              <Accordion.Header>Care Instructions</Accordion.Header>
+              <Accordion.Body>
+                <ul>
+                  <li>{product.washCare}</li>
+                  <li></li>
+                </ul>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="2">
+              <Accordion.Header>Specifications</Accordion.Header>
+              <Accordion.Body>
+                <ul>
+                  <li>{product.specifications}</li>
+                </ul>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="3">
               <Accordion.Header>Shipping & Returns</Accordion.Header>
               <Accordion.Body>
                 <ul>
@@ -183,13 +195,7 @@ const ProductPage = () => {
       </div>
       <div className={classes.reviewSection}>
         <h3>Customer Reviews</h3>
-        <div className={classes.ReviewBar}>
-    
-
-      
-           
-          <div >
-        
+        <div className={classes.ReviewBar}>  <div >
           <RatingSummary
       ratings={ratingValues}
       barColors={{
@@ -216,12 +222,8 @@ const ProductPage = () => {
           width: '15px',
           height: '15px',
           color: '#0a1f1c' 
-          
-          
-          
         }),
         Label: (ratingId) => ({ fontSize: '12px' }),
-        
       }}
     />
           </div>
@@ -238,11 +240,19 @@ const ProductPage = () => {
                       <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(rev.address)} fontSize={"20px"} />
                       <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(rev.addressID)} fontSize={"20px"} />
                     </div>
-                    <div className={classes.reviewRating}>
-                      {[...Array(5)].map((star, i) => (
-                        <span key={i} className={`${classes.star} ${i < rev.rating ? classes.filled : ''}`}>&#9733;</span>
-                      ))}
+                    <div>
+                      {
+                        [...Array(rev.stars)].map((star , i) => (
+                          <Icon icon='material-symbols:star' style={{color : 'black'}} />
+                        ))
+                      }
+                      {
+                        [...Array(5-(rev.stars))].map((star , i) => (
+                          <Icon icon="material-symbols:star-outline" />
+                        ))
+                      }
                     </div>
+                    
                     
                     <p>{rev.content}</p>
                     <p>{format(new Date(rev.date), 'MMMM do, yyyy')}</p>
@@ -271,7 +281,6 @@ const ProductPage = () => {
         getCartItems={getCartItems}
       />
       <WishlistSidebar
-        products={sampleProducts}
         isOpen={isWishlistOpen}
         onClose={() => setWishlistOpen(false)}
         onAddToCart={handleAddToCart}

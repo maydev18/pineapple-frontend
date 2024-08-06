@@ -36,11 +36,8 @@ const OrderDetailsModal = ({ show, handleClose, products , orderID , paymentID ,
                         <p><strong>Quantity:</strong>{pro.quantity}</p>
                         <p><strong>Price:</strong> Rs{pro.price * pro.quantity}</p>
                     </div>
-                  </div>
-
-                
+                  </div>                
               </div>
-            
             </div>
           </Modal.Body>
         ))}
