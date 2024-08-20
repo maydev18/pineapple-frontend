@@ -31,6 +31,7 @@ const ProductPage = () => {
   const [isWishlistOpen, setWishlistOpen] = useState(false);
   const [addresses, setAddresses] = useState([]); // Manage addresses
   const [showAllReviews, setShowAllReviews] = useState(false); // Manage number of reviews displayed
+  const [canUserReview , setCanUserReview] = useState(false);
   const [ratingValues , setRatingValues] = useState({5: 0,4: 0,3: 0,2: 0,1: 0});
   const handleAddToCart = async () => {
     setIsSubmitting(true);
@@ -118,7 +119,19 @@ const ProductPage = () => {
     };
     fetchReviews();
   }, [productID]);
-
+  useEffect(() => {
+    const fun = async () => {
+      const res = await fetch('http://localhost:8080/can-review/' + productID , {
+        headers : {
+          'Authorization' : "Bearer " + getAuthToken()
+        }
+      });
+      const data = await res.json();
+      setCanUserReview(data);
+      console.log(data);
+    }
+    fun();
+  })
   const data = useLoaderData();
   const product = data.product;
   const images = product.moreImages;
@@ -274,11 +287,9 @@ const ProductPage = () => {
           ) : (
             <p>No reviews yet.</p>
           )}
-          <ReviewPage/>
+          <ReviewPage reviews = {reviews} setReviews = {setReviews} />
              
       </div>
-       
-      
       <CartSidebar
         product={product}
         selectedSize={selectedSize}
@@ -300,7 +311,7 @@ export default ProductPage;
 
 export async function loader({ params }) {
   const id = params.productID;
-  const res = await fetch('http://localhost:8080/product/' + id);
+  const res = await fetch(process.env.REACT_APP_BASE_URL + 'product/' + id);
   if (!res.ok) {
     throw json(
       {
