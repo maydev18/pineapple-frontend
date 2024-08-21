@@ -19,6 +19,7 @@ function ErrorPage(){
             <p>{message}</p>
         </>
     );
+    
 }
 
 export default ErrorPage;

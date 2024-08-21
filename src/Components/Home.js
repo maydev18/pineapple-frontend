@@ -48,7 +48,8 @@ export default Hero;
 
 export async function loader(){
   try{
-    const response = await fetch('http://localhost:8080/top-products');
+    // const response = await fetch('http://localhost:8080/top-products');
+    const response = await fetch(process.env.REACT_APP_BASE_URL + 'top-products');
     return response;
   }
   catch(err){

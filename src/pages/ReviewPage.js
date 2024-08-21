@@ -12,9 +12,8 @@ const token = getAuthToken();
 const isLoggedIn = token === null || token === 'EXPIRED' ? false : true;
 
 
-function ReviewPage() {
+function ReviewPage({reviews , setReviews}) {
     const { productID } = useParams();
-    const [reviews, setReviews] = useState([]);
     const [username, setUserName] = useState('');
     const [stars, setStars] = useState('');
     const [content, setContent] = useState('');
@@ -38,6 +37,7 @@ function ReviewPage() {
         });
         if (res.ok) {
           const savedReview = await res.json();
+          console.log(reviews);
           setReviews([...reviews, savedReview]);
         } else {
           alert('failed to post a review');
