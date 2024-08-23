@@ -2,7 +2,7 @@ import { Form, Row, Col } from 'react-bootstrap';
 
 const SizeQuantityInput = ({ sizes, values , onQuantityChange }) => {
   const handleChange = (size, value) => {
-    // Call the parent component's callback function
+   
     onQuantityChange(size, value);
   };
   return (

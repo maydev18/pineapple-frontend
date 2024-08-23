@@ -1,12 +1,12 @@
 .starRating {
   display: flex;
-  gap: 5px;
+  gap: 1px;
 }
 
 .star {
-  font-size: 30px;
+  font-size: 25px;
   cursor: pointer;
-  color: gray;
+  color: rgb(207, 207, 207);
   
   margin-bottom: 1rem;
 }

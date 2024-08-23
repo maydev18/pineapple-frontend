@@ -12,15 +12,26 @@
 .modalHeader {
   background-color: #f8f9fa; /* Light grey background */
   border-bottom: 1px solid #dee2e6; /* Light grey border */
- 
- 
 }
 
 
 
 .modalHeading{
  display: flex;
+ flex-direction: column;
  
+}
+
+.modalStatus{
+ 
+  margin-left: 2rem;
+  background-color: rgb(245, 191, 191);
+  max-width: fit-content;
+  padding: 0.3rem;
+  border-radius: 10px;
+  border: 1px solid rgb(184, 0, 0);
+  color: rgb(184, 0, 0);
+  font-weight: 500;
 }
 
 .modalTitle {
@@ -33,55 +44,18 @@
 
 }
 
-.modalDate,
-.modalStatus {
-  font-size: 15px;
-  color: #6c757d; /* Grey color */ 
-}
 
-.modalStatus {
-  background-color: rgb(245, 200, 200);
-  border: 1px solid rgb(252, 114, 114);
-  border-radius: 10px;
-  padding: 2px 9px;
-  height: 3vh;
-  margin-top: 1.5rem
-}
-
-.modalBody  p{
-  font-size: 0.7rem;
-  margin: 0;
-  padding: 0;
-  color: #333;
-  text-align: left;
-}
-
-.productInfo img {
-  width: 30px; /* Reduced size */
-  height: auto;
-  margin-bottom: 1rem;
-}
 
 .products img{
   width: 70px; /* Reduced size */
   height: auto;
   margin-bottom: 1rem;
 }
-.productInfo {
-  flex: 1;
-  margin-right: 2rem;
- 
-}
-
-.orderSummary {
-  flex: 1;
-  display: flex;
-  width: 100%;
-}
 
 
 .Details{
   text-align: left;
+  width: 80%;
 }
 
 .Details h5 {
@@ -95,6 +69,7 @@
   text-align: left;
   padding: 0;
   margin: 0;
+  font-size: 15px;
 }
 
 .products{
@@ -141,12 +116,8 @@ button:last-of-type {
 .Description{
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
-
-.price p{
-   padding-left: 29rem;
-}
-
 
 @media (max-width: 768px) {
   .orderDetails {
@@ -207,10 +178,23 @@ button:last-of-type {
   .Description{
     display: flex;
     justify-content: space-between;
+    width: 95%;
   }
 
   .price p{
     padding-left: 4rem;
  }
-  
+
+}
+
+.Reviewbutton{
+  padding: 10px 15px;
+  background-color: black;
+  color: white;
+  font-weight: 200;
+  border: none;
+}
+
+.Reviewbutton:hover{
+  background-color: var(--green);
 }

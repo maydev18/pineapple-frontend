@@ -18,8 +18,7 @@ const Hero = () => {
           <h1 className="sub-heading">Set the Standard</h1>
         
           <div className={classes.typedText}>
-            <p>loreMinim excepteur nisi nulla ad eiusmod voluptate aute ipsum id dolore.
-               Quis enim tempor magna eu cupidatat proident cupidatat labore veniam. 
+            <p>We redefine modern fashion with a blend of quiet confidence and bold expression. Embrace a style that speaks subtly yet leaves a lasting impression.
               </p>
           </div>
           <div className={classes.heroButtons}>

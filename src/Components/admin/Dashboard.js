@@ -24,12 +24,12 @@ const Dashboard = () => {
             <p>Add product Name, Size, <br/>Description, Images, Policies</p>
            <Link to='/addproducts' className={styles.btn}> Add products</Link>
           </div>
-
+{/* 
           <div className={styles.box}>
             <h3>Edit Product Details</h3>
             <p>Edit product Name, Size, <br/>Description, Images, Policies</p>
             <Link to='/edit' className={styles.btn}> Edit products</Link>
-          </div>
+          </div> */}
 
           <div className={styles.box}>
           <h3>Order updates</h3>
