@@ -375,11 +375,51 @@ ul {
   text-transform: capitalize;
 }
 
-.addressActions {
-
-}
 
 .deleteIcon, .editIcon {
   cursor: pointer;
   margin-left: 1rem;
 }
+
+.accordionHeader {
+  --bs-accordion-btn-bg: white;
+  --bs-accordion-active-bg: rgb(255, 255, 255);
+  --bs-accordion-btn-focus-box-shadow: none;
+  background-color: #f8f9fa;
+  color: #333; 
+  border: 1px solid #dee2e6; 
+  outline: none; 
+   box-shadow: none ;
+   -webkit-box-shadow: none ;
+}
+
+.accordionBody {
+  padding: 1rem; 
+  background-color: #ffffff; 
+  border-top: 1px solid #dee2e6; 
+}
+
+.accordionItem + .accordionItem {
+  margin-top: 0.5rem; 
+}
+
+.accordionBody li {
+  margin-bottom: 0.5rem; /* Space between list items */
+}
+
+.accordionHeader:hover {
+  background-color: #e9ecef; /* Light background on hover */
+}
+
+.accordionItem:last-child .accordionBody {
+  border-bottom: none; /* Remove border from last item */
+}
+
+/* Remove blue color on focus/active state */
+.accordionHeader:focus,
+.accordionHeader:active {
+  outline: none; /* Remove default focus outline */
+  box-shadow: none; /* Remove default focus shadow */
+  background-color: #f8f9fa; /* Ensure background color remains consistent */
+}
+

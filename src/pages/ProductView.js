@@ -169,42 +169,41 @@ const ProductPage = () => {
             <button className={`${classes.productViewButton}`} onClick={() => setWishlistOpen(true)}>Wishlist</button>
           </div>
           <Accordion className="mt-4">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Fit & Size</Accordion.Header>
-              <Accordion.Body>
-                <ul>
-                  <li>Fit: {product.fit}</li>
-                  <li>Size: {product.size}</li>
-                </ul>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>Care Instructions</Accordion.Header>
-              <Accordion.Body>
-                <ul>
-                  <li>{product.washCare}</li>
-                  <li></li>
-                </ul>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="2">
-              <Accordion.Header>Specifications</Accordion.Header>
-              <Accordion.Body>
-                <ul>
-                  <li>{product.specifications}</li>
-                </ul>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="3">
-              <Accordion.Header>Shipping & Returns</Accordion.Header>
-              <Accordion.Body>
-                <ul>
-                  <li>Free shipping on orders over INR 1000.</li>
-                  <li>Easy returns within 30 days of purchase.</li>
-                </ul>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+    <Accordion.Item eventKey="0" className={classes.accordionItem}>
+      <Accordion.Header className={classes.accordionHeader}>Fit & Size</Accordion.Header>
+      <Accordion.Body className={classes.accordionBody}>
+        <ul>
+          <li>Fit: {product.fit}</li>
+          <li>Size: {product.size}</li>
+        </ul>
+      </Accordion.Body>
+    </Accordion.Item>
+    <Accordion.Item eventKey="1" className={classes.accordionItem}>
+      <Accordion.Header className={classes.accordionHeader}>Care Instructions</Accordion.Header>
+      <Accordion.Body className={classes.accordionBody}>
+        <ul>
+          <li>{product.washCare}</li>
+        </ul>
+      </Accordion.Body>
+    </Accordion.Item>
+    <Accordion.Item eventKey="2" className={classes.accordionItem}>
+      <Accordion.Header className={classes.accordionHeader}>Specifications</Accordion.Header>
+      <Accordion.Body className={classes.accordionBody}>
+        <ul>
+          <li>{product.specifications}</li>
+        </ul>
+      </Accordion.Body>
+    </Accordion.Item>
+    <Accordion.Item eventKey="3" className={classes.accordionItem}>
+      <Accordion.Header className={classes.accordionHeader}>Shipping & Returns</Accordion.Header>
+      <Accordion.Body className={classes.accordionBody}>
+        <ul>
+          <li>Free shipping on orders over INR 1000.</li>
+          <li>Easy returns within 30 days of purchase.</li>
+        </ul>
+      </Accordion.Body>
+    </Accordion.Item>
+  </Accordion>
         </div>
       </div>
       <div className={classes.reviewSection}>
@@ -223,7 +222,7 @@ const ProductPage = () => {
         fillColor: '#0a1f1c',
         bgColor: '#0a1f1c'
       }}
-      styles={{
+      classes={{
        
         Average: { color: '#0a1f1c' },
         AverageStarIcon: {
@@ -287,7 +286,7 @@ const ProductPage = () => {
           ) : (
             <p>No reviews yet.</p>
           )}
-          <ReviewPage reviews = {reviews} setReviews = {setReviews} />
+        
              
       </div>
       <CartSidebar
