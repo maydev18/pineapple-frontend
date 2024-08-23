@@ -4,8 +4,8 @@ import styles from './OrderModal.module.css';
 import StarRating from '../Components/StarRating';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams } from 'react-router-dom';
-
-
+import { getAuthToken } from '../utils/Auth';
+import { Link } from 'react-router-dom';
 function getsize(size) {
   if (size === 'small') return 'S';
   if (size === 'medium') return 'M';
@@ -16,34 +16,36 @@ function getsize(size) {
 
 const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, address, completed, date, reviews , setReviews }) => {
   const [reviewOpenIndex, setReviewOpenIndex] = useState(null);
-  const { productID } = useParams();
   const [username, setUserName] = useState('');
   const [stars, setStars] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-  const handleReviewSubmit = async (event) => {
+  const handleReviewSubmit = async (event , id) => {
     setIsSubmitting(true);
     event.preventDefault();
     const res = await fetch('http://localhost:8080/post-review', {
       method: 'post',
+      headers : {
+        "Authorization" : 'bearer ' + getAuthToken(),
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         stars: stars,
         content: content,
         buyer: username,
-        productID: productID,
+        productID: id,
       }),
     });
     if (res.ok) {
       const savedReview = await res.json();
-      console.log(reviews);
-      setReviews([...reviews, savedReview]);
+      console.log(savedReview);
+      // setReviews([...reviews, savedReview]);
     } else {
       alert('failed to post a review');
     }
     setIsSubmitting(false);
-    setStars('');
+    setStars(0);
     setContent('');
     setUserName('');
   };
@@ -69,7 +71,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
           <Modal.Body>
             <div className={styles.orderDetails}>
               <div className={styles.products}>
-                <img src={pro.image} alt="Product" className={`${styles.productImage} mb-3`} />
+                <Link to = {'/products/' + pro._id}><img src={pro.image} alt="Product" className={`${styles.productImage} mb-3`} /> </Link>
                 <div className={styles.Details}>
                   <h5>{pro.title}</h5>
                   <div className={styles.Description}>
@@ -81,7 +83,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
                       <p><strong>Price: </strong> ₹ {pro.price * pro.quantity}</p>
                     </div>
                   </div>
-                  <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index)} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
+                  <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index , )} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
         
                     Write a Review
                   </button>
@@ -93,7 +95,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
           <Accordion className={styles.reviewAccordion} activeKey={reviewOpenIndex === index ? '0' : null}>
             <Accordion.Collapse eventKey="0">
               <Modal.Body>
-                <Form onSubmit={handleReviewSubmit}>
+                <Form onSubmit={(e)=>{handleReviewSubmit(e , pro._id)}}>
                   <Form.Group>
                   <StarRating rating={stars} onRatingChange={setStars} disabled={isSubmitting} /> 
                   </Form.Group>
@@ -110,9 +112,9 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
                 disabled={isSubmitting} style={{marginBottom: '1rem'}}/>
                   </Form.Group>
 
-                <button type="submit" className={styles.Reviewbutton} disabled={isSubmitting}>
-                Submit Review
-              </button>
+                <button type="submit" className={styles.Reviewbutton} disabled={isSubmitting}> 
+                  Submit Review
+                </button>
                 </Form>
               </Modal.Body>
             </Accordion.Collapse>

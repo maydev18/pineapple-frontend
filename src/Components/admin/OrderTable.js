@@ -6,7 +6,7 @@ import { Spinner, Modal, Button } from 'react-bootstrap'; // Import Modal and Bu
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import { Check } from 'react-bootstrap-icons';
 import styles from './Dashboard.module.css'; // Import the CSS module
-
+import { format } from 'date-fns';
 function getsize(size) {
   if (size === 'small') return 'S';
   if (size === 'medium') return 'M';
@@ -106,7 +106,7 @@ const Demo = () => {
     },
     {
       name: 'Order Time',
-      selector: row => new Date(row.time).toLocaleString(),
+      selector: row => format(new Date(row.time), 'dd-MM-yyyy'),
       sortable: true,
     },
     {
