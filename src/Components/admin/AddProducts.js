@@ -4,13 +4,7 @@ import Form from 'react-bootstrap/Form';
 import SizeQuantityInput from './SizeInput';
 import { getAuthToken } from '../../utils/Auth';
 import { Spinner } from 'react-bootstrap';
-function convertSize(size){
-  if(size === 'S') return 'small';
-  if(size === 'M') return 'medium';
-  if(size === 'L') return 'large';
-  if(size === 'XL') return 'extraLarge';
-  if(size === 'XXL') return 'doubleExtraLarge';
-}
+import { getFullSize } from '../../utils/cartUtils/convertSize';
 const AddProducts = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -80,7 +74,7 @@ const AddProducts = () => {
       }
     });
     for(let size in quantities){
-      submissionData.append(convertSize(size) , quantities[size]);
+      submissionData.append(getFullSize(size) , quantities[size]);
     }
 
     const response = await fetch(process.env.REACT_APP_BASE_URL + 'admin/add-product', {

@@ -8,13 +8,7 @@ import logo from '../images/logo_black.png';
 import { Form, Card } from 'react-bootstrap';
 import { redirect } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-function getsize(size){
-    if(size === 'small') return 'S';
-    if(size === 'medium') return 'M';
-    if(size === 'large') return 'L';
-    if(size === 'extraLarge') return 'XL';
-    if(size === 'doubleExtraLarge') return 'XXL';
-}
+import { getsize } from '../utils/cartUtils/convertSize';
 const Checkout = () => {
     const navigate = useNavigate();
     const [cartItems , setCartProducts] = useState([]);

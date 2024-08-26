@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styles from './Header.module.css';
 import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
+import { CartContext } from '../context/CartContext';
 
 const sidebarVariants = {
   open: {
@@ -37,7 +38,8 @@ const itemVariants = {
   },
 };
 
-const Header = ({ onOpenCart }) => {
+const Header = () => {
+  const {openCart , closeCart} = useContext(CartContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -67,9 +69,9 @@ const Header = ({ onOpenCart }) => {
           <Link to="#favorite">
             <Icon icon="ic:baseline-favorite-border" width="24" height="24" color='white' />
           </Link>
-          <Link onClick={onOpenCart}>
+          <div onClick={() => {openCart()}} style={{cursor : "pointer"}}>
             <Icon icon="ic:baseline-shopping-bag" width="24" height="24" color='white' />
-          </Link>
+          </div>
         </div>
       </header>
 

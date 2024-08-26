@@ -3,6 +3,7 @@ import { Form, Modal, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import ToggleButton from './ToggleButton';
+import { getAuthToken } from '../../utils/Auth';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -23,10 +24,15 @@ const Inventory = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await fetch(process.env.REACT_APP_BASE_URL + 'products');
+      const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/products' , {
+        method : 'get',
+        headers : {
+          'authorization' : 'bearer ' + getAuthToken()
+        },
+      });
       const prod = await res.json();
-      setProducts(prod.products);
-      setFilter(prod.products);
+      setProducts(prod);
+      setFilter(prod);
     };
     fetchProducts();
   }, []);
@@ -94,7 +100,12 @@ const Inventory = () => {
                       <td>{product.large}</td>
                       <td>{product.extraLarge}</td>
                       <td>{product.doubleExtraLarge}</td>
-                      <td><ToggleButton /></td>
+                      <td>
+                        <ToggleButton
+                          visible = {product.visible}
+                          id = {product._id}
+                        />
+                      </td>
                       <td><p onClick={() => handleShow(product)}>Edit</p></td>
                     </tr>
                   ))}

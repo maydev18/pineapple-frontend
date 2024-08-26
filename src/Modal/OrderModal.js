@@ -6,13 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams } from 'react-router-dom';
 import { getAuthToken } from '../utils/Auth';
 import { Link } from 'react-router-dom';
-function getsize(size) {
-  if (size === 'small') return 'S';
-  if (size === 'medium') return 'M';
-  if (size === 'large') return 'L';
-  if (size === 'extraLarge') return 'XL';
-  if (size === 'doubleExtraLarge') return 'XXL';
-}
+import { getsize } from '../utils/cartUtils/convertSize';
 
 const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, address, completed, date, reviews , setReviews }) => {
   const [reviewOpenIndex, setReviewOpenIndex] = useState(null);
@@ -35,6 +29,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
         content: content,
         buyer: username,
         productID: id,
+        orderID : orderID
       }),
     });
     if (res.ok) {
@@ -83,10 +78,11 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
                       <p><strong>Price: </strong> ₹ {pro.price * pro.quantity}</p>
                     </div>
                   </div>
-                  <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index , )} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
-        
-                    Write a Review
-                  </button>
+                  {!pro.reviewed && completed && (
+                    <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index , )} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
+                      Write a Review
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

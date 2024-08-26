@@ -7,13 +7,7 @@ import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import { Check } from 'react-bootstrap-icons';
 import styles from './Dashboard.module.css'; // Import the CSS module
 import { format } from 'date-fns';
-function getsize(size) {
-  if (size === 'small') return 'S';
-  if (size === 'medium') return 'M';
-  if (size === 'large') return 'L';
-  if (size === 'extraLarge') return 'XL';
-  if (size === 'doubleExtraLarge') return 'XXL';
-}
+import { getsize } from '../../utils/cartUtils/convertSize';
 
 const sortIcon = <ArrowDownward />;
 
