@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
 import WishlistSidebar from '../Components/WishListSidebar';
@@ -12,94 +12,28 @@ import { format } from 'date-fns';
 import { Spinner } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import RatingSummary from '@keyvaluesystems/react-star-rating-summary';
-import { color } from 'framer-motion';
-import ReviewPage from './ReviewPage';
-
+import VerifiedIcon from '@mui/icons-material/Verified';
+import { green } from '@mui/material/colors';
+import { getFullSize } from '../utils/cartUtils/convertSize';
+import { CartContext } from '../context/CartContext';
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
-const token = getAuthToken();
-const isLoggedIn = token === null || token === 'EXPIRED' ? false : true;
 
 const ProductPage = () => {
+  const {addToCart , openCart} = useContext(CartContext);
   const { productID } = useParams();
   const [reviews, setReviews] = useState([]);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const [cartproducts, setCartProducts] = useState([]);
-  const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
-  const [isWishlistSidebarOpen, setIsWishlistSidebarOpen] = useState(false);
-  const [isWishlistOpen, setWishlistOpen] = useState(false);
-  const [addresses, setAddresses] = useState([]); // Manage addresses
   const [showAllReviews, setShowAllReviews] = useState(false); // Manage number of reviews displayed
-  const [canUserReview , setCanUserReview] = useState(false);
   const [ratingValues , setRatingValues] = useState({5: 0,4: 0,3: 0,2: 0,1: 0});
+
   const handleAddToCart = async () => {
     setIsSubmitting(true);
-    let size;
-    if (selectedSize === 'S') size = 'small';
-    else if (selectedSize === 'M') size = 'medium';
-    else if (selectedSize === 'L') size = 'large';
-    else if (selectedSize === 'XL') size = 'extraLarge';
-    else if (selectedSize === 'XXL') size = 'doubleExtraLarge';
-    const res = await fetch('http://localhost:8080/add-to-cart', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'bearer ' + getAuthToken(),
-      },
-      body: JSON.stringify({
-        productID: productID,
-        size: size,
-      }),
-    });
-    if (res.ok) {
-      getCartItems();
-      setIsCartSidebarOpen(true);
-    } else {
-      alert('Failed adding to cart');
-    }
+    const size = getFullSize(selectedSize);
+    await addToCart(productID , size);
     setIsSubmitting(false);
+    openCart(true);
   };
-
-  const getCartItems = async () => {
-    const res = await fetch('http://localhost:8080/cart', {
-      headers: {
-        Authorization: 'bearer ' + token,
-      },
-    });
-    if (!res.ok) {
-      alert('failed to fetch cart items');
-    } else {
-      const cartItems = await res.json();
-      setCartProducts(cartItems);
-    }
-  };
-
-  useEffect(() => {
-    getCartItems();
-  }, []);
-
-  const handleAddToWishlist = () => {
-    setIsWishlistSidebarOpen(true);
-  };
-
-  const handleCloseCartSidebar = () => {
-    setIsCartSidebarOpen(false);
-  };
-
-  const handleCloseWishlistSidebar = () => {
-    setIsWishlistSidebarOpen(false);
-  };
-
- 
-  const handleEditClick = (address) => {
-   
-  };
-
-  const handleDeleteAddress = async (addressID) => {
-  
-  };
-
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -119,19 +53,7 @@ const ProductPage = () => {
     };
     fetchReviews();
   }, [productID]);
-  useEffect(() => {
-    const fun = async () => {
-      const res = await fetch('http://localhost:8080/can-review/' + productID , {
-        headers : {
-          'Authorization' : "Bearer " + getAuthToken()
-        }
-      });
-      const data = await res.json();
-      setCanUserReview(data);
-      console.log(data);
-    }
-    fun();
-  })
+
   const data = useLoaderData();
   const product = data.product;
   const images = product.moreImages;
@@ -166,7 +88,6 @@ const ProductPage = () => {
             <button className={`${classes.productViewButton}`} onClick={handleAddToCart}>
               {isSubmitting ? <Spinner animation="border" /> : 'Add to Cart'}
             </button>
-            <button className={`${classes.productViewButton}`} onClick={() => setWishlistOpen(true)}>Wishlist</button>
           </div>
           <Accordion className="mt-4">
     <Accordion.Item eventKey="0" className={classes.accordionItem}>
@@ -251,10 +172,10 @@ const ProductPage = () => {
                   <li key={index} className={classes.reviewItem}>
                     <div className={classes.alignCard}>
                     <strong>{rev.buyer}</strong>
-                    <div className={classes.addressActions}>
-                      <Icon icon="mdi:pencil" className={classes.editIcon} onClick={() => handleEditClick(rev.address)} fontSize={"20px"} />
-                      <Icon icon="mdi:trash" className={classes.deleteIcon} onClick={() => handleDeleteAddress(rev.addressID)} fontSize={"20px"} />
-                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <VerifiedIcon style={{ color: green[500] }} />
+                        <span style={{ marginLeft: '8px' }}>Verified Buyer</span>
+                      </div>
                     </div>
                     <div>
                       {
@@ -285,23 +206,9 @@ const ProductPage = () => {
             </div>
           ) : (
             <p>No reviews yet.</p>
-          )}
-        
-             
+          )}   
       </div>
-      <CartSidebar
-        product={product}
-        selectedSize={selectedSize}
-        isOpen={isCartSidebarOpen}
-        onClose={handleCloseCartSidebar}
-        cartproducts={cartproducts}
-        getCartItems={getCartItems}
-      />
-      <WishlistSidebar
-        isOpen={isWishlistOpen}
-        onClose={() => setWishlistOpen(false)}
-        onAddToCart={handleAddToCart}
-      />
+      <CartSidebar />
     </>
   );
 };

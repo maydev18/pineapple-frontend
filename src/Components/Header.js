@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styles from './Header.module.css';
 import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
+import { CartContext } from '../context/CartContext';
 
 const sidebarVariants = {
   open: {
@@ -37,14 +38,14 @@ const itemVariants = {
   },
 };
 
-const Header = ({ onOpenCart }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
+const Header = () => {
+  const {openCart , closeCart , isopen} = useContext(CartContext);
+  const toggleSidebar = () =>{
+    if(isopen) closeCart();
+    else openCart();
+  }
   return (
+
     <>
       <header className={styles.header}>
         <div className={styles.menuIcon} onClick={toggleSidebar}>
@@ -67,16 +68,16 @@ const Header = ({ onOpenCart }) => {
           <Link to="#favorite">
             <Icon icon="ic:baseline-favorite-border" width="24" height="24" color='white' />
           </Link>
-          <Link onClick={onOpenCart}>
+          <div onClick={() => {openCart()}} style={{cursor : "pointer"}}>
             <Icon icon="ic:baseline-shopping-bag" width="24" height="24" color='white' />
-          </Link>
+          </div>
         </div>
       </header>
 
       <motion.div
-        className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}
-        initial={sidebarOpen ? "open" : "closed"}
-        animate={sidebarOpen ? "open" : "closed"}
+        className={`${styles.sidebar} ${isopen ? styles.isopen : ''}`}
+        initial={isopen ? "open" : "closed"}
+        animate={isopen ? "open" : "closed"}
         variants={sidebarVariants}
       >
         <nav className={styles.sidebarNav}>
@@ -89,7 +90,7 @@ const Header = ({ onOpenCart }) => {
         </nav>
       </motion.div>
 
-      {sidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
+      {isopen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
     </>
   );
 };
