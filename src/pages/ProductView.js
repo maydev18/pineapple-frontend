@@ -24,7 +24,7 @@ const ProductPage = () => {
   const [reviews, setReviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const [showAllReviews, setShowAllReviews] = useState(false); 
+  const [showAllReviews, setShowAllReviews] = useState(false); // Manage number of reviews displayed
   const [ratingValues , setRatingValues] = useState({5: 0,4: 0,3: 0,2: 0,1: 0});
 
   const handleAddToCart = async () => {
