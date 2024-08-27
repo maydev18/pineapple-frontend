@@ -3,21 +3,29 @@ import OrderItem from './OrderItem';
 import classes from './Orderspage.module.css';
 import { getAuthToken } from '../utils/Auth';
 import { format } from 'date-fns';
+import { useError } from '../context/ErrorContext';
 const OrdersPage = () => {
+  const {showError} = useError();
   const [orders,onOrdersChange] = useState([]);
-  useEffect(() => {
-    const orderLoader = async () => {
+  const orderLoader = async () => {
+    try{
       const res = await fetch('http://localhost:8080/orders' , {
         headers : {
           'Authorization' : 'bearer ' + getAuthToken()
         }
       });
       if(!res.ok){
-        alert('failed to fetch orders');
+        const err = await res.json();
+        throw err;
       }
       const resData = await res.json();
       onOrdersChange(resData);
     }
+    catch(err){
+      showError(err.message , 'danger');
+    }
+  }
+  useEffect(() => {
     orderLoader();
   } , [])
   const handleCancel = (orderId) => {

@@ -7,42 +7,49 @@ import { useParams } from 'react-router-dom';
 import { getAuthToken } from '../utils/Auth';
 import { Link } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
-
+import { useError } from '../context/ErrorContext';
 const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, address, completed, date, reviews , setReviews }) => {
   const [reviewOpenIndex, setReviewOpenIndex] = useState(null);
   const [username, setUserName] = useState('');
   const [stars, setStars] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {showError} = useError();
 
   const handleReviewSubmit = async (event , id) => {
-    setIsSubmitting(true);
-    event.preventDefault();
-    const res = await fetch('http://localhost:8080/post-review', {
-      method: 'post',
-      headers : {
-        "Authorization" : 'bearer ' + getAuthToken(),
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        stars: stars,
-        content: content,
-        buyer: username,
-        productID: id,
-        orderID : orderID
-      }),
-    });
-    if (res.ok) {
-      const savedReview = await res.json();
-      console.log(savedReview);
-      // setReviews([...reviews, savedReview]);
-    } else {
-      alert('failed to post a review');
+    try{
+      setIsSubmitting(true);
+      event.preventDefault();
+      const res = await fetch('http://localhost:8080/post-review', {
+        method: 'post',
+        headers : {
+          "Authorization" : 'bearer ' + getAuthToken(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          stars: stars,
+          content: content,
+          buyer: username,
+          productID: id,
+          orderID : orderID
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw err;
+      }
+      showError("Your Review is successfully posted" , 'success');
+      setStars(null);
+      setContent('');
+      setUserName('');
     }
-    setIsSubmitting(false);
-    setStars(0);
-    setContent('');
-    setUserName('');
+    catch(err){
+      showError(err.message , 'danger');
+    }
+    finally{
+      setIsSubmitting(false);
+    }
+    
   };
 
 
@@ -105,7 +112,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
                   <Form.Group controlId={`reviewText-${index}`}>
                     <Form.Label style={{marginBottom: '0.5rem', marginLeft: '0.2rem', color: 'black', fontWeight: '500'}} >Review</Form.Label>
                     <Form.Control as="textarea" rows={3} placeholder="Write your review"  onChange={(e) => setContent(e.target.value)}
-                disabled={isSubmitting} style={{marginBottom: '1rem'}}/>
+                disabled={isSubmitting} style={{marginBottom: '1rem'}} value={content}/>
                   </Form.Group>
 
                 <button type="submit" className={styles.Reviewbutton} disabled={isSubmitting}> 

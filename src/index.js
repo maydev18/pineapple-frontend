@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './context/CartContext';
+import { ErrorProvider } from './context/ErrorContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <ErrorProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </ErrorProvider>
   </React.StrictMode>
 );
 

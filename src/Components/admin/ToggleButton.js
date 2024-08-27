@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import styles from './Dashboard.module.css'
 import { Spinner } from 'react-bootstrap';
 import { getAuthToken } from '../../utils/Auth';
+import { useError } from '../../context/ErrorContext';
 const ToggleButton = ({visible , id}) => {
   console.log(visible);
   const [isToggled, setIsToggled] = useState(visible === true ? true : false);
   const [isSubmitting , setIsSubmitting] = useState(false);
+  const {showError} = useError();
   const handleToggle = async () => {
     try {
       const userConfirmed = window.confirm("Are you sure?");
@@ -16,15 +18,14 @@ const ToggleButton = ({visible , id}) => {
             'Authorization': 'Bearer ' + getAuthToken()
           }
         });
-  
         if (!res.ok) {
-          throw new Error('Failed to toggle visibility');
+          const err = await res.json();
+          throw err;
         }
-  
         setIsToggled(!isToggled);
       }
     } catch (err) {
-      alert(err.message);
+      showError(err.message , 'danger');
     }
   };
   
