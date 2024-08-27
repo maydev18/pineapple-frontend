@@ -17,6 +17,15 @@
 .open {
   transform: translateX(0);
 }
+.underlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 999; /* Ensure it appears below the sidebar */
+}
 
 .closeButton {
   position: absolute;
