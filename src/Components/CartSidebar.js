@@ -6,16 +6,12 @@ import { Link } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
 
 const CartSidebar = () => {
-  const { cart, isOpen, closeCart } = useContext(CartContext);
-
+  const {cart , isOpen , closeCart} = useContext(CartContext);
   return (
     <>
-      {/* Underlay that appears when the cart is open */}
       {isOpen && <div className={styles.underlay} onClick={closeCart}></div>}
-      
-      {/* Cart Sidebar */}
       <div className={`${styles.cartSidebar} ${isOpen ? styles.open : ''}`}>
-        <button className={styles.closeButton} onClick={closeCart}>X</button>
+        <button className={styles.closeButton} onClick={() => {closeCart()}}>X</button>
         <h1 className={styles.cartHeading}>Cart</h1>
         <hr />
         {cart.length === 0 ? (
@@ -36,7 +32,7 @@ const CartSidebar = () => {
             ))}
             <div className={styles.proceedbutton}>
               <Link to='/checkout'>
-                <button className={styles.checkoutButton} style={{ textDecoration: "none" }}>
+                <button className={styles.checkoutButton} style={{textDecoration: "none"}}>
                   Proceed to Payment
                 </button>
               </Link>
@@ -47,5 +43,6 @@ const CartSidebar = () => {
     </>
   );
 };
+
 
 export default CartSidebar;
