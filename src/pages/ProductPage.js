@@ -17,10 +17,9 @@ const ProductPage = () => {
         
         <div className={classes.cardContainer}>
           {products.map((product, index) => (
-            <Link to={`/products/${product._id}`} style={{textDecoration : "none"}} key={product._id}>
+            <Link to={`/products/${product._id}`} style={{textDecoration : "none"}} key={index}>
               <Card
                 color = 'black'
-                key={product._id}
                 image={product.mainImage}
                 hoverImage={product.backImage}
                 title={product.title}
@@ -44,6 +43,6 @@ export async function loader(){
     return response;
   }
   catch(err){
-    throw json({message : "Could not fetch events"} , {status : 500})
+    throw json({message : "Could not fetch Products"} , {status : 500})
   }
 }

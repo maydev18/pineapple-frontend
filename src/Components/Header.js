@@ -39,11 +39,11 @@ const itemVariants = {
 };
 
 const Header = () => {
-  const {openCart , closeCart , isopen} = useContext(CartContext);
-  const toggleSidebar = () =>{
-    if(isopen) closeCart();
-    else openCart();
-  }
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const {openCart} = useContext(CartContext);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   return (
 
     <>
@@ -75,9 +75,9 @@ const Header = () => {
       </header>
 
       <motion.div
-        className={`${styles.sidebar} ${isopen ? styles.isopen : ''}`}
-        initial={isopen ? "open" : "closed"}
-        animate={isopen ? "open" : "closed"}
+        className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}
+        initial={sidebarOpen ? "open" : "closed"}
+        animate={sidebarOpen ? "open" : "closed"}
         variants={sidebarVariants}
       >
         <nav className={styles.sidebarNav}>
@@ -90,7 +90,7 @@ const Header = () => {
         </nav>
       </motion.div>
 
-      {isopen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
+      {sidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
     </>
   );
 };

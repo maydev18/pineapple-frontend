@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classes from './OrderItem.module.css';
 import OrderDetailsModal from '../Modal/OrderModal';
-import { Icon } from '@iconify/react';
 
 const OrderItem = ({onCancel , orderID , paymentID , products , address , time , completed}) => {
   const [showModal, setShowModal] = useState(false);

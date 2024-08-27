@@ -7,7 +7,6 @@ import { getsize } from '../utils/cartUtils/convertSize';
 
 const CartSidebar = () => {
   const {cart , isOpen , closeCart} = useContext(CartContext);
-  console.log(cart);
   return (
     <div className={`${styles.cartSidebar} ${isOpen ? styles.open : ''}`}>
       <button className={styles.closeButton} onClick={() => {closeCart()}}>X</button>

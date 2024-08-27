@@ -1,12 +1,12 @@
-import {createContext, useState, useEffect} from "react";
+import {createContext, useState, useEffect , useContext} from "react";
 import { getAuthToken } from "../utils/Auth";
-
+import { useError } from "./ErrorContext";
 export const CartContext = createContext();
-
+export const useCart = () => useContext(CartContext); 
 export const CartProvider = ({children}) => {
     const [cart , setCartProducts] = useState([]);
     const [isOpen , setIsOpen] = useState(false);
-
+    const {showError} = useError();
     const fetchCart = async () => {
         try{
             const res = await fetch('http://localhost:8080/cart', {
@@ -14,11 +14,15 @@ export const CartProvider = ({children}) => {
                 Authorization: 'bearer ' + getAuthToken(),
                 },
             });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             const cartItems = await res.json();
             setCartProducts(cartItems);
         }
         catch(err){
-            alert(err.message);
+            showError(err.message , 'danger');
         }
     };
     useEffect(() => {
@@ -37,12 +41,16 @@ export const CartProvider = ({children}) => {
                     size: size,
                 }),
             });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             const cartItems = await res.json();
             setCartProducts(cartItems);
             setIsOpen(true);
         }
         catch(err){
-            alert("failed in adding to cart");
+            showError(err.message , 'danger');
         }
     };
     const deleteFromCart = async(productID , size) => {
@@ -58,12 +66,16 @@ export const CartProvider = ({children}) => {
                     size : size
                 })
             });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             const cartItems = await res.json();
             setCartProducts(cartItems);
             setIsOpen(true);
         }
         catch(err){
-            alert("failed removing from cart");
+            showError(err.message , 'danger');
         }
     };
     const openCart = () => {
@@ -73,7 +85,7 @@ export const CartProvider = ({children}) => {
         setIsOpen(false);
     }
     return (
-        <CartContext.Provider value = {{cart , addToCart , deleteFromCart , isOpen , openCart , closeCart}}>
+        <CartContext.Provider value = {{cart , addToCart , deleteFromCart , isOpen , openCart , closeCart , fetchCart}}>
             {children}
         </CartContext.Provider>
     );

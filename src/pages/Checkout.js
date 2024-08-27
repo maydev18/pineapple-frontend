@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
 import CartItem from '../Components/CartItem'; // Ensure this path is correct
-import { Icon } from '@iconify/react';
 import { getAuthToken } from '../utils/Auth';
-import { add } from 'date-fns';
 import logo from '../images/logo_black.png';
 import { Form, Card } from 'react-bootstrap';
-import { redirect } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
+import { useError } from '../context/ErrorContext';
+import { useCart } from '../context/CartContext';
 const Checkout = () => {
     const navigate = useNavigate();
     const [cartItems , setCartProducts] = useState([]);
     const [savedAddresses , setAddresses] = useState([]);
     const [amount , setAmount] = useState(null);
-
+    const {showError} = useError();
+    const {fetchCart} = useCart();
     const getCartItems = async () => {
-        const res = await fetch("http://localhost:8080/cart" , {
-        headers : {
-            'Authorization' : 'bearer ' + getAuthToken()
-        }
-        });
-        if(!res.ok){
-        alert('failed to fetch cart items');
-        }
-        else{
+        try{
+            const res = await fetch("http://localhost:8080/cart" , {
+                headers : {
+                    'Authorization' : 'bearer ' + getAuthToken()
+                }
+            });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             const data = await res.json();
             setCartProducts(data);
             let total = 0
@@ -33,19 +34,26 @@ const Checkout = () => {
             })
             setAmount(total);
         }
+        catch(err){
+            showError(err.message , 'danger');
+        }
     }
     const getAddresses = async () => {
-        const res = await fetch("http://localhost:8080/get-addresses" , {
-        headers : {
-            'Authorization' : 'bearer ' + getAuthToken()
-        }
-        });
-        if(!res.ok){
-        alert('failed to fetch addresses items');
-        }
-        else{
+        try{
+            const res = await fetch("http://localhost:8080/get-addresses" , {
+                headers : {
+                    'Authorization' : 'bearer ' + getAuthToken()
+                }
+            });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             const add = await res.json();
             setAddresses(add.addresses);
+        }
+        catch(err){
+            showError(err.message , 'danger');
         }
     }
     useEffect(() => {
@@ -80,53 +88,58 @@ const Checkout = () => {
             pincode : newAddress.pincode,
             landmark : newAddress.landmark
         }
-        setNewAddress({
-            fullName: '',
-            phone: '',
-            firstLine: '',
-            secondLine: '',
-            state: '',
-            city: '',
-            pincode: '',
-            landmark: '',
-        });
         return data;
     }
     const handleAddAddress =async () => {
-        const data = getAddressData();
-        const res = await fetch("http://localhost:8080/add-address" , {
-            method : 'POST',
-            headers : {
-                'Authorization' : 'bearer ' + getAuthToken() ,
-                'Content-type' : 'application/json',
-            },
-            body : JSON.stringify(data)
-        });
-        if(!res.ok){
-            alert('adding address failed');
-        }
-        else{
+        try{
+            const data = getAddressData();
+            const res = await fetch("http://localhost:8080/add-address" , {
+                method : 'POST',
+                headers : {
+                    'Authorization' : 'bearer ' + getAuthToken() ,
+                    'Content-type' : 'application/json',
+                },
+                body : JSON.stringify(data)
+            });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             const add = await res.json();
             setAddresses([...savedAddresses , {addressID : add}]);
+            setIsAddingAddress(false);
+            setNewAddress({
+                fullName: '',
+                phone: '',
+                firstLine: '',
+                secondLine: '',
+                state: '',
+                city: '',
+                pincode: '',
+                landmark: '',
+            });
+        }       
+        catch(err){
+            showError(err.message , 'danger');
         }
-        setIsAddingAddress(false);
     };
 
     const handleEditAddress = async () => {
-        const data = getAddressData();
-        data.addressID = editingAddressID;
-        const res = await fetch('http://localhost:8080/edit-address' , {
-            method : "POST",
-            headers : {
-                'Content-type' : 'application/json',
-                'Authorization' : 'Bearer ' + getAuthToken()
-            },
-            body : JSON.stringify(data)
-        })
-        if(!res.ok){
-            alert("failed editing address");
-        }
-        else{
+        try{
+            const data = getAddressData();
+            data.addressID = editingAddressID;
+            const res = await fetch('http://localhost:8080/edit-address' , {
+                method : "POST",
+                headers : {
+                    'Content-type' : 'application/json',
+                    'Authorization' : 'Bearer ' + getAuthToken()
+                },
+                body : JSON.stringify(data)
+            })
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
+            }
             setNewAddress({
                 fullName: '',
                 phone: '',
@@ -141,9 +154,11 @@ const Checkout = () => {
             setAddresses(savedAddresses.map(address =>
                 address.addressID._id === editingAddressID ? { addressID : add } : address
             ));
+            setIsEditingAddress(false);
         }
-        setIsEditingAddress(false);
-        setIsAddingAddress(false);
+        catch(err){
+            showError(err.message , 'danger');
+        }      
     };
     const handleEditClick = async (address) => {
         setNewAddress({
@@ -157,26 +172,28 @@ const Checkout = () => {
             state : address.state
         });
         setEditingAddressID(address._id);
-        setIsAddingAddress(true);
         setIsEditingAddress(true);
     };
-
     const handleDeleteAddress = async(id) => {
-        // setSavedAddresses(savedAddresses.filter(address => address.id !== id));
-        const res = await fetch('http://localhost:8080/delete-address' , {
-            method : 'delete',
-            body : JSON.stringify({addressID : id}),
-            headers : {
-                'Content-type' : 'application/json',
-                'authorization' : 'bearer ' + getAuthToken()
+        try{
+            const res = await fetch('http://localhost:8080/delete-address' , {
+                method : 'delete',
+                body : JSON.stringify({addressID : id}),
+                headers : {
+                    'Content-type' : 'application/json',
+                    'authorization' : 'bearer ' + getAuthToken()
+                }
+            });
+            if(!res.ok){
+                const err = await res.json();
+                throw err;
             }
-        });
-        if(!res.ok){
-            alert('failed to delete address');
+            setAddresses(savedAddresses.filter(address => address.addressID._id !== id));
         }
-        else{
-            getAddresses();
+        catch(err){
+            showError(err.message , 'danger');
         }
+        
     };
     const generateOrderId = async() => {
         const res = await fetch('http://localhost:8080/checkout' , {
@@ -185,51 +202,56 @@ const Checkout = () => {
             }
         })
         if(!res.ok){
-            alert('payment failed');
+            const err = await res.json();
+            throw err;
         }
-        else{
-            const data = await res.json();
-            return {
-                amount : data.amount,
-                id : data.id
-            }
+        const data = await res.json();
+        return {
+            amount : data.amount,
+            id : data.id
         }
     }
     const handleCheckout = async () => {
-        const {amount , id} = await generateOrderId();
-        console.log(amount , id);
-        var options = {
-            "key": "rzp_test_uY9lNpacaDbu5m", // Enter the Key ID generated from the Dashboard
-            "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            "currency": "INR",
-            "name": "Pineapple fashion",
-            "description": "Test Transaction",
-            "image": logo,
-            "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler":async function (response){
-                await createOrder(response)
-                navigate('/orders');
-            },
-            "prefill": {
-                "name": "Mayank Sharma",
-                "email": "ms772254@gmail.com",
-                "contact": "8750355389"
-            },
-            "theme": {
-                "color": "#3399cc"
-            }
-        };
-        var rzp1 = new window.Razorpay(options);
-        rzp1.on('payment.failed', function (response){
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-        });
-        rzp1.open();
+        try{
+            const {amount , id} = await generateOrderId();
+            var options = {
+                "key": "rzp_test_uY9lNpacaDbu5m", // Enter the Key ID generated from the Dashboard
+                "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Pineapple fashion",
+                "description": "Test Transaction",
+                "image": logo,
+                "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler":async function (response){
+                    await createOrder(response)
+                    navigate('/orders');
+                    showError("Payment done successfully" , 'success');
+                },
+                "prefill": {
+                    "name": "Mayank Sharma",
+                    "email": "ms772254@gmail.com",
+                    "contact": "8750355389"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new window.Razorpay(options);
+            rzp1.on('payment.failed', function (response){
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+            });
+            rzp1.open();
+        }
+        catch(err){
+            showError(err.message , 'danger');
+        }
+
     }
     const createOrder = async (data) => {
         const order = {
@@ -247,13 +269,10 @@ const Checkout = () => {
             body : JSON.stringify(order)
         });
         if(!res.ok){
-            alert("Payment failed");
+            const err = await res.json();
+            throw err;
         }
-        else{
-            const resdata = await res.json();
-            console.log(resdata)
-            return redirect('/orders');
-        }
+        fetchCart();
     }
     return (
         <><div className={classes.Checkoutcontainer}>
@@ -297,7 +316,7 @@ const Checkout = () => {
                             ) : (
                                 <p style={{ color: "black" }}>No saved addresses. Please add a new address below.</p>
                             )}
-                            {isAddingAddress && (
+                            {(isAddingAddress || isEditingAddress) && (
                                 <div className={classes.floatingLabel}>
                                     <label htmlFor="name">Full Name</label>
                                     <input

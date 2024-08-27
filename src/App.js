@@ -14,8 +14,6 @@ import {loader as ProductsLoader} from './pages/ProductPage';
 import {loader as ProductLoader} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
-import ReviewPage from './pages/ReviewPage';
-import AlertModal from './Modal/AlertModal'
 import Dashboard from './Components/admin/Dashboard';
 import AddProducts from './Components/admin/AddProducts';
 import PlacedOrder from './Components/admin/PlacedOrders';
@@ -51,13 +49,6 @@ const router = createBrowserRouter([
             path : ':productID',
             element : <ProductView />,
             loader : ProductLoader,
-            children: [
-              {
-                path : 'reviews',
-                element : <ReviewPage />,
-                loader : ProductLoader,
-              }
-            ]
           },
           
         ]
@@ -73,10 +64,6 @@ const router = createBrowserRouter([
       {
         path : 'orders',
         element : <Orderspage/>
-      },
-      {
-        path : 'popup',
-        element : <AlertModal/>
       },
       {
         path : 'admin',
@@ -98,9 +85,6 @@ const router = createBrowserRouter([
         path : 'inventory',
         element : <Inventory/>
       },
-      
-      
-      
     ]
   }
 ])
