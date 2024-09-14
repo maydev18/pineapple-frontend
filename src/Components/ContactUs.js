@@ -3,6 +3,7 @@ import classes from './ContactUs.module.css'; // Using CSS modules
 import group1 from '../images/Group 1.png';
 import group2 from '../images/Group 2.png';
 import group3 from '../images/Group 3.png';
+import DisabledButton from '../Components/DisabledButton'
 
 const ContactUs = () => {
     return (
@@ -24,6 +25,7 @@ const ContactUs = () => {
                 <p><strong>Email:</strong> contact@classicglobal.com</p>
                 <p><strong>Phone:</strong> +123 456 7890</p>
             </div>
+            <DisabledButton/>
         </section>
     );
 };

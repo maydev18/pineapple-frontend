@@ -21,7 +21,7 @@ const AddressBox = ({ address, onEditClick, onDeleteClick, onSaveChanges, isSele
             <Card.Body>
                 <Form.Check
                     type="radio"
-                    name="addressSelection" 
+                    name="address"
                     checked={isSelected}
                     onChange={onSelect}
                     label={
