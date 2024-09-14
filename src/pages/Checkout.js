@@ -19,6 +19,7 @@ const Checkout = () => {
     const [selectedAddress, setSelectedAddress] = useState(null); 
     const {showError} = useError();
     const {fetchCart} = useCart();
+    
  const [newAddress, setNewAddress] = useState({
         fullName: '',
         phone: '',
@@ -33,6 +34,8 @@ const Checkout = () => {
     const [isEditingAddress, setIsEditingAddress] = useState(false);
     const [editingAddressID, setEditingAddressID] = useState(null);
     const [open, setOpen] = useState(false); 
+
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         getCartItems();
@@ -122,10 +125,12 @@ const Checkout = () => {
                 pincode: '',
                 landmark: '',
             });
+            setIsOpen(false);
         }       
         catch(err){
             showError(err.message , 'danger');
         }
+
     };
     const getAddressData = () => {
         const data = {
@@ -240,13 +245,13 @@ const Checkout = () => {
         try{
             const {amount , id} = await generateOrderId();
             var options = {
-                "key": "rzp_test_uY9lNpacaDbu5m", // Enter the Key ID generated from the Dashboard
-                "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "key": "rzp_test_uY9lNpacaDbu5m", 
+                "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
                 "description": "Test Transaction",
                 "image": logo,
-                "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "order_id": id, 
                 "handler":async function (response){
                     await createOrder(response)
                     navigate('/orders');
@@ -299,6 +304,11 @@ const Checkout = () => {
         }
         fetchCart();
     }
+
+
+    const handleCloseForm = () => {
+        setIsOpen(false);
+    };
     return (
         <div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
@@ -333,7 +343,7 @@ const Checkout = () => {
                                     </div>
                                 }
                             />
-                            {/* Accordion for editing */}
+                           
                             <Collapse in={selectedAddress === address.addressID._id && open}>
                                 <div>
                                     <div className={classes.floatingLabel}>
@@ -405,9 +415,10 @@ const Checkout = () => {
                                                     Save Changes
                                                 </button>
                                             ) : (
-                                                <button onClick={handleAddAddress} className={classes.addAddressButton}>
-                                                    Save Address
-                                                </button>
+                                                <><button onClick={handleAddAddress} className={classes.addAddressButton}>
+                                                        Save Address
+                                                    </button>
+                                                   </>
                                             )}
                                         </div>
                                     </div>
@@ -422,82 +433,95 @@ const Checkout = () => {
                 </div>
             )}
             <div className={classes.ButtonClass}>
-                {isAddingAddress ? (
-                    <div className={classes.floatingLabel}>
-                        <label htmlFor="name">Full Name</label>
-                        <input
-                            type="text"
-                            name="fullName"
-                            value={newAddress.fullName}
-                            onChange={handleInputChange}
-                            placeholder=" "
-                            required />
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                            type="text"
-                            name="phone"
-                            value={newAddress.phone}
-                            onChange={handleInputChange}
-                            placeholder=" "
-                            required />
-                        <label htmlFor="firstLine">Address Line 1</label>
-                        <input
-                            type="text"
-                            name="firstLine"
-                            value={newAddress.firstLine}
-                            onChange={handleInputChange}
-                            placeholder=" "
-                            required />
-                        <label htmlFor="secondLine">Address Line 2</label>
-                        <input
-                            type="text"
-                            name="secondLine"
-                            value={newAddress.secondLine}
-                            onChange={handleInputChange}
-                            placeholder=" " />
-                        <label htmlFor="state">State</label>
-                        <input
-                            type="text"
-                            name="state"
-                            value={newAddress.state}
-                            onChange={handleInputChange}
-                            placeholder=" "
-                            required />
-                        <label htmlFor="city">City</label>
-                        <input
-                            type="text"
-                            name="city"
-                            value={newAddress.city}
-                            onChange={handleInputChange}
-                            placeholder=" "
-                            required />
-                        <label htmlFor="pincode">Pin code</label>
-                        <input
-                            type="text"
-                            name="pincode"
-                            value={newAddress.pincode}
-                            onChange={handleInputChange}
-                            placeholder=" "
-                            required />
-                        <label htmlFor="landmark">Landmark</label>
-                        <input
-                            type="text"
-                            name="landmark"
-                            value={newAddress.landmark}
-                            onChange={handleInputChange}
-                            placeholder=" " />
-                        <div className={classes.ButtonClass}>
-                            <button onClick={handleAddAddress} className={classes.addAddressButton}>
-                                Save Address
-                            </button>
-                        </div>
+            {!isOpen && (
+                <button
+                    className={classes.addAddressButton}
+                    onClick={() => setIsOpen(true)}
+                >
+                    + Add New Address
+                </button>
+            )}
+            <Collapse in={isOpen}>
+                <div className={classes.floatingLabel}>
+                    <label htmlFor="name">Full Name</label>
+                    <input
+                        type="text"
+                        name="fullName"
+                        value={newAddress.fullName}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="phone">Phone</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        value={newAddress.phone}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="firstLine">Address Line 1</label>
+                    <input
+                        type="text"
+                        name="firstLine"
+                        value={newAddress.firstLine}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="secondLine">Address Line 2</label>
+                    <input
+                        type="text"
+                        name="secondLine"
+                        value={newAddress.secondLine}
+                        onChange={handleInputChange}
+                        placeholder=" " />
+                    <label htmlFor="state">State</label>
+                    <input
+                        type="text"
+                        name="state"
+                        value={newAddress.state}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="city">City</label>
+                    <input
+                        type="text"
+                        name="city"
+                        value={newAddress.city}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="pincode">Pin code</label>
+                    <input
+                        type="text"
+                        name="pincode"
+                        value={newAddress.pincode}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="landmark">Landmark</label>
+                    <input
+                        type="text"
+                        name="landmark"
+                        value={newAddress.landmark}
+                        onChange={handleInputChange}
+                        placeholder=" " />
+                    <div className={classes.ButtonClass}>
+                        <button
+                            onClick={handleAddAddress}
+                            className={classes.addAddressButton}
+                        >
+                            Save Address
+                        </button>
+                        <button
+                            className={classes.addAddressButton}
+                            onClick={handleCloseForm}
+                        >
+                            Close
+                        </button>
                     </div>
-                ) : (
-                    <button onClick={handleAddNewAddressClick} className={classes.showAddAddressButton}>
-                        + Add New Address
-                    </button>
-                )}
-            </div>
+                </div>
+            </Collapse>
+        </div>
         </div>
 
 
