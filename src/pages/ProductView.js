@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
-import { json, useLoaderData } from 'react-router-dom';
+import WishlistSidebar from '../Components/WishListSidebar';
+import { json, useLoaderData, Form } from 'react-router-dom';
 import classes from './ProductView.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
+import { getAuthToken } from '../utils/Auth';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Spinner } from 'react-bootstrap';
@@ -14,49 +16,40 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import { green } from '@mui/material/colors';
 import { getFullSize } from '../utils/cartUtils/convertSize';
 import { CartContext } from '../context/CartContext';
-import { useError } from '../context/ErrorContext';
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
 const ProductPage = () => {
-  const {addToCart} = useContext(CartContext);
+  const {addToCart , openCart} = useContext(CartContext);
   const { productID } = useParams();
   const [reviews, setReviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [showAllReviews, setShowAllReviews] = useState(false); // Manage number of reviews displayed
   const [ratingValues , setRatingValues] = useState({5: 0,4: 0,3: 0,2: 0,1: 0});
-  const {showError} = useError();
+
   const handleAddToCart = async () => {
     setIsSubmitting(true);
     const size = getFullSize(selectedSize);
     await addToCart(productID , size);
     setIsSubmitting(false);
+    openCart(true);
   };
 
   useEffect(() => {
     const fetchReviews = async () => {
-      try{
-        const res = await fetch('http://localhost:8080/reviews/' + productID);
-        if(!res.ok){
-          const err = await res.json();
-          throw err;
-        }
-        const data = await res.json();
-        setReviews(data);
-        let stars = [0,0,0,0,0];
-        data.forEach(review => {
-          stars[review.stars-1]++;
-        })
-        ratingValues[1] = stars[0];
-        ratingValues[2] = stars[1];
-        ratingValues[3] = stars[2];
-        ratingValues[4] = stars[3];
-        ratingValues[5] = stars[4];
-        setRatingValues(ratingValues);
-      }
-      catch(err){
-        showError("Failed to fetch reviews" , 'danger');
-      }
+      const res = await fetch('http://localhost:8080/reviews/' + productID);
+      const data = await res.json();
+      setReviews(data);
+      let stars = [0,0,0,0,0];
+      data.forEach(review => {
+        stars[review.stars-1]++;
+      })
+      ratingValues[1] = stars[0];
+      ratingValues[2] = stars[1];
+      ratingValues[3] = stars[2];
+      ratingValues[4] = stars[3];
+      ratingValues[5] = stars[4];
+      setRatingValues(ratingValues);
     };
     fetchReviews();
   }, [productID]);

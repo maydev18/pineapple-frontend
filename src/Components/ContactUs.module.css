@@ -2,15 +2,14 @@
   text-align: center;
   background-color: #0E201D;
   color: #f0e5d8;
-  padding: 7rem;
-  
+  padding: 4rem;
 }
 
 .headingContact {
   font-family: "Outfit", sans-serif;
   font-weight: 400;
   text-shadow: 3px 3px black;
-  font-size: 60px;
+  font-size: 3.75rem; /* Adjusted to be more responsive */
   color: #ffebd2;
   padding-bottom: 2rem;
   text-decoration: none;
@@ -22,12 +21,16 @@
   justify-content: center;
   gap: 2rem;
   margin-bottom: 3rem;
+  flex-wrap: wrap; /* Make the circles wrap to new lines */
 }
 
 .circle {
-  background-color: #f0e5d8;
-  width: 15vw;
-  height: 30vh;
+  background-color: beige;
+  width: 14vw; /* Responsive width based on viewport */
+  height: 14vw; /* Make height same as width for perfect circles */
+  max-width: 148px;
+  max-height: 148px;
+  
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -36,13 +39,18 @@
 }
 
 .circle img {
-  width: 80%;
+  width: 100%;
   height: auto;
+}
+
+.contactDetails {
+  font-size: 1.2rem;
+  margin-top: 2rem;
 }
 
 @media (max-width: 768px) {
   .headingContact {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .circles {
@@ -50,18 +58,26 @@
   }
 
   .circle {
-    width: 80px;
-    height: 80px;
+    width: 25vw;
+    height: 25vw;
+    max-width: 120px;
+    max-height: 120px;
   }
 }
 
 @media (max-width: 480px) {
   .headingContact {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .circle {
-    width: 60px;
-    height: 60px;
+    width: 35vw;
+    height: 35vw;
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .contactDetails {
+    font-size: 1rem;
   }
 }

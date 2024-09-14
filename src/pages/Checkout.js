@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
-import CartItem from '../Components/CartItem'; // Ensure this path is correct
+import CartItem from '../Components/CartItem'; 
 import { getAuthToken } from '../utils/Auth';
 import logo from '../images/logo_black.png';
-import { Form, Card } from 'react-bootstrap';
+
 import { useNavigate } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
 import { useError } from '../context/ErrorContext';
 import { useCart } from '../context/CartContext';
+import AddressBox from '../Components/AddressForm'; 
+import ModeOfPaymentCard from '../Components/ModeOfPaymentCard';
 const Checkout = () => {
     const navigate = useNavigate();
     const [cartItems , setCartProducts] = useState([]);
@@ -66,6 +68,8 @@ const Checkout = () => {
     const [isAddingAddress, setIsAddingAddress] = useState(false);
     const [isEditingAddress, setIsEditingAddress] = useState(false);
     const [editingAddressID , setEditingAddressID] = useState(null);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewAddress(prev => ({ ...prev, [name]: value }));
@@ -118,7 +122,6 @@ const Checkout = () => {
             showError(err.message , 'danger');
         }
     };
-
     const handleEditAddress = async () => {
         try{
             const data = getAddressData();
@@ -279,42 +282,23 @@ const Checkout = () => {
                         {/* <h1>Checkout</h1> */}
                         <div className={classes.delivery}>
                         <h2 className=''>Delivery</h2>
-                            {savedAddresses.length > 0 ? (
-                                savedAddresses.map(address => (
-                                <Card className={classes.savedAddresscard}>
-                                   <Card.Body>
-                                    <Form.Check type='radio'
-                                    label={<div className={classes.savedAddresses}>
-                                    
-                                        <div key={address.addressID._id} className={classes.savedAddress}>
-                                            <div>
-                                                <h6><strong>{address.addressID.fullName}</strong></h6>
-                                                <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
-                                                <p>Landmark: {address.addressID.landmark}</p>
-                                                <p>Phone: {address.addressID.phone}</p>
-                                                <p>Email: {address.addressID.email}</p>
-                                            </div>
-                                            <hr/>
-                                            <div className={classes.addressActions}>
-                                                <div>
-                                                    <button className={classes.addressbuttons} onClick={() => handleEditClick(address.addressID)}>Edit </button>
-                                                </div>
-                                                <div>
-                                                    <button className={classes.addressbuttons} onClick={() => handleDeleteAddress(address.addressID._id)}>Delete </button>
-                                                </div>
-                                         
-                                            </div>
-                                        </div>
-                                    
-                                    </div>
-                                     } />
-                                   </Card.Body>
-                                </Card>
-                                ))
-                            ) : (
-                                <p style={{ color: "black" }}>No saved addresses. Please add a new address below.</p>
-                            )}
-                            {(isAddingAddress || isEditingAddress) && (
+                        {savedAddresses.length > 0 ? (
+    savedAddresses.map(address => (
+        <AddressBox
+            key={address.addressID._id}
+            address={address.addressID}
+            onEditClick={handleEditClick}
+            onDeleteClick={handleDeleteAddress}
+            onSaveChanges={handleEditAddress}
+            // isSelected={selectedAddressId === address._id}
+            // onSelect={() => setSelectedAddressId(address._id)}
+          
+        />
+    ))
+) : (
+    <p style={{ color: "black" }}>No saved addresses. Please add a new address below.</p>
+)}
+ {(isAddingAddress || isEditingAddress) && (
                                 <div className={classes.floatingLabel}>
                                     <label htmlFor="name">Full Name</label>
                                     <input
@@ -406,14 +390,22 @@ const Checkout = () => {
                                     </button>
                                 </div>
                             )}
+                           
                         </div>
-                        {!selectedAddress ? (
-                            <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
-                        ) : (<p>Please select delivery address in order to continue</p>)}
+                        <div className={classes.delivery}>
+                            <h2 className={classes.delivery}>Mode of Payment</h2>
+                        <ModeOfPaymentCard 
                         
+                        />
+                        </div>
+                        <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
+                       
                     </div>
+                    
+                  
                 </div>
-                <div className={classes.cartSummary}>
+               <div style={{display: "flex", flexDirection: "column"}}>
+               <div className={classes.cartSummary}>
                     <h2>Cart Summary</h2>
                     <div className={classes.cartItemsContainer}>
                         {cartItems.map((item, index) => (
@@ -427,15 +419,26 @@ const Checkout = () => {
                                 checkout={true} />
                         ))}
                     </div>
+                    <div className={classes.cartSummaryFooter}>
+                        <h2 style={{paddingTop: "1rem"}}>Overall Summary</h2>
+                        <div style={{padding: "12px"}}>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <strong>Total Items: </strong>
+                            <div>{cartItems.length}</div>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "space-between", paddingTop: '12px'}}>
+                            <div><strong>Total Price: </strong></div>
+                            <div> ₹
+                            {amount}</div>
+                        </div>
+                        
+                     </div>
                 </div>
-
+                </div>
+               </div>
             </div>
-
-        </div><div className={classes.cartSummaryFooter}>
-                <h2>Overall Summary</h2>
-                <div><strong>Total Items : </strong> {cartItems.length}</div>
-                <div><strong>Total Price: </strong> Rs.{amount}</div>
-            </div></>
+        </div>
+        </>
     );
 };
 export default Checkout;
