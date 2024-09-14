@@ -5,6 +5,7 @@ import SizeQuantityInput from './SizeInput';
 import { getAuthToken } from '../../utils/Auth';
 import { Spinner } from 'react-bootstrap';
 import { getFullSize } from '../../utils/cartUtils/convertSize';
+import { useError } from '../../context/ErrorContext';
 const AddProducts = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -25,6 +26,7 @@ const AddProducts = () => {
     XL: 0,
     XXL: 0,
   });
+  const {showError} = useError();
   const [isSubmitting , setSubmitting] = useState(false);
   const handleChange = (e) => {
     const { name, value} = e.target;
@@ -62,29 +64,31 @@ const AddProducts = () => {
   const handleSubmit = async (event) => {
     setSubmitting(true);
     event.preventDefault();
-    const submissionData = new FormData();
-    for(const key in formData){
-      submissionData.append(key , formData[key])
-    }
-    let images = [frontImage , backImage , ...productImages];
-
-    images.forEach((image, index) => {
-      if (image) { 
-        submissionData.append('productImages', image); 
+    try{
+      const submissionData = new FormData();
+      for(const key in formData){
+        submissionData.append(key , formData[key])
       }
-    });
-    for(let size in quantities){
-      submissionData.append(getFullSize(size) , quantities[size]);
-    }
-
-    const response = await fetch(process.env.REACT_APP_BASE_URL + 'admin/add-product', {
-      method: 'PUT',
-      body: submissionData,
-      headers: {
-          'Authorization': 'Bearer '  + getAuthToken()
+      let images = [frontImage , backImage , ...productImages];
+      images.forEach((image, index) => {
+        if (image) { 
+          submissionData.append('productImages', image); 
+        }
+      });
+      for(let size in quantities){
+        submissionData.append(getFullSize(size) , quantities[size]);
       }
-    });
-    if (response.ok) {
+      const response = await fetch(process.env.REACT_APP_BASE_URL + 'admin/add-product', {
+        method: 'PUT',
+        body: submissionData,
+        headers: {
+            'Authorization': 'Bearer '  + getAuthToken()
+        }
+      });
+      if(!response.ok){
+        const err = await response.json();
+        throw err;
+      }
       setFormData({
         title: '',
         description: '',
@@ -104,12 +108,14 @@ const AddProducts = () => {
         XL: 0,
         XXL: 0,
       });
-    } 
-    else {
-      console.error('Upload failed');
-      alert("Product upload failed");
+      showError("Product Added Successfully" , "success");
     }
-    setSubmitting(false);
+    catch(err){
+      showError(err.message , 'danger');
+    }
+    finally{
+      setSubmitting(false);
+    }
   };
   return (
     <div className={styles.alignProducts}>

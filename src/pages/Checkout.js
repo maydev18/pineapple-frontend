@@ -13,20 +13,12 @@ const Checkout = () => {
     const [cartItems , setCartProducts] = useState([]);
     const [savedAddresses , setAddresses] = useState([]);
     const [amount , setAmount] = useState(null);
+    const [selectedAddress , setSelectedAddress] = useState(null);
     const {showError} = useError();
     const {fetchCart} = useCart();
     const getCartItems = async () => {
         try{
-            const res = await fetch("http://localhost:8080/cart" , {
-                headers : {
-                    'Authorization' : 'bearer ' + getAuthToken()
-                }
-            });
-            if(!res.ok){
-                const err = await res.json();
-                throw err;
-            }
-            const data = await res.json();
+            const data = await fetchCart();
             setCartProducts(data);
             let total = 0
             data.forEach(item => {
@@ -68,7 +60,8 @@ const Checkout = () => {
         state: '',
         city: '',
         pincode: '',
-        landmark: ''
+        landmark: '',
+        email : ''
     });
     const [isAddingAddress, setIsAddingAddress] = useState(false);
     const [isEditingAddress, setIsEditingAddress] = useState(false);
@@ -86,7 +79,8 @@ const Checkout = () => {
             city : newAddress.city,
             phone : newAddress.phone,
             pincode : newAddress.pincode,
-            landmark : newAddress.landmark
+            landmark : newAddress.landmark,
+            email : newAddress.email
         }
         return data;
     }
@@ -117,6 +111,7 @@ const Checkout = () => {
                 city: '',
                 pincode: '',
                 landmark: '',
+                email : ''
             });
         }       
         catch(err){
@@ -149,6 +144,7 @@ const Checkout = () => {
                 city: '',
                 pincode: '',
                 landmark: '',
+                email : ''
             });
             const add = await res.json();
             setAddresses(savedAddresses.map(address =>
@@ -169,7 +165,8 @@ const Checkout = () => {
             pincode : address.pincode,
             landmark : address.landmark,
             city : address.city,
-            state : address.state
+            state : address.state,
+            email : address.email
         });
         setEditingAddressID(address._id);
         setIsEditingAddress(true);
@@ -196,7 +193,7 @@ const Checkout = () => {
         
     };
     const generateOrderId = async() => {
-        const res = await fetch('http://localhost:8080/checkout' , {
+        const res = await fetch('http://localhost:8080/checkout?method=prepaid' , {
             headers : {
                 'Authorization' : 'Bearer ' + getAuthToken()
             }
@@ -223,9 +220,14 @@ const Checkout = () => {
                 "image": logo,
                 "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler":async function (response){
-                    await createOrder(response)
-                    navigate('/orders');
-                    showError("Payment done successfully" , 'success');
+                    try{
+                        await createOrder(response);
+                        navigate('/orders');
+                        showError("Payment done successfully" , 'success');
+                    }
+                    catch(err){
+                        showError("Failed to create an order, please contact us in case of any discrepancy" , 'danger');
+                    }
                 },
                 "prefill": {
                     "name": "Mayank Sharma",
@@ -238,13 +240,7 @@ const Checkout = () => {
             };
             var rzp1 = new window.Razorpay(options);
             rzp1.on('payment.failed', function (response){
-                alert(response.error.code);
-                alert(response.error.description);
-                alert(response.error.source);
-                alert(response.error.step);
-                alert(response.error.reason);
-                alert(response.error.metadata.order_id);
-                alert(response.error.metadata.payment_id);
+                showError("Payment Failed, Incase any amount is deducted it will be refunded soon" , 'danger');
             });
             rzp1.open();
         }
@@ -258,7 +254,8 @@ const Checkout = () => {
             orderID : data.razorpay_order_id,
             paymentID : data.razorpay_payment_id,
             signature : data.razorpay_signature,
-            addressID : savedAddresses[0].addressID._id
+            addressID : savedAddresses[0].addressID._id,
+            method : 'prepaid'
         }
         const res = await fetch('http://localhost:8080/create-order' , {
             method : 'POST',
@@ -295,6 +292,7 @@ const Checkout = () => {
                                                 <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
                                                 <p>Phone: {address.addressID.phone}</p>
+                                                <p>Email: {address.addressID.email}</p>
                                             </div>
                                             <hr/>
                                             <div className={classes.addressActions}>
@@ -331,6 +329,14 @@ const Checkout = () => {
                                         type="text"
                                         name="phone"
                                         value={newAddress.phone}
+                                        onChange={handleInputChange}
+                                        placeholder=" "
+                                        required />
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={newAddress.email}
                                         onChange={handleInputChange}
                                         placeholder=" "
                                         required />
@@ -401,11 +407,10 @@ const Checkout = () => {
                                 </div>
                             )}
                         </div>
-                        {/* <div className={classes.payment}>
-                            <h2>Payment</h2>
-                            <p>All transactions are secure and encrypted.</p>
-                        </div> */}
-                        <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
+                        {!selectedAddress ? (
+                            <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
+                        ) : (<p>Please select delivery address in order to continue</p>)}
+                        
                     </div>
                 </div>
                 <div className={classes.cartSummary}>
