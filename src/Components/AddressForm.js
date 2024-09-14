@@ -66,6 +66,14 @@ const AddressBox = ({ address, onEditClick, onDeleteClick, onSaveChanges, isSele
                                     onChange={handleInputChange}
                                     required
                                 />
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={editedAddress.email}
+                                    onChange={handleInputChange}
+                                    required
+                                />
                                 <label htmlFor="firstLine">Address Line 1</label>
                                 <input
                                     type="text"
