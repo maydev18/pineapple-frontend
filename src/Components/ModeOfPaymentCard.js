@@ -17,7 +17,7 @@ function ModeOfPaymentCard({ selectedPayment, onSelectPayment }) {
                                 <div className={classes.savedAddress}>
                                     <div>
                                         <h5>Cash on Delivery</h5>
-                                        <p style={{textTransform: "none", color: "GRAY", padding: 0}}>*extra fee of ₹100 will be charged</p>
+                                        <p style={{textTransform: "none", color: "GRAY", padding: 0, fontSize: "15px", fontWeight: '300'}}>*extra fee of ₹100 will be charged</p>
                                     </div>
                                 </div>
                             </div>
