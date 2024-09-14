@@ -1,42 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Modal, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import ToggleButton from './ToggleButton';
 import { getAuthToken } from '../../utils/Auth';
-
+import { useError } from '../../context/ErrorContext';
+import EditProductModal from './adminComponents/EditProductModal';
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState([]);
+  const {showError} = useError();
+  const [product , setProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null); 
-
-  const handleShow = (product) => {
-    setSelectedProduct(product); 
-    setShowModal(true);
+  const handleClose = () => { 
+      setShowModal(false);
   };
-
-  const handleClose = () => {
-    setShowModal(false);
-    setSelectedProduct(null); 
-  };
-
-  useEffect(() => {
-    const fetchProducts = async () => {
+  const fetchProducts = async () => {
+    try{
       const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/products' , {
         method : 'get',
         headers : {
           'authorization' : 'bearer ' + getAuthToken()
         },
       });
+      if(!res.ok){
+        const err = await res.json();
+        throw err;
+      }
       const prod = await res.json();
       setProducts(prod);
+      setProduct(products[0]);
       setFilter(prod);
-    };
+    }
+    catch(err){
+      showError("Cannot fetch the Inventory, please try again" , 'danger');
+    }
+  };
+  useEffect(() => {
     fetchProducts();
   }, []);
-
   useEffect(() => {
     const result = products.filter(product => {
       const query = search.toLowerCase();
@@ -45,16 +48,6 @@ const Inventory = () => {
     });
     setFilter(result);
   }, [search, products]);
-
-  const handleQuantityChange = (size, action) => {
-    if (selectedProduct) {
-      const updatedProduct = { ...selectedProduct };
-      updatedProduct[size] = action === 'increment' ? updatedProduct[size] + 1 : updatedProduct[size] - 1;
-      if (updatedProduct[size] < 0) updatedProduct[size] = 0; // Prevent negative quantities
-      setSelectedProduct(updatedProduct);
-    }
-  };
-
   return (
     <>
       <div className={styles.alignProducts}>
@@ -106,7 +99,7 @@ const Inventory = () => {
                           id = {product._id}
                         />
                       </td>
-                      <td><p onClick={() => handleShow(product)}>Edit</p></td>
+                      <td><p onClick={() => {setProduct(product); setShowModal(true);}}>Edit</p></td>
                     </tr>
                   ))}
                 </tbody>
@@ -117,61 +110,12 @@ const Inventory = () => {
           </div>
         </div>
       </div>
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Product Details</Modal.Title>
-        </Modal.Header>
-        <Form className={styles.form}>
-          <Form.Group className="mt-3 mb-3">
-           <h3>Product Name</h3>
-            <Form.Control
-              type="text"
-              name="name"
-              value={selectedProduct?.title || ''} 
-              onChange={(e) => setSelectedProduct({ ...selectedProduct, title: e.target.value })} 
-            />
-          </Form.Group>
-
-         
-          <Form.Group className="mt-3">
-            <h3>Sizes</h3>
-            <div className={styles.sizeControl}>
-              {['small', 'medium', 'large', 'extraLarge', 'doubleExtraLarge'].map(size => (
-                <div key={size} className={styles.sizeWrapper}>
-                  <Form.Label>{size}</Form.Label>
-                  <div className={styles.quantityControl}>
-                    <button
-                      type="button"
-                      onClick={() => handleQuantityChange(size, 'decrement')}
-                      className={styles.quantityBtn}
-                    >
-                      -
-                    </button>
-                    <Form.Control
-                      type="text"
-                      value={selectedProduct?.[size] || 0} 
-                      readOnly
-                      className={styles.quantityInput}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleQuantityChange(size, 'increment')}
-                      className={styles.quantityBtn}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Form.Group>
-
-      
-          <button className={styles.btn}>
-            Save Changes
-          </button>
-        </Form>
-      </Modal>
+      <EditProductModal
+        selectedProduct={product}
+        show = {showModal}
+        handleClose={handleClose}
+        fetchProducts = {fetchProducts}
+      />
     </>
   );
 };

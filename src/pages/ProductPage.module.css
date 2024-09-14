@@ -5,6 +5,17 @@
   padding: 1rem;
   margin: 0 auto; /* Center the content */
 }
+.spinnerContainer {
+  display: flex;
+  justify-content: center; /* Centers the spinner horizontally */
+  margin-bottom: 4rem; /* Adds space between spinner and pagination */
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center; /* Centers the pagination horizontally */
+  margin-top: 3rem; /* Adds space between the content and pagination */
+}
 
 @media (min-width: 600px) {
   .productsPage {

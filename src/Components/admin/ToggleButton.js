@@ -4,7 +4,6 @@ import { Spinner } from 'react-bootstrap';
 import { getAuthToken } from '../../utils/Auth';
 import { useError } from '../../context/ErrorContext';
 const ToggleButton = ({visible , id}) => {
-  console.log(visible);
   const [isToggled, setIsToggled] = useState(visible === true ? true : false);
   const [isSubmitting , setIsSubmitting] = useState(false);
   const {showError} = useError();
