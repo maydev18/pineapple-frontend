@@ -1,22 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
-import CartItem from '../Components/CartItem';
+import CartItem from '../Components/CartItem'; 
 import { getAuthToken } from '../utils/Auth';
 import logo from '../images/logo_black.png';
-
+import { Form, Card, Collapse } from 'react-bootstrap'; // Added Collapse from Bootstrap
 import { useNavigate } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
+import ModeOfPaymentCard from '../Components/ModeOfPaymentCard';
 import { useError } from '../context/ErrorContext';
 import { useCart } from '../context/CartContext';
-import AddressBox from '../Components/AddressForm';
-import ModeOfPaymentCard from '../Components/ModeOfPaymentCard';
 const Checkout = () => {
     const navigate = useNavigate();
     const [cartItems, setCartProducts] = useState([]);
     const [savedAddresses, setAddresses] = useState([]);
     const [amount, setAmount] = useState(null);
-    const { showError } = useError();
-    const { fetchCart } = useCart();
+    const [selectedAddress, setSelectedAddress] = useState(null); 
+    const {showError} = useError();
+    const {fetchCart} = useCart();
+    
+ const [newAddress, setNewAddress] = useState({
+        fullName: '',
+        phone: '',
+        firstLine: '',
+        secondLine: '',
+        state: '',
+        city: '',
+        pincode: '',
+        landmark: '',
+        email : ''
+    });
+    const [isAddingAddress, setIsAddingAddress] = useState(false);
+    const [isEditingAddress, setIsEditingAddress] = useState(false);
+    const [editingAddressID, setEditingAddressID] = useState(null);
+    const [open, setOpen] = useState(false); 
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        getCartItems();
+        getAddresses();
+    }, []);
+
+    const handleAddNewAddressClick = () => {
+        setIsAddingAddress(true);
+    };
     const getCartItems = async () => {
         try {
             const data = await fetchCart();
@@ -31,6 +58,7 @@ const Checkout = () => {
             showError(err.message, 'danger');
         }
     }
+
     const getAddresses = async () => {
         try {
             const res = await fetch("http://localhost:8080/get-addresses", {
@@ -52,43 +80,15 @@ const Checkout = () => {
     useEffect(() => {
         getCartItems();
         getAddresses();
-    }, [])
-    const [newAddress, setNewAddress] = useState({
-        fullName: '',
-        phone: '',
-        firstLine: '',
-        secondLine: '',
-        state: '',
-        city: '',
-        pincode: '',
-        landmark: '',
-        email: ''
-    });
-    const [isAddingAddress, setIsAddingAddress] = useState(false);
-    const [isEditingAddress, setIsEditingAddress] = useState(false);
-    const [editingAddressID, setEditingAddressID] = useState(null);
-    const [selectedAddressId, setSelectedAddressId] = useState(null);
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+    } , [])
+  
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewAddress(prev => ({ ...prev, [name]: value }));
     };
-    const getAddressData = () => {
-        const data = {
-            fullName: newAddress.fullName,
-            firstLine: newAddress.firstLine,
-            secondLine: newAddress.secondLine,
-            state: newAddress.state,
-            city: newAddress.city,
-            phone: newAddress.phone,
-            pincode: newAddress.pincode,
-            landmark: newAddress.landmark,
-            email: newAddress.email
-        }
-        return data;
-    }
-    const handleAddAddress = async () => {
-        try {
+
+    const handleAddAddress =async () => {
+        try{
             const data = getAddressData();
             const res = await fetch("http://localhost:8080/add-address", {
                 method: 'POST',
@@ -116,16 +116,30 @@ const Checkout = () => {
                 landmark: '',
                 email: ''
             });
+        }       
+        catch(err){
+            showError(err.message , 'danger');
         }
-        catch (err) {
-            showError(err.message, 'danger');
-        }
+
     };
+    const getAddressData = () => {
+        const data = {
+            fullName : newAddress.fullName,
+            firstLine : newAddress.firstLine,
+            secondLine : newAddress.secondLine,
+            state : newAddress.state,
+            city : newAddress.city,
+            phone : newAddress.phone,
+            pincode : newAddress.pincode,
+            landmark : newAddress.landmark,
+            email : newAddress.email
+        }
+        return data;
+    }
     const handleEditAddress = async () => {
         try {
             const data = getAddressData();
             data.addressID = editingAddressID;
-            console.log(data);
             const res = await fetch('http://localhost:8080/edit-address', {
                 method: "POST",
                 headers: {
@@ -154,6 +168,8 @@ const Checkout = () => {
                 address.addressID._id === editingAddressID ? { addressID: add } : address
             ));
             setIsEditingAddress(false);
+            setIsOpen(false);
+            setOpen(false);
         }
         catch (err) {
             showError(err.message, 'danger');
@@ -172,16 +188,20 @@ const Checkout = () => {
             email: address.email
         });
         setEditingAddressID(address._id);
+        setIsAddingAddress(true);
         setIsEditingAddress(true);
+        setSelectedAddress(address._id); 
+        setOpen(!open); 
     };
-    const handleDeleteAddress = async (id) => {
-        try {
-            const res = await fetch('http://localhost:8080/delete-address', {
-                method: 'delete',
-                body: JSON.stringify({ addressID: id }),
-                headers: {
-                    'Content-type': 'application/json',
-                    'authorization': 'bearer ' + getAuthToken()
+
+  const handleDeleteAddress = async(id) => {
+        try{
+            const res = await fetch('http://localhost:8080/delete-address' , {
+                method : 'delete',
+                body : JSON.stringify({addressID : id}),
+                headers : {
+                    'Content-type' : 'application/json',
+                    'authorization' : 'bearer ' + getAuthToken()
                 }
             });
             if (!res.ok) {
@@ -195,10 +215,14 @@ const Checkout = () => {
         }
 
     };
-    const generateOrderId = async () => {
-        const res = await fetch('http://localhost:8080/checkout', {
-            headers: {
-                'Authorization': 'Bearer ' + getAuthToken()
+    const handleAddressSelection = (id) => {
+        setSelectedAddress(id); 
+    };
+    
+    const generateOrderId = async() => {
+        const res = await fetch('http://localhost:8080/checkout' , {
+            headers : {
+                'Authorization' : 'Bearer ' + getAuthToken()
             }
         })
         if (!res.ok) {
@@ -215,22 +239,17 @@ const Checkout = () => {
         try {
             const { amount, id } = await generateOrderId();
             var options = {
-                "key": "rzp_test_uY9lNpacaDbu5m", // Enter the Key ID generated from the Dashboard
-                "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "key": "rzp_test_uY9lNpacaDbu5m", 
+                "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
                 "description": "Test Transaction",
                 "image": logo,
-                "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": async function (response) {
-                    try {
-                        await createOrder(response);
-                        navigate('/orders');
-                        showError("Payment done successfully", 'success');
-                    }
-                    catch (err) {
-                        showError("Failed to create an order, please contact us in case of any discrepancy", 'danger');
-                    }
+                "order_id": id, 
+                "handler":async function (response){
+                    await createOrder(response)
+                    navigate('/orders');
+                    showError("Payment done successfully" , 'success');
                 },
                 "prefill": {
                     "name": "Mayank Sharma",
@@ -250,7 +269,6 @@ const Checkout = () => {
         catch (err) {
             showError(err.message, 'danger');
         }
-
     }
     const createOrder = async (data) => {
         const order = {
@@ -274,171 +292,288 @@ const Checkout = () => {
         }
         fetchCart();
     }
+
+
+    const handleCloseForm = () => {
+        setIsOpen(false);
+    };
     return (
-        <><div className={classes.Checkoutcontainer}>
+        <div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
                 <div className={classes.checkoutContent}>
                     <div className={classes.checkoutForm}>
-                        {/* <h1>Checkout</h1> */}
-                        <div className={classes.delivery}>
-                            <h2 className=''>Delivery</h2>
-                            {savedAddresses.length > 0 ? (
-                                savedAddresses.map(address => (
-                                    <AddressBox
-                                        key={address.addressID._id}
-                                        address={address.addressID}
-                                        onEditClick={handleEditClick}
-                                        onDeleteClick={handleDeleteAddress}
-                                        onSaveChanges={handleEditAddress}
-                                    // isSelected={selectedAddressId === address._id}
-                                    // onSelect={() => setSelectedAddressId(address._id)}
-
-                                    />
-                                ))
-                            ) : (
-                                <p style={{ color: "black" }}>No saved addresses. Please add a new address below.</p>
-                            )}
-                            {(isAddingAddress || isEditingAddress) && (
-                                <div className={classes.floatingLabel}>
-                                    <label htmlFor="name">Full Name</label>
-                                    <input
-                                        type="text"
-                                        name="fullName"
-                                        value={newAddress.fullName}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="phone">phone</label>
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value={newAddress.phone}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        value={newAddress.email}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="firstLine">Address Line 1</label>
-                                    <input
-                                        type="text"
-                                        name="firstLine"
-                                        value={newAddress.firstLine}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="secondLine">Address Line 2</label>
-                                    <input
-                                        type="text"
-                                        name="secondLine"
-                                        value={newAddress.secondLine}
-                                        onChange={handleInputChange}
-                                        placeholder=" " />
-                                    <label htmlFor="state">State</label>
-                                    <input
-                                        type="text"
-                                        name="state"
-                                        value={newAddress.state}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="city">City</label>
-                                    <input
-                                        type="text"
-                                        name="city"
-                                        value={newAddress.city}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="pincode">Pin code</label>
-                                    <input
-                                        type="text"
-                                        name="pincode"
-                                        value={newAddress.pincode}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required />
-                                    <label htmlFor="landmark">Landmark</label>
-                                    <input
-                                        type="text"
-                                        name="landmark"
-                                        value={newAddress.landmark}
-                                        onChange={handleInputChange}
-                                        placeholder=" " />
-                                    <div className={classes.ButtonClass}>
-                                        {isEditingAddress ? (
-                                            <button onClick={handleEditAddress} className={classes.addAddressButton}>
-                                                Save Changes
-                                            </button>
-                                        ) : (
-                                            <button onClick={handleAddAddress} className={classes.addAddressButton}>
-                                                Save Address
-                                            </button>
-                                        )}
+                    <div className={classes.delivery}>
+            <h2 className={classes.delivery}>Delivery</h2>
+            {savedAddresses.length > 0 ? (
+                savedAddresses.map((address) => (
+                    <Card className={classes.savedAddresscard} key={address.addressID._id}>
+                        <Card.Body>
+                            <Form.Check
+                                type='radio'
+                                name='address'
+                                checked={selectedAddress === address.addressID._id}
+                                onChange={() => handleAddressSelection(address.addressID._id)}
+                                label={
+                                    <div className={classes.savedAddresses}>
+                                        <div className={classes.savedAddress}>
+                                            <div>
+                                                <h6><strong>{address.addressID.fullName}</strong></h6>
+                                                <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
+                                                <p>Landmark: {address.addressID.landmark}</p>
+                                                <p>Phone: {address.addressID.phone}</p>
+                                                <p>Phone: {address.addressID.email}</p>
+                                            </div>
+                                            <hr />
+                                            <div className={classes.addressActions}>
+                                                <button className={classes.addressbuttons} onClick={() => handleEditClick(address.addressID)}>Edit</button>
+                                                <button className={classes.addressbuttons} onClick={() => handleDeleteAddress(address.addressID._id)}>Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            />
+                            <Collapse in={selectedAddress === address.addressID._id && open}>
+                                <div>
+                                    <div className={classes.floatingLabel}>
+                                        <label htmlFor="name">Full Name</label>
+                                        <input
+                                            type="text"
+                                            name="fullName"
+                                            value={newAddress.fullName}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="phone">Phone</label>
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            value={newAddress.phone}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="email">Email</label>
+                                        <input
+                                            type="text"
+                                            name="email"
+                                            value={newAddress.email}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="firstLine">Address Line 1</label>
+                                        <input
+                                            type="text"
+                                            name="firstLine"
+                                            value={newAddress.firstLine}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="secondLine">Address Line 2</label>
+                                        <input
+                                            type="text"
+                                            name="secondLine"
+                                            value={newAddress.secondLine}
+                                            onChange={handleInputChange}
+                                            placeholder=" " />
+                                        <label htmlFor="state">State</label>
+                                        <input
+                                            type="text"
+                                            name="state"
+                                            value={newAddress.state}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="city">City</label>
+                                        <input
+                                            type="text"
+                                            name="city"
+                                            value={newAddress.city}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="pincode">Pin code</label>
+                                        <input
+                                            type="text"
+                                            name="pincode"
+                                            value={newAddress.pincode}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="landmark">Landmark</label>
+                                        <input
+                                            type="text"
+                                            name="landmark"
+                                            value={newAddress.landmark}
+                                            onChange={handleInputChange}
+                                            placeholder=" " />
+                                        <div className={classes.ButtonClass}>
+                                            {isEditingAddress ? (
+                                                <button onClick={handleEditAddress} className={classes.addAddressButton}>
+                                                    Save Changes
+                                                </button>
+                                            ) : (
+                                                <><button onClick={handleAddAddress} className={classes.addAddressButton}>
+                                                        Save Address
+                                                    </button>
+                                                   </>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            )}
-                            {!isAddingAddress && (
-                                <div className={classes.ButtonClass}>
-                                    <button onClick={() => setIsAddingAddress(true)} className={classes.showAddAddressButton}>
-                                        + Add New Address
-                                    </button>
-                                </div>
-                            )}
-
-                        </div>
-                        <div className={classes.delivery}>
-                            <h2 className={classes.delivery}>Mode of Payment</h2>
-                            <ModeOfPaymentCard
-
-                            />
-                        </div>
-                        <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
-
-                    </div>
-
-
+                            </Collapse>
+                        </Card.Body>
+                    </Card>
+                ))
+            ) : (
+                <div className={classes.noAddresses}>
+                    <p>No saved addresses found.</p>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div className={classes.cartSummary}>
-                        <h2>Cart Summary</h2>
-                        <div className={classes.cartItemsContainer}>
-                            {cartItems.map((item, index) => (
-                                <CartItem
-                                    key={index}
-                                    image={item.productID.mainImage}
-                                    size={getsize(item.size)}
-                                    title={item.productID.title}
-                                    quantity={item.quantity}
-                                    price={item.productID.price}
-                                    checkout={true} />
-                            ))}
-                        </div>
-                        <div className={classes.cartSummaryFooter}>
-                            <h2 style={{ paddingTop: "1rem" }}>Overall Summary</h2>
-                            <div style={{ padding: "12px" }}>
-                                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <strong>Total Items: </strong>
-                                    <div>{cartItems.length}</div>
-                                </div>
-                                <div style={{ display: "flex", justifyContent: "space-between", paddingTop: '12px' }}>
-                                    <div><strong>Total Price: </strong></div>
-                                    <div> ₹
-                                        {amount}</div>
-                                </div>
-
-                            </div>
-                        </div>
+            )}
+            <div className={classes.ButtonClass}>
+            {!isOpen && (
+                <button
+                    className={classes.addAddressButton}
+                    onClick={() => setIsOpen(true)}
+                >
+                    + Add New Address
+                </button>
+            )}
+            <Collapse in={isOpen}>
+                <div className={classes.floatingLabel}>
+                    <label htmlFor="name">Full Name</label>
+                    <input
+                        type="text"
+                        name="fullName"
+                        value={newAddress.fullName}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="phone">Phone</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        value={newAddress.phone}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="text"
+                        name="email"
+                        value={newAddress.email}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="firstLine">Address Line 1</label>
+                    <input
+                        type="text"
+                        name="firstLine"
+                        value={newAddress.firstLine}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="secondLine">Address Line 2</label>
+                    <input
+                        type="text"
+                        name="secondLine"
+                        value={newAddress.secondLine}
+                        onChange={handleInputChange}
+                        placeholder=" " />
+                    <label htmlFor="state">State</label>
+                    <input
+                        type="text"
+                        name="state"
+                        value={newAddress.state}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="city">City</label>
+                    <input
+                        type="text"
+                        name="city"
+                        value={newAddress.city}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="pincode">Pin code</label>
+                    <input
+                        type="text"
+                        name="pincode"
+                        value={newAddress.pincode}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="landmark">Landmark</label>
+                    <input
+                        type="text"
+                        name="landmark"
+                        value={newAddress.landmark}
+                        onChange={handleInputChange}
+                        placeholder=" " />
+                    <div className={classes.ButtonClass}>
+                        <button
+                            onClick={handleAddAddress}
+                            className={classes.addAddressButton}
+                        >
+                            Save Address
+                        </button>
+                        <button
+                            className={classes.addAddressButton}
+                            onClick={handleCloseForm}
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
-            </div>
+            </Collapse>
         </div>
-        </>
+        </div>
+
+
+                        <div className={classes.delivery}>
+                            <h2>Mode of Payment</h2>
+                            <ModeOfPaymentCard/>
+                            <button className={`${classes.completeOrder} `} onClick={handleCheckout}>Proceed to Payment</button>
+                        </div>
+                        
+                       
+                    </div>
+                </div>
+                
+                <div className={classes.cartSummary}>
+                    <h2>Cart Summary</h2>
+                    <div className={classes.cartItemsContainer}>
+                        {cartItems.map((item, index) => (
+                            <CartItem
+                                key={index}
+                                image={item.productID.mainImage}
+                                size={getsize(item.size)}
+                                title={item.productID.title}
+                                quantity={item.quantity}
+                                price={item.productID.price}
+                                checkout={true} />
+                        ))}
+                    </div>
+                    <div className={classes.cartSummaryFooter}>
+                        <h2 style={{paddingTop: "1rem"}}>Overall Summary</h2>
+                        <div style={{padding: "12px"}}>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <strong>Total Items: </strong>
+                            <div>{cartItems.length}</div>
+                        </div>
+                        <div style={{display: "flex", justifyContent: "space-between", paddingTop: '12px'}}>
+                            <div><strong>Total Price: </strong></div>
+                            <div> ₹
+                            {amount}</div>
+                </div>
+             
+                     </div>
+            </div>
+                </div>
+
+                        
+            </div>
+            </div>
     );
 };
+
 export default Checkout;
