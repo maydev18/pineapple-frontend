@@ -1,0 +1,56 @@
+/* PolicyPage.module.css */
+.policyContainer {
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mainHeading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.highlightedHeading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e63946; /* Highlight color for headings */
+  border-bottom: 2px solid #e63946; /* Underline for emphasis */
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.policyText {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid #e63946; /* Left border for emphasis */
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.policyText:nth-of-type(odd) {
+  background-color: #f1f1f1;
+}
+
+.capitalized {
+  font-weight: bold;
+  color: #e63946; /* Highlight color for capitalized words */
+  background-color: #ffe5e5; /* Light background for better visibility */
+  padding: 0.2rem;
+}
+
+  .policyContainer p{
+    color: #333;
+    text-align: left;
+    text-transform: none;
+    font-size: 20px;
+    font-weight: 300;
+  
+  }

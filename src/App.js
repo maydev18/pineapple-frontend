@@ -19,6 +19,7 @@ import AddProducts from './Components/admin/AddProducts';
 import PlacedOrder from './Components/admin/PlacedOrders';
 import EditProduct from './Components/admin/EditProduct';
 import Inventory from './Components/admin/Inventory';
+import ReturnPolicy from './pages/PolicyPage';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
       {
         path : 'inventory',
         element : <Inventory/>
+      },
+      {
+        path : 'terms',
+        element : <ReturnPolicy/>
       },
     ]
   }
