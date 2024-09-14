@@ -1,0 +1,31 @@
+.disabledButton {
+    background-color: #ccc;
+    color: #666;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    cursor: not-allowed;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .disabledButton:hover {
+    background-color: #bbb; /* Slight change on hover to show feedback */
+  }
+  
+  @media (max-width: 768px) {
+    .disabledButton {
+      font-size: 0.875rem;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .disabledButton {
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+  

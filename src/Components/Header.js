@@ -60,16 +60,10 @@ const Header = () => {
         </Link>
         <div className={styles.navigationIcons}>
           <Link to="auth?mode=login">
-            <Icon icon="ic:baseline-person-outline" width="24" height="24" color='white' />
-          </Link>
-          <Link to="#search">
-            <Icon icon="ic:baseline-search" width="24" height="24" color='white' />
-          </Link>
-          <Link to="#favorite">
-            <Icon icon="ic:baseline-favorite-border" width="24" height="24" color='white' />
+            <Icon icon="ic:baseline-person-outline" width="30" height="30" color='white' />
           </Link>
           <div onClick={() => {openCart()}} style={{cursor : "pointer"}}>
-            <Icon icon="ic:baseline-shopping-bag" width="24" height="24" color='white' />
+            <Icon icon="ic:baseline-shopping-bag"width="30" height="30" color='white' />
           </div>
         </div>
       </header>
