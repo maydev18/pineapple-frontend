@@ -1,38 +1,26 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
+import { useError } from '../context/ErrorContext';
 
-
-function Example() {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+function AlertModal() {
+  const { error, type , hideError , visible} = useError();
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
-       
-        <Modal.Body style={{padding: 0}}>
-        <Alert variant="danger" style={{padding: 0, margin:0} }>
-        <p style={{color: "black"}}>
-       Failed !
-      </p>
-    
-     
-  
-      
-    </Alert>
+    {visible && 
+      <Modal show={!!error} onHide={hideError}>
+        <Modal.Body style={{ padding: 0 }}>
+          <Alert variant={type} style={{ padding: 0, margin: 0 }}>
+            <p style={{ color: "black" }}>
+              {error}
+            </p>
+          </Alert>
         </Modal.Body>
-        
       </Modal>
-    </>
+    }
+  </>  
   );
 }
 
-export default Example;
+export default AlertModal;

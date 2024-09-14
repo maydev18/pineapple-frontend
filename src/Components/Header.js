@@ -39,11 +39,11 @@ const itemVariants = {
 };
 
 const Header = () => {
-  const {openCart , closeCart , isopen} = useContext(CartContext);
-  const toggleSidebar = () =>{
-    if(isopen) closeCart();
-    else openCart();
-  }
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const {openCart} = useContext(CartContext);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   return (
 
     <>
@@ -60,24 +60,18 @@ const Header = () => {
         </Link>
         <div className={styles.navigationIcons}>
           <Link to="auth?mode=login">
-            <Icon icon="ic:baseline-person-outline" width="24" height="24" color='white' />
-          </Link>
-          <Link to="#search">
-            <Icon icon="ic:baseline-search" width="24" height="24" color='white' />
-          </Link>
-          <Link to="#favorite">
-            <Icon icon="ic:baseline-favorite-border" width="24" height="24" color='white' />
+            <Icon icon="ic:baseline-person-outline" width="30" height="30" color='white' />
           </Link>
           <div onClick={() => {openCart()}} style={{cursor : "pointer"}}>
-            <Icon icon="ic:baseline-shopping-bag" width="24" height="24" color='white' />
+            <Icon icon="ic:baseline-shopping-bag"width="30" height="30" color='white' />
           </div>
         </div>
       </header>
 
       <motion.div
-        className={`${styles.sidebar} ${isopen ? styles.isopen : ''}`}
-        initial={isopen ? "open" : "closed"}
-        animate={isopen ? "open" : "closed"}
+        className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}
+        initial={sidebarOpen ? "open" : "closed"}
+        animate={sidebarOpen ? "open" : "closed"}
         variants={sidebarVariants}
       >
         <nav className={styles.sidebarNav}>
@@ -90,7 +84,7 @@ const Header = () => {
         </nav>
       </motion.div>
 
-      {isopen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
+      {sidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
     </>
   );
 };

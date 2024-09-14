@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 
 
-function Example() {
+function SuccessModal() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -23,10 +23,7 @@ function Example() {
         <p style={{color: "black"}}>
       success!
       </p>
-    
-     
-  
-      
+         
     </Alert>
         </Modal.Body>
         
@@ -35,4 +32,4 @@ function Example() {
   );
 }
 
-export default Example;
+export default SuccessModal;

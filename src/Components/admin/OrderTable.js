@@ -8,6 +8,7 @@ import { Check } from 'react-bootstrap-icons';
 import styles from './Dashboard.module.css'; // Import the CSS module
 import { format } from 'date-fns';
 import { getsize } from '../../utils/cartUtils/convertSize';
+import { useError } from '../../context/ErrorContext';
 
 const sortIcon = <ArrowDownward />;
 
@@ -39,7 +40,7 @@ const Demo = () => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const [selectedOrder, setSelectedOrder] = useState(null); // State to store selected order
-
+  const {showError} = useError();
   const handleShow = (order) => {
     setSelectedOrder(order); // Set the selected order
     setShowModal(true);
@@ -139,14 +140,23 @@ const Demo = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/orders', {
-        headers: {
-          'authorization': "bearer " + getAuthToken(),
-        },
-      });
-      const data = await res.json();
-      setOrders(data);
-      setFilter(data);
+      try{
+        const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/orders', {
+          headers: {
+            'authorization': "bearer " + getAuthToken(),
+          },
+        });
+        if(!res.ok){
+          const err = await res.json();
+          throw err;
+        }
+        const data = await res.json();
+        setOrders(data);
+        setFilter(data);
+      }
+      catch(err){
+        showError(err.message , 'danger');
+      }
     };
     fetchOrders();
   }, []);
@@ -169,7 +179,7 @@ const Demo = () => {
     if (userConfirmed) {
       setSubmitting(true);
       try {
-        await fetch(process.env.REACT_APP_BASE_URL + 'admin/complete-order', {
+        const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/complete-order', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -177,13 +187,17 @@ const Demo = () => {
           },
           body: JSON.stringify({ orderID }),
         });
+        if(!res.ok){
+          const err = await res.json();
+          throw err;
+        }
         const updatedOrders = orders.map(order =>
           order.orderID === orderID ? { ...order, completed: true } : order
         );
         setOrders(updatedOrders);
         setFilter(updatedOrders);
       } catch (error) {
-        alert("Failed to update order status: " + error);
+        showError(error.message , 'danger');
       } finally {
         setSubmitting(false);
       }
