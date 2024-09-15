@@ -19,8 +19,13 @@ const Checkout = () => {
     const [selectedAddress, setSelectedAddress] = useState(null); 
     const {showError} = useError();
     const {fetchCart} = useCart();
-    
- const [newAddress, setNewAddress] = useState({
+    const [isAddingAddress, setIsAddingAddress] = useState(false);
+    const [isEditingAddress, setIsEditingAddress] = useState(false);
+    const [editingAddressID, setEditingAddressID] = useState(null);
+    const [open, setOpen] = useState(false); 
+    const [isOpen, setIsOpen] = useState(false);
+    const [newAddress, setNewAddress] = useState({
+        _id: '',
         fullName: '',
         phone: '',
         firstLine: '',
@@ -30,21 +35,14 @@ const Checkout = () => {
         pincode: '',
         landmark: ''
     });
-    const [isAddingAddress, setIsAddingAddress] = useState(false);
-    const [isEditingAddress, setIsEditingAddress] = useState(false);
-    const [editingAddressID, setEditingAddressID] = useState(null);
-    const [open, setOpen] = useState(false); 
-
-    const [isOpen, setIsOpen] = useState(false);
+    
 
     useEffect(() => {
         getCartItems();
         getAddresses();
     }, []);
 
-    const handleAddNewAddressClick = () => {
-        setIsAddingAddress(true);
-    };
+
     const getCartItems = async () => {
         try{
             const res = await fetch("http://localhost:8080/cart" , {
@@ -116,6 +114,7 @@ const Checkout = () => {
             setAddresses([...savedAddresses , {addressID : add}]);
             setIsAddingAddress(false);
             setNewAddress({
+                _id: '',
                 fullName: '',
                 phone: '',
                 firstLine: '',
@@ -134,6 +133,7 @@ const Checkout = () => {
     };
     const getAddressData = () => {
         const data = {
+            id: newAddress._id,
             fullName : newAddress.fullName,
             firstLine : newAddress.firstLine,
             secondLine : newAddress.secondLine,
@@ -162,6 +162,7 @@ const Checkout = () => {
                 throw err;
             }
             setNewAddress({
+                _id: '',
                 fullName: '',
                 phone: '',
                 firstLine: '',
@@ -183,6 +184,7 @@ const Checkout = () => {
     };
     const handleEditClick = async (address,id) => {
         setNewAddress({
+            _id: address._id,
             fullName : address.fullName,
             phone : address.phone,
             firstLine : address.firstLine,
@@ -329,6 +331,7 @@ const Checkout = () => {
                                     <div className={classes.savedAddresses}>
                                         <div className={classes.savedAddress}>
                                             <div>
+                                                {/* <p>{address.addressID._id}</p> */}
                                                 <h6><strong>{address.addressID.fullName}</strong></h6>
                                                 <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
