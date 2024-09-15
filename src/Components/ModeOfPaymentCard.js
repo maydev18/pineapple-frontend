@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Form } from 'react-bootstrap';
-import classes from '../pages/Checkout.module.css';
+import classes from '../pages/Checkout/Checkout.module.css';
 
 function ModeOfPaymentCard({ selectedPayment, onSelectPayment }) {
     return (

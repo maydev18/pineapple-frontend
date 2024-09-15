@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Checkout from './pages/Checkout';
+import Checkout from './pages/Checkout/Checkout';
 import ProductPage from './pages/ProductPage';
 import ProductView from './pages/ProductView';
 import Hero from './Components/Home';
@@ -10,7 +10,6 @@ import CombinedAuthPage from './pages/CombinedAuthPage';
 import {action as AuthAction} from './pages/CombinedAuthPage';
 import {tokenLoader , checkAuthLoader} from './utils/Auth';
 import {action as logoutAction} from './pages/logout';
-import {loader as ProductsLoader} from './pages/ProductPage';
 import {loader as ProductLoader} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
@@ -44,7 +43,6 @@ const router = createBrowserRouter([
           {
             index : true,
             element : <ProductPage />,
-            loader : ProductsLoader
           },
           {
             path : ':productID',

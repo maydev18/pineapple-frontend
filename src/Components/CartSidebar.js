@@ -1,12 +1,11 @@
-import { useContext } from 'react';
-import { CartContext } from '../context/CartContext';
 import styles from './CartSideBar.module.css';
 import CartItem from './CartItem';
 import { Link } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
+import { useCart } from '../context/CartContext';
 
 const CartSidebar = () => {
-  const {cart , isOpen , closeCart} = useContext(CartContext);
+  const {cart , isOpen , closeCart} = useCart();
   return (
     <>
       {isOpen && <div className={styles.underlay} onClick={closeCart}></div>}
@@ -32,7 +31,7 @@ const CartSidebar = () => {
             ))}
             <div className={styles.proceedbutton}>
               <Link to='/checkout'>
-                <button className={styles.checkoutButton} style={{textDecoration: "none"}}>
+                <button className={styles.checkoutButton} style={{textDecoration: "none"}} onClick={() => closeCart()}>
                   Proceed to Payment
                 </button>
               </Link>
