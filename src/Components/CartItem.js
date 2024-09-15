@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import {useState } from 'react';
 import classes from './CartItem.module.css';
 import { Spinner } from 'react-bootstrap';
-import { CartContext } from '../context/CartContext';
 import { getFullSize } from '../utils/cartUtils/convertSize';
+import { useCart } from '../context/CartContext';
 const CartItem = ({ id , image, size, quantity, price, title , checkout}) => {
-  const {addToCart , deleteFromCart} = useContext(CartContext);
+  const {addToCart , deleteFromCart} = useCart();
   const [isAddSubmitting, setIsAddSubmitting] = useState(false);
   const [isRemoveSubmitting, setIsRemoveSubmitting] = useState(false);
 

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
 import CartItem from '../Components/CartItem'; 
-import { Icon } from '@iconify/react';
 import { getAuthToken } from '../utils/Auth';
-import { add } from 'date-fns';
 import logo from '../images/logo_black.png';
 import { Form, Card, Collapse } from 'react-bootstrap'; // Added Collapse from Bootstrap
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
 import ModeOfPaymentCard from '../Components/ModeOfPaymentCard';
 import { useError } from '../context/ErrorContext';
@@ -28,7 +26,8 @@ const Checkout = () => {
         state: '',
         city: '',
         pincode: '',
-        landmark: ''
+        landmark: '',
+        email : ''
     });
     const [isAddingAddress, setIsAddingAddress] = useState(false);
     const [isEditingAddress, setIsEditingAddress] = useState(false);
@@ -46,17 +45,8 @@ const Checkout = () => {
         setIsAddingAddress(true);
     };
     const getCartItems = async () => {
-        try{
-            const res = await fetch("http://localhost:8080/cart" , {
-                headers : {
-                    'Authorization' : 'bearer ' + getAuthToken()
-                }
-            });
-            if(!res.ok){
-                const err = await res.json();
-                throw err;
-            }
-            const data = await res.json();
+        try {
+            const data = await fetchCart();
             setCartProducts(data);
             let total = 0
             data.forEach(item => {
@@ -64,27 +54,27 @@ const Checkout = () => {
             })
             setAmount(total);
         }
-        catch(err){
-            showError(err.message , 'danger');
+        catch (err) {
+            showError(err.message, 'danger');
         }
     }
 
     const getAddresses = async () => {
-        try{
-            const res = await fetch("http://localhost:8080/get-addresses" , {
-                headers : {
-                    'Authorization' : 'bearer ' + getAuthToken()
+        try {
+            const res = await fetch("http://localhost:8080/get-addresses", {
+                headers: {
+                    'Authorization': 'bearer ' + getAuthToken()
                 }
             });
-            if(!res.ok){
+            if (!res.ok) {
                 const err = await res.json();
                 throw err;
             }
             const add = await res.json();
             setAddresses(add.addresses);
         }
-        catch(err){
-            showError(err.message , 'danger');
+        catch (err) {
+            showError(err.message, 'danger');
         }
     }
     useEffect(() => {
@@ -100,20 +90,20 @@ const Checkout = () => {
     const handleAddAddress =async () => {
         try{
             const data = getAddressData();
-            const res = await fetch("http://localhost:8080/add-address" , {
-                method : 'POST',
-                headers : {
-                    'Authorization' : 'bearer ' + getAuthToken() ,
-                    'Content-type' : 'application/json',
+            const res = await fetch("http://localhost:8080/add-address", {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'bearer ' + getAuthToken(),
+                    'Content-type': 'application/json',
                 },
-                body : JSON.stringify(data)
+                body: JSON.stringify(data)
             });
-            if(!res.ok){
+            if (!res.ok) {
                 const err = await res.json();
                 throw err;
             }
             const add = await res.json();
-            setAddresses([...savedAddresses , {addressID : add}]);
+            setAddresses([...savedAddresses, { addressID: add }]);
             setIsAddingAddress(false);
             setNewAddress({
                 fullName: '',
@@ -124,8 +114,8 @@ const Checkout = () => {
                 city: '',
                 pincode: '',
                 landmark: '',
+                email: ''
             });
-            setIsOpen(false);
         }       
         catch(err){
             showError(err.message , 'danger');
@@ -141,23 +131,24 @@ const Checkout = () => {
             city : newAddress.city,
             phone : newAddress.phone,
             pincode : newAddress.pincode,
-            landmark : newAddress.landmark
+            landmark : newAddress.landmark,
+            email : newAddress.email
         }
         return data;
     }
     const handleEditAddress = async () => {
-        try{
+        try {
             const data = getAddressData();
             data.addressID = editingAddressID;
-            const res = await fetch('http://localhost:8080/edit-address' , {
-                method : "POST",
-                headers : {
-                    'Content-type' : 'application/json',
-                    'Authorization' : 'Bearer ' + getAuthToken()
+            const res = await fetch('http://localhost:8080/edit-address', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + getAuthToken()
                 },
-                body : JSON.stringify(data)
+                body: JSON.stringify(data)
             })
-            if(!res.ok){
+            if (!res.ok) {
                 const err = await res.json();
                 throw err;
             }
@@ -170,34 +161,37 @@ const Checkout = () => {
                 city: '',
                 pincode: '',
                 landmark: '',
+                email: ''
             });
             const add = await res.json();
             setAddresses(savedAddresses.map(address =>
-                address.addressID._id === editingAddressID ? { addressID : add } : address
+                address.addressID._id === editingAddressID ? { addressID: add } : address
             ));
             setIsEditingAddress(false);
+            setIsOpen(false);
+            setOpen(false);
         }
-        catch(err){
-            showError(err.message , 'danger');
-        }      
+        catch (err) {
+            showError(err.message, 'danger');
+        }
     };
-    const handleEditClick = async (address,id) => {
+    const handleEditClick = async (address) => {
         setNewAddress({
-            fullName : address.fullName,
-            phone : address.phone,
-            firstLine : address.firstLine,
-            secondLine : address.secondLine,
-            pincode : address.pincode,
-            landmark : address.landmark,
-            city : address.city,
-            state : address.state
+            fullName: address.fullName,
+            phone: address.phone,
+            firstLine: address.firstLine,
+            secondLine: address.secondLine,
+            pincode: address.pincode,
+            landmark: address.landmark,
+            city: address.city,
+            state: address.state,
+            email: address.email
         });
         setEditingAddressID(address._id);
         setIsAddingAddress(true);
         setIsEditingAddress(true);
         setSelectedAddress(address._id); 
         setOpen(!open); 
-        setEditingAddressID((prevId) => (prevId === id ? null : id)); 
     };
 
   const handleDeleteAddress = async(id) => {
@@ -210,16 +204,16 @@ const Checkout = () => {
                     'authorization' : 'bearer ' + getAuthToken()
                 }
             });
-            if(!res.ok){
+            if (!res.ok) {
                 const err = await res.json();
                 throw err;
             }
             setAddresses(savedAddresses.filter(address => address.addressID._id !== id));
         }
-        catch(err){
-            showError(err.message , 'danger');
+        catch (err) {
+            showError(err.message, 'danger');
         }
-        
+
     };
     const handleAddressSelection = (id) => {
         setSelectedAddress(id); 
@@ -231,19 +225,19 @@ const Checkout = () => {
                 'Authorization' : 'Bearer ' + getAuthToken()
             }
         })
-        if(!res.ok){
+        if (!res.ok) {
             const err = await res.json();
             throw err;
         }
         const data = await res.json();
         return {
-            amount : data.amount,
-            id : data.id
+            amount: data.amount,
+            id: data.id
         }
     }
     const handleCheckout = async () => {
-        try{
-            const {amount , id} = await generateOrderId();
+        try {
+            const { amount, id } = await generateOrderId();
             var options = {
                 "key": "rzp_test_uY9lNpacaDbu5m", 
                 "amount": amount,
@@ -267,38 +261,32 @@ const Checkout = () => {
                 }
             };
             var rzp1 = new window.Razorpay(options);
-            rzp1.on('payment.failed', function (response){
-                alert(response.error.code);
-                alert(response.error.description);
-                alert(response.error.source);
-                alert(response.error.step);
-                alert(response.error.reason);
-                alert(response.error.metadata.order_id);
-                alert(response.error.metadata.payment_id);
+            rzp1.on('payment.failed', function (response) {
+                showError("Payment Failed, Incase any amount is deducted it will be refunded soon", 'danger');
             });
             rzp1.open();
         }
-        catch(err){
-            showError(err.message , 'danger');
+        catch (err) {
+            showError(err.message, 'danger');
         }
-
     }
     const createOrder = async (data) => {
         const order = {
-            orderID : data.razorpay_order_id,
-            paymentID : data.razorpay_payment_id,
-            signature : data.razorpay_signature,
-            addressID : savedAddresses[0].addressID._id
+            orderID: data.razorpay_order_id,
+            paymentID: data.razorpay_payment_id,
+            signature: data.razorpay_signature,
+            addressID: savedAddresses[0].addressID._id,
+            method: 'prepaid'
         }
-        const res = await fetch('http://localhost:8080/create-order' , {
-            method : 'POST',
-            headers : {
-                'Content-type' : 'application/json',
-                'Authorization' : 'bearer ' + getAuthToken()
+        const res = await fetch('http://localhost:8080/create-order', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': 'bearer ' + getAuthToken()
             },
-            body : JSON.stringify(order)
+            body: JSON.stringify(order)
         });
-        if(!res.ok){
+        if (!res.ok) {
             const err = await res.json();
             throw err;
         }
@@ -333,6 +321,7 @@ const Checkout = () => {
                                                 <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
                                                 <p>Landmark: {address.addressID.landmark}</p>
                                                 <p>Phone: {address.addressID.phone}</p>
+                                                <p>Phone: {address.addressID.email}</p>
                                             </div>
                                             <hr />
                                             <div className={classes.addressActions}>
@@ -343,7 +332,6 @@ const Checkout = () => {
                                     </div>
                                 }
                             />
-                           
                             <Collapse in={selectedAddress === address.addressID._id && open}>
                                 <div>
                                     <div className={classes.floatingLabel}>
@@ -360,6 +348,14 @@ const Checkout = () => {
                                             type="text"
                                             name="phone"
                                             value={newAddress.phone}
+                                            onChange={handleInputChange}
+                                            placeholder=" "
+                                            required />
+                                        <label htmlFor="email">Email</label>
+                                        <input
+                                            type="text"
+                                            name="email"
+                                            value={newAddress.email}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -456,6 +452,14 @@ const Checkout = () => {
                         type="text"
                         name="phone"
                         value={newAddress.phone}
+                        onChange={handleInputChange}
+                        placeholder=" "
+                        required />
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="text"
+                        name="email"
+                        value={newAddress.email}
                         onChange={handleInputChange}
                         placeholder=" "
                         required />
@@ -568,16 +572,7 @@ const Checkout = () => {
 
                         
             </div>
-              
-               
-            
-
             </div>
-                
-
-
-
-       
     );
 };
 

@@ -20,6 +20,7 @@ export const CartProvider = ({children}) => {
             }
             const cartItems = await res.json();
             setCartProducts(cartItems);
+            return cartItems;
         }
         catch(err){
             showError(err.message , 'danger');
