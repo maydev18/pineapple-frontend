@@ -1,29 +1,159 @@
 import React from 'react';
-import { Collapse, Form, Button, Card } from 'react-bootstrap';
+import { Collapse, Form, Card } from 'react-bootstrap';
 import classes from './Checkout.module.css';
+import { useState , useEffect } from 'react';
+import { useError } from '../../context/ErrorContext';
+import { getAuthToken } from '../../utils/Auth';
+const AddressForm = ({updateSelectedAddress}) => {
+    const [savedAddresses, setAddresses] = useState([]);
+    const [selectedAddress , setSelectedAddress] = useState(null);
+    const [addressFields, setAddressFields] = useState({
+        fullName: '',
+        phone: '',
+        email: '',
+        firstLine: '',
+        secondLine: '',
+        state: '',
+        city: '',
+        pincode: '',
+        landmark: '',
+        addressID : ''
+    });
+    const [isOpen, setIsOpen] = useState(false);
+    const {showError} = useError();
 
-const AddressForm = ({
-    isOpen,
-    setIsOpen,
-    newAddress,
-    handleInputChange,
-    handleAddAddress,
-    handleEditAddress,
-    isEditingAddress,
-    handleEditClick,
-    handleDeleteAddress,
-    handleAddressSelection,
-    selectedAddress,
-    open,
-    savedAddresses
-}) => {
-    const handleSaveAddress = () => {
-        handleAddAddress();
-        setIsOpen(false);  // Collapse the form after saving the address
+    useEffect(() => {
+        const getAddresses = async () => {
+            try {
+                const res = await fetch("http://localhost:8080/get-addresses", {
+                    headers: {
+                        'Authorization': 'bearer ' + getAuthToken()
+                    }
+                });
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw err;
+                }
+                const add = await res.json();
+                setAddresses(add.addresses);
+            } catch (err) {
+                showError(err.message, 'danger');
+            }
+        };
+        getAddresses();
+    }, []);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setAddressFields((prevAddress) => ({
+            ...prevAddress,
+            [name]: value,
+        }));
     };
-
-    
-
+    const handleAddAddress = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/add-address", {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'bearer ' + getAuthToken(),
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(addressFields)
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                throw err;
+            }
+            const add = await res.json();
+            setAddresses([...savedAddresses, { addressID: add }]);
+            setAddressFields({
+                fullName: '',
+                phone: '',
+                firstLine: '',
+                secondLine: '',
+                state: '',
+                city: '',
+                pincode: '',
+                landmark: '',
+                email: ''
+            });
+            setIsOpen(false);
+        } catch (err) {
+            showError(err.message, 'danger');
+        }
+    };
+    const handleEditAddress = async () => {
+        try {
+            const res = await fetch('http://localhost:8080/edit-address', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + getAuthToken()
+                },
+                body: JSON.stringify(addressFields)
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                throw err;
+            }
+            setAddressFields({
+                fullName: '',
+                phone: '',
+                firstLine: '',
+                secondLine: '',
+                state: '',
+                city: '',
+                pincode: '',
+                landmark: '',
+                email: '',
+                addressID : ''
+            });
+            const add = await res.json();
+            setAddresses(savedAddresses.map(address =>
+                address.addressID._id === addressFields.addressID ? { addressID: add } : address
+            ));
+            setIsOpen(false);
+        } catch (err) {
+            showError(err.message, 'danger');
+        }
+    };
+    const handleDeleteAddress = async (id) => {
+        try {
+            const res = await fetch('http://localhost:8080/delete-address', {
+                method: 'delete',
+                body: JSON.stringify({ addressID: id }),
+                headers: {
+                    'Content-type': 'application/json',
+                    'authorization': 'bearer ' + getAuthToken()
+                }
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                throw err;
+            }
+            setAddresses(savedAddresses.filter(address => address.addressID._id !== id));
+        } catch (err) {
+            showError(err.message, 'danger');
+        }
+    };
+    const handleEditClick = (address) => {
+        setAddressFields({
+            fullName: address.fullName,
+            firstLine: address.firstLine,
+            secondLine: address.secondLine,
+            state: address.state,
+            city: address.city,
+            phone: address.phone,
+            pincode: address.pincode,
+            landmark: address.landmark,
+            email: address.email,
+            addressID : address._id
+        });
+        setIsOpen(!isOpen);
+    }
+    const handleAddressesChecked = (id) => {
+        updateSelectedAddress(id);
+        setSelectedAddress(id);
+    }
     return (
         <div>
             {savedAddresses.length > 0 ? (
@@ -34,7 +164,7 @@ const AddressForm = ({
                                 type='radio'
                                 name='address'
                                 checked={selectedAddress === address.addressID._id}
-                                onChange={() => handleAddressSelection(address.addressID._id)}
+                                onChange={() => handleAddressesChecked(address.addressID._id)}
                                 label={
                                     <div className={classes.savedAddresses}>
                                         <div className={classes.savedAddress}>
@@ -47,22 +177,21 @@ const AddressForm = ({
                                             </div>
                                             <hr />
                                             <div className={classes.addressActions}>
-                                                <button  onClick={() => handleEditClick(address.addressID)}>Edit</button>
-                                                <button  onClick={() => handleDeleteAddress(address.addressID._id)}>Delete</button>
+                                                <button className={classes.addressbuttons}  onClick={() => handleEditClick(address.addressID)}>Edit</button>
+                                                <button className={classes.addressbuttons}  onClick={() => handleDeleteAddress(address.addressID._id)}>Delete</button>
                                             </div>
                                         </div>
                                     </div>
                                 }
                             />
-                            <Collapse in={selectedAddress === address.addressID._id && open}>
+                            <Collapse in={selectedAddress === address.addressID._id && isOpen}>
                                 <div>
                                     <div className={classes.floatingLabel}>
-                                        {/* Address form fields */}
                                         <label htmlFor="name">Full Name</label>
                                         <input
                                             type="text"
                                             name="fullName"
-                                            value={newAddress.fullName}
+                                            value={addressFields.fullName}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -70,7 +199,7 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="phone"
-                                            value={newAddress.phone}
+                                            value={addressFields.phone}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -78,7 +207,7 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="email"
-                                            value={newAddress.email}  
+                                            value={addressFields.email}  
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required
@@ -87,7 +216,7 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="firstLine"
-                                            value={newAddress.firstLine}
+                                            value={addressFields.firstLine}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -95,14 +224,14 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="secondLine"
-                                            value={newAddress.secondLine}
+                                            value={addressFields.secondLine}
                                             onChange={handleInputChange}
                                             placeholder=" " />
                                         <label htmlFor="state">State</label>
                                         <input
                                             type="text"
                                             name="state"
-                                            value={newAddress.state}
+                                            value={addressFields.state}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -110,7 +239,7 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="city"
-                                            value={newAddress.city}
+                                            value={addressFields.city}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -118,7 +247,7 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="pincode"
-                                            value={newAddress.pincode}
+                                            value={addressFields.pincode}
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
@@ -126,19 +255,16 @@ const AddressForm = ({
                                         <input
                                             type="text"
                                             name="landmark"
-                                            value={newAddress.landmark}
+                                            value={addressFields.landmark}
                                             onChange={handleInputChange}
                                             placeholder=" " />
                                         <div className={classes.ButtonClass}>
-                                            {isEditingAddress ? (
-                                                <button onClick={handleEditAddress} className={classes.addAddressButton}>
-                                                    Save Changes
-                                                </button>
-                                            ) : (
-                                                <button onClick={handleSaveAddress} className={classes.addAddressButton}>
-                                                    Save Address
-                                                </button>
-                                            )}
+                                            <button onClick={handleEditAddress} className={classes.addAddressButton}>
+                                                Save Changes
+                                            </button>
+                                            <button onClick={() => {setIsOpen(false)}} className={classes.addAddressButton}>
+                                                Cancel
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -167,7 +293,7 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="fullName"
-                            value={newAddress.fullName}
+                            value={addressFields.fullName}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -175,7 +301,7 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="phone"
-                            value={newAddress.phone}
+                            value={addressFields.phone}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -183,7 +309,7 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="email"
-                            value={newAddress.email}
+                            value={addressFields.email}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -191,7 +317,7 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="firstLine"
-                            value={newAddress.firstLine}
+                            value={addressFields.firstLine}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -199,14 +325,14 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="secondLine"
-                            value={newAddress.secondLine}
+                            value={addressFields.secondLine}
                             onChange={handleInputChange}
                             placeholder=" " />
                         <label htmlFor="state">State</label>
                         <input
                             type="text"
                             name="state"
-                            value={newAddress.state}
+                            value={addressFields.state}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -214,7 +340,7 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="city"
-                            value={newAddress.city}
+                            value={addressFields.city}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -222,7 +348,7 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="pincode"
-                            value={newAddress.pincode}
+                            value={addressFields.pincode}
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
@@ -230,12 +356,12 @@ const AddressForm = ({
                         <input
                             type="text"
                             name="landmark"
-                            value={newAddress.landmark}
+                            value={addressFields.landmark}
                             onChange={handleInputChange}
                             placeholder=" " />
                         <div className={classes.ButtonClass}>
                             <button
-                                onClick={handleSaveAddress}
+                                onClick={handleAddAddress}
                                 className={classes.addAddressButton}
                             >
                                 Save Address
