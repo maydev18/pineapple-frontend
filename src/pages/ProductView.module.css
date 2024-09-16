@@ -128,7 +128,7 @@ font-size: 17px;
 
 .sizes {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .sizeButton {
@@ -423,3 +423,15 @@ ul {
   background-color: #f8f9fa; /* Ensure background color remains consistent */
 }
 
+.sizeButton:disabled {
+  background-color: #d3d3d3; /* or any other color for disabled state */
+  cursor: not-allowed;
+  border: 1px solid #ccc; /* or any other border style for disabled state */
+}
+
+
+.sizeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

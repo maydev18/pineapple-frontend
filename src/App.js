@@ -19,6 +19,7 @@ import PlacedOrder from './Components/admin/PlacedOrders';
 import EditProduct from './Components/admin/EditProduct';
 import Inventory from './Components/admin/Inventory';
 import ReturnPolicy from './pages/PolicyPage';
+import Exchange from './Components/admin/Exchange';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       {
         path : 'inventory',
         element : <Inventory/>
+      },
+      {
+        path : 'exchange',
+        element : <Exchange/>
       },
       {
         path : 'terms',

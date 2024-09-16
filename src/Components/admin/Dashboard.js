@@ -24,12 +24,6 @@ const Dashboard = () => {
             <p>Add product Name, Size, <br/>Description, Images, Policies</p>
            <Link to='/addproducts' className={styles.btn}> Add products</Link>
           </div>
-{/* 
-          <div className={styles.box}>
-            <h3>Edit Product Details</h3>
-            <p>Edit product Name, Size, <br/>Description, Images, Policies</p>
-            <Link to='/edit' className={styles.btn}> Edit products</Link>
-          </div> */}
 
           <div className={styles.box}>
           <h3>Order updates</h3>
@@ -41,6 +35,12 @@ const Dashboard = () => {
           <h3>Inventory</h3>
             <p>Check Remaining stock<br/>in the inventorys</p>
             <Link to='/inventory' className={styles.btn}> Inventory</Link>
+          </div>
+
+          <div className={styles.box}>
+          <h3>Exchange</h3>
+            <p>check updates regarding <br/>exchange of products</p>
+            <Link to='/exchange' className={styles.btn}> Inventory</Link>
           </div>
 
           

@@ -20,15 +20,14 @@ const AddressBox = () => {
     const [newAddress, setNewAddress] = useState({
         fullName: '',
         phone: '',
-        email: '',  // Ensure email is part of the initial state
         firstLine: '',
         secondLine: '',
         state: '',
         city: '',
         pincode: '',
         landmark: '',
+        email: ''
     });
-    
     const [isAddingAddress, setIsAddingAddress] = useState(false);
     const [isEditingAddress, setIsEditingAddress] = useState(false);
     const [editingAddressID, setEditingAddressID] = useState(null);
@@ -87,15 +86,10 @@ const AddressBox = () => {
         }
     };
 
- 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewAddress((prevAddress) => ({
-            ...prevAddress,
-            [name]: value,
-        }));
+        setNewAddress(prev => ({ ...prev, [name]: value }));
     };
-    
 
     const handleAddAddress = async () => {
         try {
@@ -292,21 +286,21 @@ const AddressBox = () => {
                     <h2 className={classes.delivery}>Delivery</h2>
              
                         <AddressForm
-                    savedAddresses={savedAddresses}
-                    selectedAddress={selectedAddress}
-                    open={open}
-                    handleAddressSelection={handleAddressSelection}
-                    handleEditClick={handleEditClick}
-                    handleDeleteAddress={handleDeleteAddress}
-                    handleInputChange={handleInputChange}
-                    newAddress={newAddress}
-                    handleAddAddress={handleAddAddress}
-                    handleEditAddress={handleEditAddress}
-                    isEditingAddress={isEditingAddress}
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
+                        savedAddresses={savedAddresses}
+                        selectedAddress={selectedAddress}
+                        open={open}
+                        handleAddressSelection={handleAddressSelection}
+                        handleEditClick={handleEditClick}
+                        handleDeleteAddress={handleDeleteAddress}
+                        handleInputChange={handleInputChange}
+                        newAddress={newAddress}
+                        handleAddAddress={handleAddAddress}
+                        handleEditAddress={handleEditAddress}
+                        isEditingAddress={isEditingAddress}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
                    
-                />
+                    />
                     </div>
                     <div className={classes.delivery}>
                     <h2>Mode of Payment</h2>
