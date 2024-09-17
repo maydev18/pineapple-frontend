@@ -511,3 +511,60 @@ table p:hover{
     width: 50px;
   }
 }
+
+
+.exchangeTableWrapper {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.exchangeTable {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.productDetails {
+  display: flex;
+  align-items: center;
+}
+
+.orderDetail p{
+  color: black;
+  text-align: left;
+  margin: 0;
+  font-size: 13px;
+}
+
+.orderDetail h2{
+  font-size: 20px;
+  color: black;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.productImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.formCheck {
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
+  border: 2px solid #007bff;
+}
+
+.formCheck:checked {
+  background-color: #007bff;
+}
+
+.formSelect {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
