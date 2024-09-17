@@ -34,31 +34,31 @@ const OrdersPage = () => {
 
 
   // Replace orderLoader with setting the dummy data
-  const orderLoader = () => {
-    try {
-      onOrdersChange(dummyOrders);
-    } catch (err) {
-      showError(err.message, 'danger');
+  // const orderLoader = () => {
+  //   try {
+  //     onOrdersChange(dummyOrders);
+  //   } catch (err) {
+  //     showError(err.message, 'danger');
+  //   }
+  // };
+  const orderLoader = async () => {
+    try{
+      const res = await fetch('http://localhost:8080/orders' , {
+        headers : {
+          'Authorization' : 'bearer ' + getAuthToken()
+        }
+      });
+      if(!res.ok){
+        const err = await res.json();
+        throw err;
+      }
+      const resData = await res.json();
+      onOrdersChange(resData);
     }
-  };
-  // const orderLoader = async () => {
-  //   try{
-  //     const res = await fetch('http://localhost:8080/orders' , {
-  //       headers : {
-  //         'Authorization' : 'bearer ' + getAuthToken()
-  //       }
-  //     });
-  //     if(!res.ok){
-  //       const err = await res.json();
-  //       throw err;
-  //     }
-  //     const resData = await res.json();
-  //     onOrdersChange(resData);
-  //   }
-  //   catch(err){
-  //     showError(err.message , 'danger');
-  //   }
-  // }
+    catch(err){
+      showError(err.message , 'danger');
+    }
+  }
   useEffect(() => {
     orderLoader();
   } , [])
