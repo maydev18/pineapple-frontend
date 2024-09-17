@@ -1,11 +1,12 @@
 import React from 'react';
-import { Collapse, Form, Card } from 'react-bootstrap';
+import { Collapse, Form, Card, Spinner } from 'react-bootstrap';
 import classes from './Checkout.module.css';
 import { useState , useEffect } from 'react';
 import { useError } from '../../context/ErrorContext';
 import { getAuthToken } from '../../utils/Auth';
 const AddressForm = ({updateSelectedAddress}) => {
     const [savedAddresses, setAddresses] = useState([]);
+    const [isloading , setIsLoading] = useState(false);
     const [selectedAddress , setSelectedAddress] = useState(null);
     const [addressFields, setAddressFields] = useState({
         fullName: '',
@@ -19,11 +20,13 @@ const AddressForm = ({updateSelectedAddress}) => {
         landmark: '',
         addressID : ''
     });
-    const [isOpen, setIsOpen] = useState(false);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isAddOpen, setIsAddOpen] = useState(false);
     const {showError} = useError();
 
     useEffect(() => {
         const getAddresses = async () => {
+            setIsLoading(true);
             try {
                 const res = await fetch("http://localhost:8080/get-addresses", {
                     headers: {
@@ -35,9 +38,12 @@ const AddressForm = ({updateSelectedAddress}) => {
                     throw err;
                 }
                 const add = await res.json();
-                setAddresses(add.addresses);
+                setAddresses(add);
             } catch (err) {
                 showError(err.message, 'danger');
+            }
+            finally{
+                setIsLoading(false);
             }
         };
         getAddresses();
@@ -50,6 +56,7 @@ const AddressForm = ({updateSelectedAddress}) => {
         }));
     };
     const handleAddAddress = async () => {
+        setIsLoading(true);
         try {
             const res = await fetch("http://localhost:8080/add-address", {
                 method: 'POST',
@@ -64,7 +71,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                 throw err;
             }
             const add = await res.json();
-            setAddresses([...savedAddresses, { addressID: add }]);
+            setAddresses([...savedAddresses, add]);
             setAddressFields({
                 fullName: '',
                 phone: '',
@@ -74,14 +81,19 @@ const AddressForm = ({updateSelectedAddress}) => {
                 city: '',
                 pincode: '',
                 landmark: '',
-                email: ''
+                email: '',
+                addressID : ''
             });
-            setIsOpen(false);
+            setIsAddOpen(false);
         } catch (err) {
             showError(err.message, 'danger');
         }
+        finally{
+            setIsLoading(false);
+        }
     };
     const handleEditAddress = async () => {
+        setIsLoading(true);
         try {
             const res = await fetch('http://localhost:8080/edit-address', {
                 method: "POST",
@@ -95,6 +107,8 @@ const AddressForm = ({updateSelectedAddress}) => {
                 const err = await res.json();
                 throw err;
             }
+            const updatedAddress = await res.json();
+            setIsEditOpen(false);
             setAddressFields({
                 fullName: '',
                 phone: '',
@@ -107,16 +121,18 @@ const AddressForm = ({updateSelectedAddress}) => {
                 email: '',
                 addressID : ''
             });
-            const add = await res.json();
             setAddresses(savedAddresses.map(address =>
-                address.addressID._id === addressFields.addressID ? { addressID: add } : address
+                address._id === updatedAddress._id ? updatedAddress : address
             ));
-            setIsOpen(false);
         } catch (err) {
             showError(err.message, 'danger');
         }
+        finally{
+            setIsLoading(false);
+        }
     };
     const handleDeleteAddress = async (id) => {
+        setIsLoading(true);
         try {
             const res = await fetch('http://localhost:8080/delete-address', {
                 method: 'delete',
@@ -130,9 +146,12 @@ const AddressForm = ({updateSelectedAddress}) => {
                 const err = await res.json();
                 throw err;
             }
-            setAddresses(savedAddresses.filter(address => address.addressID._id !== id));
+            setAddresses(savedAddresses.filter(address => address._id !== id));
         } catch (err) {
-            showError(err.message, 'danger');
+            showError("Failed to delete the address", 'danger');
+        }
+        finally{
+            setIsLoading(false);
         }
     };
     const handleEditClick = (address) => {
@@ -148,7 +167,25 @@ const AddressForm = ({updateSelectedAddress}) => {
             email: address.email,
             addressID : address._id
         });
-        setIsOpen(!isOpen);
+        setIsEditOpen(!isEditOpen);
+        setIsAddOpen(false);
+        setSelectedAddress(address._id);
+    }
+    const handleAddClick = () => {
+        setAddressFields({
+            fullName: "",
+            firstLine: "",
+            secondLine: "",
+            state: "",
+            city: "",
+            phone: "",
+            pincode: "",
+            landmark: "",
+            email: "",
+            addressID : ""
+        });
+        setIsAddOpen(true);
+        setIsEditOpen(false);
     }
     const handleAddressesChecked = (id) => {
         updateSelectedAddress(id);
@@ -157,34 +194,35 @@ const AddressForm = ({updateSelectedAddress}) => {
     return (
         <div>
             {savedAddresses.length > 0 ? (
-                savedAddresses.map((address) => (
-                    <Card className={classes.savedAddresscard} key={address.addressID._id}>
+                savedAddresses.map((address , index) => (
+                    <Card className={classes.savedAddresscard} key={index}>
                         <Card.Body>
                             <Form.Check
                                 type='radio'
                                 name='address'
-                                checked={selectedAddress === address.addressID._id}
-                                onChange={() => handleAddressesChecked(address.addressID._id)}
+                                checked={selectedAddress === address._id}
+                                onChange={() => handleAddressesChecked(address._id)}
                                 label={
                                     <div className={classes.savedAddresses}>
                                         <div className={classes.savedAddress}>
                                             <div>
-                                                <h6><strong>{address.addressID.fullName}</strong></h6>
-                                                <p>{address.addressID.firstLine + " " + address.addressID.secondLine}, {address.addressID.state}, {address.addressID.city} - {address.addressID.pincode}</p>
-                                                <p>Landmark: {address.addressID.landmark}</p>
-                                                <p>Phone: {address.addressID.phone}</p>
-                                                <p>Email: {address.addressID.email}</p>
+                                                <h6><strong>{address.fullName}</strong></h6>
+                                                <p>{address.firstLine + " " + address.secondLine}, {address.state}, {address.city} - {address.pincode}</p>
+                                                <p>Landmark: {address.landmark}</p>
+                                                <p>Phone: {address.phone}</p>
+                                                <p>Email: {address.email}</p>
                                             </div>
                                             <hr />
                                             <div className={classes.addressActions}>
-                                                <button className={classes.addressbuttons}  onClick={() => handleEditClick(address.addressID)}>Edit</button>
-                                                <button className={classes.addressbuttons}  onClick={() => handleDeleteAddress(address.addressID._id)}>Delete</button>
+                                                <button className={classes.addressbuttons}  onClick={() => handleEditClick(address)}>Edit</button>
+                                                {isloading ? <Spinner /> : <button className={classes.addressbuttons}  onClick={() => handleDeleteAddress(address._id)}>Delete</button>}
+                                                
                                             </div>
                                         </div>
                                     </div>
                                 }
                             />
-                            <Collapse in={selectedAddress === address.addressID._id && isOpen}>
+                            <Collapse in={selectedAddress === address._id && isEditOpen}>
                                 <div>
                                     <div className={classes.floatingLabel}>
                                         <label htmlFor="name">Full Name</label>
@@ -259,10 +297,11 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" " />
                                         <div className={classes.ButtonClass}>
+                                            {isloading ? <Spinner/> :
                                             <button onClick={handleEditAddress} className={classes.addAddressButton}>
                                                 Save Changes
-                                            </button>
-                                            <button onClick={() => {setIsOpen(false)}} className={classes.addAddressButton}>
+                                            </button>}
+                                            <button onClick={() => {setIsEditOpen(false)}} className={classes.addAddressButton}>
                                                 Cancel
                                             </button>
                                         </div>
@@ -278,15 +317,15 @@ const AddressForm = ({updateSelectedAddress}) => {
                 </div>
             )}
             <div className={classes.ButtonClass}>
-                {!isOpen && (
+                {!isAddOpen && (
                     <button
                         className={classes.addAddressButton}
-                        onClick={() => setIsOpen(true)}
+                        onClick={handleAddClick}
                     >
                         + Add New Address
                     </button>
                 )}
-                <Collapse in={isOpen}>
+                <Collapse in={isAddOpen}>
                     <div className={classes.floatingLabel}>
                         
                         <label htmlFor="name">Full Name</label>
@@ -360,15 +399,14 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" " />
                         <div className={classes.ButtonClass}>
+                            {isloading ? <Spinner /> :  
                             <button
                                 onClick={handleAddAddress}
-                                className={classes.addAddressButton}
-                            >
-                                Save Address
-                            </button>
+                                className={classes.addAddressButton}> Save Address </button>
+                            }
                             <button
                                 className={classes.addAddressButton}
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => setIsAddOpen(false)}
                             >
                                 Close
                             </button>

@@ -152,10 +152,16 @@ const Checkout = () => {
                                 <strong>Total Items: </strong>
                                 <div>{cartItems.length}</div>
                             </div>
+                            {checkoutDetails.methodOfPayment && 
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <strong>Shipping Charges: </strong>
+                                <div>₹ {checkoutDetails.methodOfPayment === 'cod' ? 100 : 0}</div>
+                            </div>}
+                            
                             <div style={{ display: "flex", justifyContent: "space-between", paddingTop: '12px' }}>
                                 <div><strong>Total Price: </strong></div>
                                 <div> ₹
-                                    {amount}</div>
+                                    {checkoutDetails.methodOfPayment === 'cod' ? (amount + 100) : amount}</div>
                             </div>
                         </div>
                     </div>
@@ -166,7 +172,7 @@ const Checkout = () => {
                         isloading ? (
                             <Spinner />
                         ) : (
-                            <button className={classes.completeOrder} onClick={checkoutDetails.methodOfPayment === 'prepaid' ? handleCheckout : () => {createOrder({})}}>Proceed to Payment</button>
+                            <button className={classes.completeOrder} onClick={checkoutDetails.methodOfPayment === 'prepaid' ? handleCheckout : () => {createOrder({})}}>{checkoutDetails.methodOfPayment === 'cod' ? "Confirm your order" : "Proceed to Payment"}</button>
                         )
                     )}
                 </div>

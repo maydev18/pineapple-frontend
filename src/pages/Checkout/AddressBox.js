@@ -8,6 +8,12 @@ const AddressBox = ({checkoutDetails , setCheckoutDetails}) => {
             addressID : id
         });
     }
+    const updateSelectedPaymentMethod = (method) => {
+        setCheckoutDetails({
+            methodOfPayment : method,
+            addressID : checkoutDetails.addressID
+        });
+    }
     return (
         <div className={classes.checkoutContent}>
             <div className={classes.checkoutForm}>
@@ -19,7 +25,9 @@ const AddressBox = ({checkoutDetails , setCheckoutDetails}) => {
                 </div>
                 <div className={classes.delivery}>
                     <h2>Mode of Payment</h2>
-                    <ModeOfPaymentCard />
+                    <ModeOfPaymentCard 
+                        updateSelectedPaymentMethod= {updateSelectedPaymentMethod}
+                    />
                 </div>
             </div>
         </div>
