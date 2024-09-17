@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Form } from 'react-bootstrap';
-import classes from '../pages/Checkout/Checkout.module.css';
+import classes from './Checkout.module.css';
 
-function ModeOfPaymentCard({ selectedPayment, onSelectPayment }) {
+function ModeOfPaymentCard({updateSelectedPaymentMethod}) {
     return (
         <div>
             <Card className={classes.savedpayment}>
@@ -10,8 +10,7 @@ function ModeOfPaymentCard({ selectedPayment, onSelectPayment }) {
                     <Form.Check
                         type="radio"
                         name="paymentMethod"
-                        // checked={selectedPayment === 'cod'}
-                        // onChange={() => onSelectPayment('cod')} 
+                        onChange={() => {updateSelectedPaymentMethod('cod')}}
                         label={
                             <div className={classes.savedAddresses}>
                                 <div className={classes.savedAddress}>
@@ -31,8 +30,7 @@ function ModeOfPaymentCard({ selectedPayment, onSelectPayment }) {
                     <Form.Check
                         type="radio"
                         name="paymentMethod" 
-                        // checked={selectedPayment === 'upi'}
-                        // onChange={() => onSelectPayment('upi')} // Handle selection
+                        onChange={() => {updateSelectedPaymentMethod('prepaid')}}
                         label={
                             <div className={classes.savedAddresses}>
                                 <div className={classes.savedAddress}>
