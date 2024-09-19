@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
-import WishlistSidebar from '../Components/WishListSidebar';
-import { json, useLoaderData, Form } from 'react-router-dom';
+import { json, useLoaderData } from 'react-router-dom';
 import classes from './ProductView.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
-import { getAuthToken } from '../utils/Auth';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Spinner } from 'react-bootstrap';
@@ -27,8 +25,6 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [ratingValues, setRatingValues] = useState({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
-  const [stock, setStock] = useState({ S: 10, M: 8, L: 15, XL: 5, XXL: 0 }); 
-
   const handleAddToCart = async () => {
     setIsSubmitting(true);
     const size = getFullSize(selectedSize);
@@ -82,12 +78,12 @@ const ProductPage = () => {
                   <button
                     className={`${classes.sizeButton} ${size === selectedSize ? classes.selected : ''}`}
                     onClick={() => setSelectedSize(size)}
-                    disabled={stock[size] === 0} // Disable button if stock is 0
+                    disabled={product[getFullSize(size)] === 0} // Disable button if product is 0
                   >
                     {size}
                   </button>
                   <p className={classes.stockInfo} style={{color: "#fd5c63", fontSize: '15px', fontWeight: "500"}}>
-                    {stock[size]} left
+                    {product[getFullSize(size)] === 0 ? "Out of Stock" : product[getFullSize(size)] + " Left"} 
                   </p>
                 </div>
               ))}
