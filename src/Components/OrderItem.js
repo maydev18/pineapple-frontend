@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import classes from './OrderItem.module.css';
 import OrderDetailsModal from '../Modal/OrderModal';
-import ExchangeModal from '../Modal/ExchangeModal'; 
-
-const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, completed }) => {
+import ExchangeModal from '../Modal/ExchangeModal'; // Assuming you will create this modal
+const OrderItem = ({ onCancel, order}) => {
   const [showModal, setShowModal] = useState(false);
   const [showExchangeModal, setShowExchangeModal] = useState(false);
 
@@ -14,12 +13,15 @@ const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, comp
 
   const totalPrice = () => {
     let total = 0;
-    products.forEach(pro => {
+    order.products.forEach(pro => {
       total += pro.quantity * pro.price;
     });
     return total;
   };
-
+  const canExchange = () => {
+    if((((Date.now() - new Date(order.time)) / (1000 * 60 * 60 * 24)) >= 4) || order.exchanged) return false;
+    return true;
+  }
   return (
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
@@ -27,13 +29,18 @@ const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, comp
           <button className={classes.arrowButton} onClick={handleShow}>
             Order Summary<span className={classes.arrow}></span>
           </button>
-          <p><span>Order Date: </span>{time}</p>
+          <p><span>Order ID: </span>{order.orderID}</p>
+          <p><span>Order Date: </span>{new Date(order.time).toLocaleString()}</p>
           <p><span>Total Amount: ₹</span>{totalPrice()}</p>
+          <p style={{textTransform : 'capitalize'}}><span>Shipping Address: </span>{`${order.address.fullName}, ${order.address.firstLine}, ${order.address.secondLine}, ${order.address.city}, ${order.address.state}, ${order.address.landmark}`}</p>
+          <p><span>Phone : </span>{order.address.phone}</p>
+          <p><span>Email : </span>{order.address.email}</p>      
+
         </div>
       </div>
 
       <div className={classes.buttons}>
-        <button className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>
+        {canExchange() && <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>}
         <button className={classes.cancelButton} onClick={onCancel}>Invoice</button>
       </div>
 
@@ -41,20 +48,18 @@ const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, comp
       <OrderDetailsModal
         show={showModal}
         handleClose={handleClose}
-        products={products}
-        orderID={orderID}
-        paymentID={paymentID}
-        completed={completed}
-        address={address}
+        order={order}
       />
 
-      
-      <ExchangeModal
+      {/* Exchange Modal */}
+      {canExchange() && <ExchangeModal
         show={showExchangeModal}
         handleClose={handleCloseExchange}
-        products={products}
-        orderID={orderID}
+        products={order.products}
+        orderID={order.orderID}
       />
+      }
+      
     </div>
   );
 };

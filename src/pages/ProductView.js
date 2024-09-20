@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SingleProduct from '../Components/SingleProduct';
 import CartSidebar from '../Components/CartSidebar';
-import WishlistSidebar from '../Components/WishListSidebar';
-import { json, useLoaderData, Form } from 'react-router-dom';
+import { json, useLoaderData } from 'react-router-dom';
 import classes from './ProductView.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
-import { getAuthToken } from '../utils/Auth';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Spinner, Modal, Button } from 'react-bootstrap';
@@ -96,9 +94,9 @@ const ProductPage = () => {
                     {size}
                   </button>
                   <p className={classes.stockInfo} style={{ color: "RED", fontSize: '13px', fontWeight: "300" }}>
-                    {stock[size]} left
-                  </p>
-
+                    {stock[size]} left </p>
+                   
+                   
                 </div></>
               ))}
              
