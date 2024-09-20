@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, Button, Accordion, Form } from 'react-bootstrap';
+import { Modal, Accordion, Form } from 'react-bootstrap';
 import styles from './OrderModal.module.css';
 import StarRating from '../Components/StarRating';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams } from 'react-router-dom';
 import { getAuthToken } from '../utils/Auth';
 import { Link } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
 import { useError } from '../context/ErrorContext';
-const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, address, completed, date, reviews , setReviews }) => {
+const OrderDetailsModal = ({ show, handleClose , order }) => {
   const [reviewOpenIndex, setReviewOpenIndex] = useState(null);
   const [username, setUserName] = useState('');
   const [stars, setStars] = useState('');
@@ -31,7 +30,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
           content: content,
           buyer: username,
           productID: id,
-          orderID : orderID
+          orderID : order.orderID
         }),
       });
       if (!res.ok) {
@@ -44,7 +43,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
       setUserName('');
     }
     catch(err){
-      showError(err.message , 'danger');
+      showError("Failed to submit the review, Please try again!" , 'danger');
     }
     finally{
       setIsSubmitting(false);
@@ -62,13 +61,13 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
       <Modal.Header closeButton className={styles.modalHeader}>
         <div className={styles.modalHeading}>
           <Modal.Title className={styles.modalTitle}>Order Details</Modal.Title>
-          <p style={{ marginLeft: '2rem', color: 'black', fontSize: '20px' }}>Order Id: {orderID}</p>
-          <div className={styles.modalStatus}>{completed ? 'Delivered' : 'Processing'}</div>
+          <p style={{ marginLeft: '2rem', color: 'black', fontSize: '20px' }}>Order Id: {order.orderID}</p>
+          <div className={styles.modalStatus}>{order.completed ? 'Delivered' : 'Processing'}</div>
         </div>
-        <p>{date}</p>
+        <p>{order.date}</p>
       </Modal.Header>
 
-      {products.map((pro, index) => (
+      {order.products.map((pro, index) => (
         <div key={index}>
           <Modal.Body>
             <div className={styles.orderDetails}>
@@ -85,7 +84,7 @@ const OrderDetailsModal = ({ show, handleClose, products, orderID, paymentID, ad
                       <p><strong>Price: </strong> ₹ {pro.price * pro.quantity}</p>
                     </div>
                   </div>
-                  {!pro.reviewed && completed && (
+                  {!pro.reviewed && order.completed && (
                     <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index , )} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
                       Write a Review
                     </button>

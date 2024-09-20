@@ -68,16 +68,11 @@ const OrdersPage = () => {
   return (
     <div className={classes.ordersPage}>
       <h1>My Orders</h1>
-      {orders.map(order => (
+      {orders.map((order , index) => (
         <OrderItem
-          key={order.orderID}
-          orderID={order.orderID}
-          paymentID={order.paymentID}
-          products={order.products}
-          address={order.address}
-          time={format(new Date(order.time) , 'MMMM do, yyyy')}
+          key={index}
+          order={order}
           onCancel={() => handleCancel(order.id)}
-          completed={order.completed}
         />
       ))}
     </div>

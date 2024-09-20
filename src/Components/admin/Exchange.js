@@ -1,47 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap'; // Assuming React Bootstrap is used
 import styles from './Dashboard.module.css';
-import front from '../../images/front.jpg';
+import { useError } from '../../context/ErrorContext';
+import { getAuthToken } from '../../utils/Auth';
 
 const ExchangeItemsTable = () => {
-  // Dummy products data
-  const products = [
-    {
-      OrderID: 1,
-      title: 'Classic T-Shirt',
-      image: front,
-      size: 'medium',
-      exchangedSize: 'large',
-      quantity: 2,
-      price: 500,
-      shippingAdress: 'house no 138, second floor',
-      reason: 'size or fit issue'
-    },
-    {
-      OrderID: 2,
-      title: 'Denim Jeans',
-      image: front,
-      size: 'large',
-      exchangedSize: 'extraLarge',
-      quantity: 1,
-      price: 1200,
-      shippingAdress: 'house no 138, second floor',
-      reason: 'size or fit issue'
-    },
-    {
-      OrderID: 3,
-      title: 'Sports Shoes',
-      image: front,
-      size: 'extraLarge',
-      exchangedSize: 'small',
-      quantity: 1,
-      price: 3000,
-      shippingAdress: 'house no 138, second floor',
-      reason: 'size or fit issue'
-    },
-  ];
-
   const [selectedProducts, setSelectedProducts] = useState({});
+  const [exchangeRequests , setExchangeRequests] = useState([]);
+  const {showError} = useError();
+  useEffect(() => {
+    const fetchExchangeRequests = async () => {
+      try{
+        const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/exchange-tickets' , {
+          method : 'get',
+          headers : {
+            'authorization' : 'bearer ' + getAuthToken()
+          }
+        });
+        if(!res.ok){
+          throw new Error();
+        }
+        const data = await res.json();
+        setExchangeRequests(data);
+      }
+      catch(err){
+        showError("failed fetching exchange requests" , "danger");
+      }
+    }
+    fetchExchangeRequests();
+  } ,[])
 
   const handleProductSelect = (index, action) => {
     setSelectedProducts((prevState) => ({
@@ -49,92 +36,45 @@ const ExchangeItemsTable = () => {
       [index]: action === 'select',
     }));
   };
-
-  const handleSubmit = () => {
-    console.log('Selected Products:', selectedProducts);
-  };
-
   return (
     <div className={styles.alignProducts}>
-    <div className={styles.OrdersBox}>
-    <h1 className={styles.heading}>Exchange Items</h1>
-      <Table bordered hover className={styles.exchangeTable}>
-        <thead>
-          <tr>
-            <th>Action</th>
-            <th>Order Details</th>
-            <th>Shipping Address</th>
-            <th>Original Size</th>
-            <th>Exchanged Size</th>
-            <th>Reason for Exchange</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product, index) => (
-            <tr key={index}>
-              <td>
-                {selectedProducts[index] === true ? (
-                  <Button
-                    variant="success"
-                    onClick={() => handleProductSelect(index, 'reject')}
-                  >
-                    Accepted
-                  </Button>
-                ) : selectedProducts[index] === false ? (
-                  <Button
-                    variant="danger"
-                    onClick={() => handleProductSelect(index, 'select')}
-                  >
-                    Rejected
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                     variant="success"
-                      onClick={() => handleProductSelect(index, 'select')}
-                      className={styles.actionButton}
-                    >
-                      Accept
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => handleProductSelect(index, 'reject')}
-                      className={styles.actionButton}
-                    >
-                      Reject
-                    </Button>
-                  </>
-                )}
-              </td>
-              <td>
-                <div className={styles.productDetails}>
-                  <img
-                    src={product.image}
-                    alt="Product"
-                    className={styles.productImage}
-                  />
-                  <div className={styles.orderDetail}>
-                    <h2><strong>{product.title}</strong></h2>
-                    <p>Order ID: {product.OrderID}</p>
-                    <p>Qty: {product.quantity}</p>
-                    <p>Price: ₹ {product.price * product.quantity}</p>
-                  </div>
-                </div>
-              </td>
-              <td>{product.shippingAdress}</td>
-              <td>{product.size}</td>
-              <td>{product.exchangedSize}</td>
-              <td>{product.reason}</td>
+      <div className={styles.OrdersBox}>
+        <h1 className={styles.heading}>Exchange Items</h1>
+        <Table bordered hover className={styles.exchangeTable}>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product Title</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Exchange Reasons</th>
+              <th>Description</th>
+              <th>Exchange Date</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-     
-    
+          </thead>
+          <tbody>
+            {exchangeRequests.map((request) => (
+              request.exchangeProducts.map((product) => (
+                <tr key={product._id}>
+                  <td>{request.orderID}</td>
+                  <td>{product.product.title}</td>
+                  <td>{product.product.quantity}</td>
+                  <td>₹ {product.product.price * product.product.quantity}</td>
+                  <td>
+                    {product.exchangeReason.length > 0 
+                      ? product.exchangeReason.join(', ') 
+                      : 'No reason provided'}
+                  </td>
+                  <td>{product.description || 'N/A'}</td>
+                  <td>{new Date(request.time).toLocaleDateString()}</td>
+                </tr>
+              ))
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
-    </div>
-   
   );
-};
-
+  };
+  
 export default ExchangeItemsTable;
