@@ -8,7 +8,7 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
   const [selectedProducts, setSelectedProducts] = useState({});
   const [exchangeDetails, setExchangeDetails] = useState({});
 
-  // Handle checkbox change
+
   const handleProductSelect = (index) => {
     setSelectedProducts(prevState => ({
       ...prevState,
@@ -16,7 +16,7 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
     }));
   };
 
-  // Handle detail input change
+  
   const handleDetailChange = (index, value) => {
     setExchangeDetails(prevState => ({
       ...prevState,
@@ -47,7 +47,7 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
                         <h5>{product.title}</h5>
                         <div className={styles.Description}>
                           <div>
-                          <h2><strong>{product.title}</strong></h2>
+                          
                     <p>Order ID: {product.OrderID}</p>
                     <p>Qty: {product.quantity}</p>
                     <p>Price: ₹ {product.price * product.quantity}</p>

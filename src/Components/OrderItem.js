@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from './OrderItem.module.css';
 import OrderDetailsModal from '../Modal/OrderModal';
-import ExchangeModal from '../Modal/ExchangeModal'; // Assuming you will create this modal
+import ExchangeModal from '../Modal/ExchangeModal'; 
 
 const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, completed }) => {
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +37,7 @@ const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, comp
         <button className={classes.cancelButton} onClick={onCancel}>Invoice</button>
       </div>
 
-      {/* Order Details Modal */}
+      
       <OrderDetailsModal
         show={showModal}
         handleClose={handleClose}
@@ -48,7 +48,7 @@ const OrderItem = ({ onCancel, orderID, paymentID, products, address, time, comp
         address={address}
       />
 
-      {/* Exchange Modal */}
+      
       <ExchangeModal
         show={showExchangeModal}
         handleClose={handleCloseExchange}

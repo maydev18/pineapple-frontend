@@ -9,13 +9,14 @@ import { Accordion } from 'react-bootstrap';
 import { getAuthToken } from '../utils/Auth';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Modal, Button } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import RatingSummary from '@keyvaluesystems/react-star-rating-summary';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { green } from '@mui/material/colors';
 import { getFullSize } from '../utils/cartUtils/convertSize';
 import { CartContext } from '../context/CartContext';
+import sizeChart from '../images/size.png'
 
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
@@ -28,6 +29,12 @@ const ProductPage = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [ratingValues, setRatingValues] = useState({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
   const [stock, setStock] = useState({ S: 10, M: 8, L: 15, XL: 5, XXL: 0 }); 
+
+  const [showSizeChart, setshowSizeChart] = useState(false);
+
+  const handleCloseSizeChart = () => setshowSizeChart(false);
+  const handleShowSizeChart = () => setshowSizeChart(true);
+
 
   const handleAddToCart = async () => {
     setIsSubmitting(true);
@@ -57,6 +64,8 @@ const ProductPage = () => {
     fetchReviews();
   }, [productID]);
 
+  
+
   const data = useLoaderData();
   const product = data.product;
   const images = product.moreImages;
@@ -67,37 +76,43 @@ const ProductPage = () => {
         <SingleProduct images={images} mainImage={product.mainImage} backImage={product.backImage} />
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
-          <div className={classes.productRating}>
+          {/* <div className={classes.productRating}>
             {[...Array(5)].map((star, index) => (
               <span key={index} className={`${classes.star} ${index < product.rating ? classes.filled : ''}`}>&#9733;</span>
             ))}
-          </div>
+          </div> */}
           <p className={classes.productPrice}>INR {product.price} (Inc. of all tax)</p>
           <p className={classes.productDescription}>{product.description}</p>
           <div className={classes.productSizes}>
-            <p>Select Size:</p>
+            <p>SELECT A SIZE</p>
             <div className={classes.sizes}>
               {sizes.map((size) => (
-                <div key={size} className={classes.sizeWrapper}>
+                <><div key={size} className={classes.sizeWrapper}>
                   <button
                     className={`${classes.sizeButton} ${size === selectedSize ? classes.selected : ''}`}
                     onClick={() => setSelectedSize(size)}
-                    disabled={stock[size] === 0} // Disable button if stock is 0
+                    disabled={stock[size] === 0}
                   >
                     {size}
                   </button>
-                  <p className={classes.stockInfo} style={{color: "#fd5c63", fontSize: '15px', fontWeight: "500"}}>
+                  <p className={classes.stockInfo} style={{ color: "RED", fontSize: '13px', fontWeight: "300" }}>
                     {stock[size]} left
                   </p>
-                </div>
+
+                </div></>
               ))}
+             
             </div>
+            <button className={classes.sizeChartButton} onClick={handleShowSizeChart}> <Icon icon="hugeicons:tape-measure"  style={{color: "black", paddingRight: '6px', fontSize: '26px'}} />size chart</button>
+            <Modal show={showSizeChart} onHide={handleCloseSizeChart}>
+              <p style={{textAlign: "right", color: "black", padding: '12px', cursor: "pointer"}} onClick={handleCloseSizeChart}>X</p>
+              <img  src={sizeChart} alt='sizechart'/>
+      </Modal>
           </div>
-          <div className={classes.productButtons}>
-            <button className={classes.productViewButton} onClick={handleAddToCart}>
-              {isSubmitting ? <Spinner animation="border" /> : 'Add to Cart'}
+          <button className={classes.productViewButton} onClick={handleAddToCart}>
+          <Icon icon="bi:cart3" style={{color: "white", paddingRight: '6px', paddingBottom: '6px', fontSize: '29px'}} /> Add to Cart
             </button>
-          </div>
+          
           <Accordion className="mt-4">
             <Accordion.Item eventKey="0" className={classes.accordionItem}>
               <Accordion.Header className={classes.accordionHeader}>Fit & Size</Accordion.Header>

@@ -4,26 +4,29 @@ import classes from './Orderspage.module.css';
 import { getAuthToken } from '../utils/Auth';
 import { format } from 'date-fns';
 import { useError } from '../context/ErrorContext';
+import { Title } from '@mui/icons-material';
 const OrdersPage = () => {
   const {showError} = useError();
   const [orders,onOrdersChange] = useState([]);
   const dummyOrders = [
     {
+      
       orderID: '001',
       paymentID: 'PAY12345',
       products: [
-        { name: 'Product 1', quantity: 2, price: 29.99 },
-        { name: 'Product 2', quantity: 1, price: 49.99 }
+        { title: 'Product 1', quantity: 2, price: 29.99 },
+        { title: 'Product 2', quantity: 1, price: 49.99 }
       ],
       address: '123 Main St, Springfield, IL',
       time: '2024-08-20T12:30:00Z',
       completed: false
     },
     {
+      
       orderID: '002',
       paymentID: 'PAY67890',
       products: [
-        { name: 'Product 3', quantity: 1, price: 19.99 }
+        { title: 'Product 3', quantity: 1, price: 19.99 }
       ],
       address: '456 Elm St, Shelbyville, IL',
       time: '2024-09-01T14:45:00Z',

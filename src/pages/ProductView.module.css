@@ -61,14 +61,18 @@
 /* For extra-large screens and up */
 @media (min-width: 1024px) {
   .productsPage {
-    padding: 4rem;
+    padding: 6rem;
   }
 }
 
 .productDetails {
   max-width: 500px;
   text-align: left;
-  margin-left: 2rem;
+  margin-left: 1rem;
+ 
+  padding-top: 1rem;
+
+
 }
 
 .productDetails h2 {
@@ -123,7 +127,7 @@ font-size: 17px;
   margin-bottom: 0.5rem;
   color: #000;
   text-align: left;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .sizes {
@@ -157,22 +161,11 @@ font-size: 17px;
   margin-top: 3rem;
 }
 
-.productViewButton:nth-child(even){
-  background-color: white;
-  color: black;
-
-}
-
-.productViewButton:nth-child(even):hover{
-  
-    color: white;
-    background-color: #000;
-  
-}
 
 .productViewButton {
-  padding: 10px 15px;
-  font-size: 20px;
+  padding: 15px 20px;
+  width: 20vw;
+  font-size: 17px;
   background-color: black;
   color: white;
   border-color: black;
@@ -182,9 +175,12 @@ font-size: 17px;
   transition: background-color 0.3s ease;
   font-family: "Outfit";
   font-weight: 200;
+  text-transform: uppercase;
 }
 
-
+.productViewButton:hover{
+  background-color: var(--green);
+}
 
 .reviewSection {
 
@@ -434,4 +430,38 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.sizeChartButton {
+  background-color: white;
+  border: none;
+  width: 20vw;
+  padding: 12px;
+  font-size: 15px;
+  text-transform: uppercase;
+  margin-top: 12px;
+  margin-bottom: 0; 
+  color: #000;
+}
+
+.sizeChartButton:hover {
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sizeChartButton, .productViewButton {
+    width: 60vw;
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sizeChartButton {
+    width: 60vw;
+    font-size: 12px;
+    padding: 8px;
+  }
 }

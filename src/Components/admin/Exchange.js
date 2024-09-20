@@ -15,7 +15,8 @@ const ExchangeItemsTable = () => {
       quantity: 2,
       price: 500,
       shippingAdress: 'house no 138, second floor',
-      reason: 'size or fit issue'
+      reason: 'size or fit issue',
+      description: 'loren ipsum del getit hello hi whts up'
     },
     {
       OrderID: 2,
@@ -26,7 +27,8 @@ const ExchangeItemsTable = () => {
       quantity: 1,
       price: 1200,
       shippingAdress: 'house no 138, second floor',
-      reason: 'size or fit issue'
+      reason: 'size or fit issue',
+      description: 'loren ipsum del getit hello hi whts up'
     },
     {
       OrderID: 3,
@@ -37,7 +39,8 @@ const ExchangeItemsTable = () => {
       quantity: 1,
       price: 3000,
       shippingAdress: 'house no 138, second floor',
-      reason: 'size or fit issue'
+      reason: 'size or fit issue',
+      description: 'loren ipsum del getit hello hi whts up'
     },
   ];
 
@@ -67,6 +70,7 @@ const ExchangeItemsTable = () => {
             <th>Original Size</th>
             <th>Exchanged Size</th>
             <th>Reason for Exchange</th>
+            <th>Additional information</th>
           </tr>
         </thead>
         <tbody>
@@ -118,6 +122,7 @@ const ExchangeItemsTable = () => {
                     <p>Order ID: {product.OrderID}</p>
                     <p>Qty: {product.quantity}</p>
                     <p>Price: ₹ {product.price * product.quantity}</p>
+
                   </div>
                 </div>
               </td>
@@ -125,6 +130,7 @@ const ExchangeItemsTable = () => {
               <td>{product.size}</td>
               <td>{product.exchangedSize}</td>
               <td>{product.reason}</td>
+              <td>{product.description}</td>
             </tr>
           ))}
         </tbody>

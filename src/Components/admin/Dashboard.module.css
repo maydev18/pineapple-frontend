@@ -280,8 +280,8 @@ input:checked + .slider:before {
 }
 
 .productImage {
-  width: 100px; 
-  height: auto;
+  width: 100vw; 
+  height: 100vh;
   margin: 1.5rem;
   border-radius: 8px;
   align-items: left;
@@ -567,4 +567,22 @@ table p:hover{
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+
+@media (max-width: 768px) {
+  .exchangeTable {
+    font-size: 0.9rem;
+  }
+  
+  .productImage {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .productDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
