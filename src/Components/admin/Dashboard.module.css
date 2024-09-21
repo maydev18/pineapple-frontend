@@ -300,8 +300,14 @@ input:checked + .slider:before {
   align-items: center;
   background-color: #f9f9f9;
   border-radius: 8px;
-  flex-direction: column;
+  text-align: left;
  
+}
+
+.orderDetails p{
+  color: #333;
+  text-align: left;
+  margin: 0;
 }
 
 .orderSummary {

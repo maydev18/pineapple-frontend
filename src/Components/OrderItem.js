@@ -18,10 +18,10 @@ const OrderItem = ({ onCancel, order}) => {
     });
     return total;
   };
-  const canExchange = () => {
-    if((((Date.now() - new Date(order.time)) / (1000 * 60 * 60 * 24)) >= 4) || order.exchanged) return false;
-    return true;
-  }
+  // const canExchange = () => {
+  //   if((((Date.now() - new Date(order.time)) / (1000 * 60 * 60 * 24)) >= 4) || order.exchanged) return false;
+  //   return true;
+  // }
   return (
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
@@ -40,7 +40,9 @@ const OrderItem = ({ onCancel, order}) => {
       </div>
 
       <div className={classes.buttons}>
-        {canExchange() && <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>}
+        {/* {canExchange() &&  */}
+        <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>
+
         <button className={classes.cancelButton} onClick={onCancel}>Invoice</button>
       </div>
 
@@ -52,13 +54,14 @@ const OrderItem = ({ onCancel, order}) => {
       />
 
       {/* Exchange Modal */}
-      {canExchange() && <ExchangeModal
+      {/* {canExchange() &&  */}
+      <ExchangeModal
         show={showExchangeModal}
         handleClose={handleCloseExchange}
         products={order.products}
         orderID={order.orderID}
       />
-      }
+      {/* } */}
       
     </div>
   );

@@ -10,30 +10,72 @@ const OrdersPage = () => {
   const [orders,onOrdersChange] = useState([]);
   const dummyOrders = [
     {
-      
-      orderID: '001',
-      paymentID: 'PAY12345',
-      products: [
-        { title: 'Product 1', quantity: 2, price: 29.99 },
-        { title: 'Product 2', quantity: 1, price: 49.99 }
-      ],
-      address: '123 Main St, Springfield, IL',
-      time: '2024-08-20T12:30:00Z',
-      completed: false
+        "_id": "66ec93efc5f2b4aff9204965",
+        "orderID": "order_Oz96po9f2WSo0w",
+        "time": "2024-09-19T21:13:15.214Z",
+        "exchangeProducts": [
+            {
+                "exchangeReason": [
+                    "Size or Fit Issue",
+                    "Wrong Item Delivered"
+                ],
+                "description": "the product was very bad",
+                "product": {
+                    "_id": "66a507acc4720b336848e423",
+                    "price": 1000,
+                    "quantity": 2,
+                    "size": "large",
+                    "image": "http://localhost:8080/1722091436141-DSC04299 copy.jpg",
+                    "title": "coffee brown oversized t-shirt",
+                    "reviewed": true
+                },
+                "_id": "66ec93efc5f2b4aff9204966"
+            },
+            {
+                "exchangeReason": [
+                    "Damaged Product"
+                ],
+                "description": "",
+                "product": {
+                    "_id": "66a50ae1c4720b336848e425",
+                    "price": 1000,
+                    "quantity": 1,
+                    "size": "medium",
+                    "image": "http://localhost:8080/1722092257500-DSC04239 copy.jpg",
+                    "title": "\"better than yesterday\" oversized t-shirt",
+                    "reviewed": false
+                },
+                "_id": "66ec93efc5f2b4aff9204967"
+            }
+        ],
+        "__v": 0
     },
     {
-      
-      orderID: '002',
-      paymentID: 'PAY67890',
-      products: [
-        { title: 'Product 3', quantity: 1, price: 19.99 }
-      ],
-      address: '456 Elm St, Shelbyville, IL',
-      time: '2024-09-01T14:45:00Z',
-      completed: true
+        "_id": "66ec94d92d961c11d702c946",
+        "userID": "66a4f94d41481a1c1f5784ec",
+        "orderID": "order_Oz96po9f2WSo0w",
+        "time": "2024-09-19T21:16:11.046Z",
+        "exchangeProducts": [
+            {
+                "exchangeReason": [
+                    "Size or Fit Issue"
+                ],
+                "description": "",
+                "product": {
+                    "_id": "66a507acc4720b336848e423",
+                    "price": 1000,
+                    "quantity": 2,
+                    "size": "large",
+                    "image": "http://localhost:8080/1722091436141-DSC04299 copy.jpg",
+                    "title": "coffee brown oversized t-shirt",
+                    "reviewed": true
+                },
+                "_id": "66ec94d92d961c11d702c947"
+            }
+        ],
+        "__v": 0
     }
-  ];
-
+];
 
 
   // Replace orderLoader with setting the dummy data
@@ -44,22 +86,22 @@ const OrdersPage = () => {
   //     showError(err.message, 'danger');
   //   }
   // };
-  const orderLoader = async () => {
-    try{
-      const res = await fetch('http://localhost:8080/orders' , {
-        headers : {
-          'Authorization' : 'bearer ' + getAuthToken()
+  async function orderLoader() {
+    try {
+      const res = await fetch('http://localhost:8080/orders', {
+        headers: {
+          'Authorization': 'bearer ' + getAuthToken()
         }
       });
-      if(!res.ok){
+      if (!res.ok) {
         const err = await res.json();
         throw err;
       }
       const resData = await res.json();
       onOrdersChange(resData);
     }
-    catch(err){
-      showError(err.message , 'danger');
+    catch (err) {
+      showError(err.message, 'danger');
     }
   }
   useEffect(() => {
@@ -71,7 +113,7 @@ const OrdersPage = () => {
   return (
     <div className={classes.ordersPage}>
       <h1>My Orders</h1>
-      {orders.map((order , index) => (
+      {dummyOrders.map((order , index) => (
         <OrderItem
           key={index}
           order={order}

@@ -123,7 +123,7 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
                         <h5>{product.title}</h5>
                         <div className={styles.Description}>
                           <div>
-                            <h2><strong>{product.title}</strong></h2>
+                          
                             <p>Order ID: {product.OrderID}</p>
                             <p>Qty: {product.quantity}</p>
                             <p>Price: ₹ {product.price * product.quantity}</p>
