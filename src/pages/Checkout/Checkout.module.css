@@ -17,7 +17,30 @@
 
 .savedAddresscard{
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
+
+.iconButtonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  margin-top: 0;
+ 
+}
+
+.addressbuttons {
+  background-color: transparent; 
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem; 
+  border-radius: 10px;
+}
+
+.addressbuttons svg {
+  width: 20px; /* Adjust size of the icons */
+  height: 20px;
+}
+
 
 .savedpayment{
   margin-bottom: 1rem;
@@ -55,14 +78,15 @@
   
 }
 
-.savedAddress h6{
+.savedAddress h5{
   text-transform: capitalize;
+  font-weight: 600;
 }
 
 .savedAddress p {
   color: black;
   text-align: left;
-  font-size: 15px;
+  font-size: 12px;
   text-transform: capitalize;
   padding: 0;
   margin: 0;
@@ -78,7 +102,7 @@
 }
 
 .addressbuttons{
-  padding: 10px 120px;
+  padding: 10px 10px;
   background-color: #ddd;
   border: none;
   

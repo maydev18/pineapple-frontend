@@ -50,7 +50,14 @@
   text-align: center;
 }
 
+.footerColumn ul li a {
+  color: white; /* Set the link color to white */
+  text-decoration: none; /* Remove underline */
+}
 
+.footerColumn ul li a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
 
 @media (max-width: 768px) {
   .footerContent {

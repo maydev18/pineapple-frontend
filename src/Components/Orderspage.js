@@ -32,7 +32,7 @@ const OrdersPage = () => {
     <div className={classes.ordersPage}>
       <h1>My Orders</h1>
       {orders.length === 0 ? (
-        <p>No orders yet</p> 
+        <p style={{color: 'grey', fontSize: '18px'}}>No orders yet</p> 
       ) : (
         orders.map((order, index) => (
           <OrderItem
