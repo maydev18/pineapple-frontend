@@ -26,7 +26,7 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [ratingValues, setRatingValues] = useState({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
-  const [stock, setStock] = useState({ S: 10, M: 8, L: 15, XL: 5, XXL: 0 }); 
+  const [stock, setStock] = useState({ S: 10, M: 8, L: 15, XL: 5, XXL: 0 });
 
   const [showSizeChart, setshowSizeChart] = useState(false);
 
@@ -62,7 +62,7 @@ const ProductPage = () => {
     fetchReviews();
   }, [productID]);
 
-  
+
 
   const data = useLoaderData();
   const product = data.product;
@@ -95,22 +95,30 @@ const ProductPage = () => {
                   </button>
                   <p className={classes.stockInfo} style={{ color: "RED", fontSize: '13px', fontWeight: "300" }}>
                     {stock[size]} left </p>
-                   
-                   
+
+
                 </div></>
               ))}
-             
+
             </div>
-            <button className={classes.sizeChartButton} onClick={handleShowSizeChart}> <Icon icon="hugeicons:tape-measure"  style={{color: "black", paddingRight: '6px', fontSize: '26px'}} />size chart</button>
+            <button className={classes.sizeChartButton} onClick={handleShowSizeChart}> <Icon icon="hugeicons:tape-measure" style={{ color: "black", paddingRight: '6px', fontSize: '26px' }} />size chart</button>
             <Modal show={showSizeChart} onHide={handleCloseSizeChart}>
-              <p style={{textAlign: "right", color: "black", padding: '12px', cursor: "pointer"}} onClick={handleCloseSizeChart}>X</p>
-              <img  src={sizeChart} alt='sizechart'/>
-      </Modal>
+              <p style={{ textAlign: "right", color: "black", padding: '12px', cursor: "pointer" }} onClick={handleCloseSizeChart}>X</p>
+              <img src={sizeChart} alt='sizechart' />
+            </Modal>
           </div>
           <button className={classes.productViewButton} onClick={handleAddToCart}>
-          <Icon icon="bi:cart3" style={{color: "white", paddingRight: '6px', paddingBottom: '6px', fontSize: '29px'}} /> Add to Cart
-            </button>
-          
+            {
+              isSubmitting ? <Spinner /> : (
+                <span style={{color : "white"}}>
+                  <Icon icon="bi:cart3" style={{paddingRight: '6px', paddingBottom: '6px', fontSize: '29px' }} />
+                  Add to Cart
+                </span>
+              )
+            }
+          </button>
+
+
           <Accordion className="mt-4">
             <Accordion.Item eventKey="0" className={classes.accordionItem}>
               <Accordion.Header className={classes.accordionHeader}>Fit & Size</Accordion.Header>
