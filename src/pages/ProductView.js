@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Accordion } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Spinner, Modal, Button } from 'react-bootstrap';
+import { Spinner, Modal } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import RatingSummary from '@keyvaluesystems/react-star-rating-summary';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -26,8 +26,6 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [ratingValues, setRatingValues] = useState({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
-  const [stock, setStock] = useState({ S: 10, M: 8, L: 15, XL: 5, XXL: 0 }); 
-
   const [showSizeChart, setshowSizeChart] = useState(false);
 
   const handleCloseSizeChart = () => setshowSizeChart(false);
@@ -62,7 +60,7 @@ const ProductPage = () => {
     fetchReviews();
   }, [productID]);
 
-  
+
 
   const data = useLoaderData();
   const product = data.product;
@@ -85,32 +83,39 @@ const ProductPage = () => {
             <p>SELECT A SIZE</p>
             <div className={classes.sizes}>
               {sizes.map((size) => (
-                <><div key={size} className={classes.sizeWrapper}>
+                <div key={size} className={classes.sizeWrapper}>
                   <button
                     className={`${classes.sizeButton} ${size === selectedSize ? classes.selected : ''}`}
                     onClick={() => setSelectedSize(size)}
-                    disabled={stock[size] === 0}
+                    disabled={product[getFullSize(size)] === 0} // Disable button if product is 0
                   >
                     {size}
                   </button>
-                  <p className={classes.stockInfo} style={{ color: "RED", fontSize: '13px', fontWeight: "300" }}>
-                    {stock[size]} left </p>
-                   
-                   
-                </div></>
+                  <p className={classes.stockInfo} style={{color: "#fd5c63", fontSize: '15px', fontWeight: "500"}}>
+                    {product[getFullSize(size)] === 0 ? "Out of Stock" : product[getFullSize(size)] + " Left"} 
+                  </p>
+                </div>
               ))}
-             
+
             </div>
-            <button className={classes.sizeChartButton} onClick={handleShowSizeChart}> <Icon icon="hugeicons:tape-measure"  style={{color: "black", paddingRight: '6px', fontSize: '26px'}} />size chart</button>
+            <button className={classes.sizeChartButton} onClick={handleShowSizeChart}> <Icon icon="hugeicons:tape-measure" style={{ color: "black", paddingRight: '6px', fontSize: '26px' }} />size chart</button>
             <Modal show={showSizeChart} onHide={handleCloseSizeChart}>
-              <p style={{textAlign: "right", color: "black", padding: '12px', cursor: "pointer"}} onClick={handleCloseSizeChart}>X</p>
-              <img  src={sizeChart} alt='sizechart'/>
-      </Modal>
+              <p style={{ textAlign: "right", color: "black", padding: '12px', cursor: "pointer" }} onClick={handleCloseSizeChart}>X</p>
+              <img src={sizeChart} alt='sizechart' />
+            </Modal>
           </div>
           <button className={classes.productViewButton} onClick={handleAddToCart}>
-          <Icon icon="bi:cart3" style={{color: "white", paddingRight: '6px', paddingBottom: '6px', fontSize: '29px'}} /> Add to Cart
-            </button>
-          
+            {
+              isSubmitting ? <Spinner /> : (
+                <span style={{color : "white"}}>
+                  <Icon icon="bi:cart3" style={{paddingRight: '6px', paddingBottom: '6px', fontSize: '29px' }} />
+                  Add to Cart
+                </span>
+              )
+            }
+          </button>
+
+
           <Accordion className="mt-4">
             <Accordion.Item eventKey="0" className={classes.accordionItem}>
               <Accordion.Header className={classes.accordionHeader}>Fit & Size</Accordion.Header>

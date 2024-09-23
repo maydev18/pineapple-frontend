@@ -4,6 +4,7 @@ import styles from './OrderModal.module.css';
 import { useError } from '../context/ErrorContext';
 import { getAuthToken } from '../utils/Auth';
 import {Spinner} from 'react-bootstrap';
+import { Description } from '@mui/icons-material';
 const ExchangeModal = ({ show, handleClose, products, orderID }) => {
   const [selectedProducts, setSelectedProducts] = useState({});
   const [exchangeDetails, setExchangeDetails] = useState({});
@@ -30,32 +31,29 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
     setExchangeReasons(prevState => ({
       ...prevState,
       [index]: {
-        ...prevState[index],
-        [reason]: !prevState[index]?.[reason]  // Toggle the reason
+        ...(prevState[index] || {}),  // Ensure to spread existing reasons
+        [reason]: !prevState[index]?.[reason]  // Toggle the selected reason
       }
     }));
   };
   const createRequestBody = () => {
-    const exchangeProducts = products
-      .filter((_, index) => selectedProducts[index])  // Only selected products
-      .map((product, index) => {
-        const reasons = exchangeReasons[index]
-          ? Object.keys(exchangeReasons[index]).filter(reason => exchangeReasons[index][reason])  // Get selected reasons
-          : [];
-        return {
-          exchangeReason: reasons,
-          description: exchangeDetails[index] || '',
-          product
-        };
-      });
+    const productsWithReason = products.map((product , index) => {
+      const reasons = exchangeReasons[index] ? Object.keys(exchangeReasons[index]).filter(reason => exchangeReasons[index][reason]) : [];
+      return {
+        exchangeReason : reasons , 
+        description : exchangeDetails[index] || "",
+        product : product
+      }
+    })
+    const selectedExchangeProducts = productsWithReason.filter((_ , index) => selectedProducts[index])
     const requestBody = {
       orderID : orderID,
-      exchangeProducts : exchangeProducts
+      exchangeProducts : selectedExchangeProducts
     };
     console.log(requestBody);
     return requestBody;
-
   }
+  // console.log(exchangeReasons);
   const submitHandler = async () => {
     try{
       setIsSubmitting(true);

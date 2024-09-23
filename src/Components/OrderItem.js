@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classes from './OrderItem.module.css';
 import OrderDetailsModal from '../Modal/OrderModal';
 import ExchangeModal from '../Modal/ExchangeModal'; // Assuming you will create this modal
-const OrderItem = ({ onCancel, order}) => {
+const OrderItem = ({order}) => {
   const [showModal, setShowModal] = useState(false);
   const [showExchangeModal, setShowExchangeModal] = useState(false);
 
@@ -18,10 +18,11 @@ const OrderItem = ({ onCancel, order}) => {
     });
     return total;
   };
-  // const canExchange = () => {
-  //   if((((Date.now() - new Date(order.time)) / (1000 * 60 * 60 * 24)) >= 4) || order.exchanged) return false;
-  //   return true;
-  // }
+  const canExchange = () => {
+    const daysFromDelivery = (Date.now() - new Date(order.deliveryDate ? order.deliveryDate : 0)) / (1000 * 60 * 60 * 24);
+    if(!order.completed || daysFromDelivery >= 4 || order.exchanged) return false;
+    return true;
+  }
   return (
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
@@ -40,10 +41,9 @@ const OrderItem = ({ onCancel, order}) => {
       </div>
 
       <div className={classes.buttons}>
-        {/* {canExchange() &&  */}
-        <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>
-
-        <button className={classes.cancelButton} onClick={onCancel}>Invoice</button>
+        {canExchange() && 
+          <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>
+        }
       </div>
 
       
@@ -54,14 +54,14 @@ const OrderItem = ({ onCancel, order}) => {
       />
 
       {/* Exchange Modal */}
-      {/* {canExchange() &&  */}
-      <ExchangeModal
-        show={showExchangeModal}
-        handleClose={handleCloseExchange}
-        products={order.products}
-        orderID={order.orderID}
-      />
-      {/* } */}
+      {canExchange() && 
+        <ExchangeModal
+          show={showExchangeModal}
+          handleClose={handleCloseExchange}
+          products={order.products}
+          orderID={order.orderID}
+        />
+      }
       
     </div>
   );
