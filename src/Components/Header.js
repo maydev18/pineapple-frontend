@@ -78,9 +78,9 @@ const Header = () => {
           <img src={logo_black} alt='logo_black' />
           <motion.div variants={itemVariants}><Link to="/">HOME</Link></motion.div>
           <motion.div variants={itemVariants}><Link to="/products">NEW ARRIVALS</Link></motion.div>
-          <motion.div variants={itemVariants}><Link to="#contact">MY ORDERS</Link></motion.div>
-          <motion.div variants={itemVariants}><Link to="#contact">RETURN</Link></motion.div>
-          <motion.div variants={itemVariants}><Link to="#contact">CUSTOMER SUPPORT</Link></motion.div>
+          <motion.div variants={itemVariants}><Link to="/orders">MY ORDERS</Link></motion.div>
+          <motion.div variants={itemVariants}><Link to="/terms">POLICY AND TERMS</Link></motion.div>
+         
         </nav>
       </motion.div>
 

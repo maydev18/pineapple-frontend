@@ -18,13 +18,12 @@ const Hero = () => {
           <h1 className="sub-heading">Set the Standard</h1>
         
           <div className={classes.typedText}>
-            <p>We redefine modern fashion with a blend of quiet confidence and bold expression. Embrace a style that speaks subtly yet leaves a lasting impression.
+            <p>We, at PINEAPPLE, redefine modern fashion with a blend of quiet confidence and bold expression. Embrace a style that speaks subtly yet leaves a lasting impression.
               </p>
+              <p>Check out our collection now!</p>
           </div>
           <div className={classes.heroButtons}>
-            {/* <Link to="/signup">
-              <button className={classes.button}>SIGN UP</button>
-            </Link> */}
+           
             <Link to="/products">
               <button  className="button">BUY NOW</button>
             </Link>

@@ -171,7 +171,7 @@ const Checkout = () => {
                     </div>
                     {/* if the address or method of payment is null */}
                     {(!checkoutDetails.methodOfPayment || !checkoutDetails.addressID) ? (
-                        <p>Please select delivery address and mode of payment to confirm your order</p>
+                        <p style={{color: 'grey', fontSize: '16px', marginTop: '12px'}}>*please select delivery address and mode of payment to confirm your order</p>
                     ) : (
                         isloading ? (
                             <Spinner />

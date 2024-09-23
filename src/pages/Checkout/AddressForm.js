@@ -4,6 +4,9 @@ import classes from './Checkout.module.css';
 import { useState , useEffect } from 'react';
 import { useError } from '../../context/ErrorContext';
 import { getAuthToken } from '../../utils/Auth';
+import { Icon } from '@iconify/react';
+import editIcon from '@iconify-icons/mdi/pencil';
+import deleteIcon from '@iconify-icons/mdi/trash-can';
 const AddressForm = ({updateSelectedAddress}) => {
     const [savedAddresses, setAddresses] = useState([]);
     const [isloading , setIsLoading] = useState(false);
@@ -195,6 +198,8 @@ const AddressForm = ({updateSelectedAddress}) => {
         <div>
             {savedAddresses.length > 0 ? (
                 savedAddresses.map((address , index) => (
+                    <>
+                     
                     <Card className={classes.savedAddresscard} key={index}>
                         <Card.Body>
                             <Form.Check
@@ -202,29 +207,22 @@ const AddressForm = ({updateSelectedAddress}) => {
                                 name='address'
                                 checked={selectedAddress === address._id}
                                 onChange={() => handleAddressesChecked(address._id)}
-                                label={
-                                    <div className={classes.savedAddresses}>
-                                        <div className={classes.savedAddress}>
-                                            <div>
-                                                <h6><strong>{address.fullName}</strong></h6>
-                                                <p>{address.firstLine + " " + address.secondLine}, {address.state}, {address.city} - {address.pincode}</p>
-                                                <p>Landmark: {address.landmark}</p>
-                                                <p>Phone: {address.phone}</p>
-                                                <p>Email: {address.email}</p>
-                                            </div>
-                                            <hr />
-                                            <div className={classes.addressActions}>
-                                                <button className={classes.addressbuttons}  onClick={() => handleEditClick(address)}>Edit</button>
-                                                {isloading ? <Spinner /> : <button className={classes.addressbuttons}  onClick={() => handleDeleteAddress(address._id)}>Delete</button>}
-                                                
-                                            </div>
+                                label={<div className={classes.savedAddresses}>
+                                    <div className={classes.savedAddress}>
+                                        <div>
+                                            <h5>{address.fullName}</h5>
+                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>{address.firstLine + " " + address.secondLine}, {address.state}, {address.city} - {address.pincode}</p>
+                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Landmark: {address.landmark}</p>
+                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Phone: {address.phone}</p>
+                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Email: {address.email}</p>
                                         </div>
+                                       
+
                                     </div>
-                                }
-                            />
+                                </div>} />
                             <Collapse in={selectedAddress === address._id && isEditOpen}>
-                                <div>
-                                    <div className={classes.floatingLabel}>
+                                <div style={{marginTop: '20px'}}>
+                                    <div>
                                         <label htmlFor="name">Full Name</label>
                                         <input
                                             type="text"
@@ -241,15 +239,14 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                         <label htmlFor="email">Email</label> 
+                                        <label htmlFor="email">Email</label>
                                         <input
                                             type="text"
                                             name="email"
-                                            value={addressFields.email}  
+                                            value={addressFields.email}
                                             onChange={handleInputChange}
                                             placeholder=" "
-                                            required
-                                        />
+                                            required />
                                         <label htmlFor="firstLine">Address Line 1</label>
                                         <input
                                             type="text"
@@ -297,11 +294,11 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" " />
                                         <div className={classes.ButtonClass}>
-                                            {isloading ? <Spinner/> :
-                                            <button onClick={handleEditAddress} className={classes.addAddressButton}>
-                                                Save Changes
-                                            </button>}
-                                            <button onClick={() => {setIsEditOpen(false)}} className={classes.addAddressButton}>
+                                            {isloading ? <Spinner /> :
+                                                <button onClick={handleEditAddress} className={classes.addAddressButton}>
+                                                    Save Changes
+                                                </button>}
+                                            <button onClick={() => { setIsEditOpen(false); } } className={classes.addAddressButton}>
                                                 Cancel
                                             </button>
                                         </div>
@@ -310,6 +307,18 @@ const AddressForm = ({updateSelectedAddress}) => {
                             </Collapse>
                         </Card.Body>
                     </Card>
+                    <div className={classes.iconButtonsContainer}>
+                        <button className={classes.addressbuttons} onClick={() => handleEditClick(address)}>
+                            <Icon icon={editIcon} />
+                        </button>
+                        {isloading ? <Spinner /> : 
+                        <button className={classes.addressbuttons} onClick={() => handleDeleteAddress(address._id)}>
+                            <Icon icon={deleteIcon} />
+                        </button>}
+                    </div>
+                 
+                   
+</>
                 ))
             ) : (
                 <div className={classes.noAddresses}>

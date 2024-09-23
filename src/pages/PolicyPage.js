@@ -13,10 +13,10 @@ const ReturnPolicy = () => {
       <span className={styles.capitalized}>PINEAPPLE does not offer a Return policy</span> once the product is delivered and opened by the customer.
       </p>
       <p className={styles.policyText}>
-        In case a product reflects a <span className={styles.capitalized}>DAMAGE</span> issue, one can raise a replacement request within 7 days of the order delivery. A fresh replacement will be dispatched to the customer. This will be provided post physical examination of the product and if there is no issue found, same unit will be dispatched.
+        In case a product reflects a <span className={styles.capitalized}>DAMAGE</span> issue, one can raise a replacement request within 4 days of the order delivery. A fresh replacement will be dispatched to the customer. This will be provided post physical examination of the product and if there is no issue found, same unit will be dispatched.
       </p>
       <p className={styles.policyText}>
-        If a ticket is raised post 7 days of delivery, product is replaced with an equivalent condition product, post testing.
+        If a ticket is raised post 4 days of delivery, product is replaced with an equivalent condition product, post testing.
       </p>
       <p className={styles.policyText}>
         In case of product replacement, if the product is out of stock (color/variant), an alternate product with equivalent price will be offered and will continue as per the previous product purchase date.
@@ -38,6 +38,10 @@ const ReturnPolicy = () => {
       <p className={styles.policyText}>
         If the product is completely different, it will be considered as a wrong product. Under no condition will a refund or replacement be provided for any defect-free product, on the basis of look & feel or minor differences in shades and color.
       </p>
+
+      <p><strong>
+      *If the order is processed, cancellation won't be possible and in this case the order must be refused at the doorstep
+      </strong></p>
     </div>
   );
 };
