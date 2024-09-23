@@ -30,6 +30,9 @@ const Checkout = () => {
                     total += item.productID.price * item.quantity;
                 })
                 setAmount(total);
+                if(total === 0){
+                    navigate('/products');
+                }
             }
             catch (err) {
                 showError(err.message, 'danger');
@@ -66,7 +69,7 @@ const Checkout = () => {
                 "image": logo,
                 "order_id": id,
                 "handler": async function (response) {
-                    await createOrder(response);
+                    createOrder(response);
                 },
                 "prefill": {
                     "name": "Mayank Sharma",
@@ -112,6 +115,7 @@ const Checkout = () => {
                 const err = await res.json();
                 throw err;
             }
+            setIsLoading(false);
             navigate('/orders');
             showError("Order successful", 'success');
             fetchCart();
