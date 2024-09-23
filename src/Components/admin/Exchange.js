@@ -128,12 +128,14 @@ const ExchangeItemsTable = () => {
                 <td>{request.orderID}</td>
                 <td>
                   <div className={styles.orderDetails}>
+                    <div>
                     <img
                       src={product.product.image}
                       alt={product.product.title}
                       className={styles.productImage}
                       thumbnail
                     />
+                    </div>
                     <div className={styles.productInfo}>
                       <p><strong>{product.product.title}</strong></p>
                       <p>Quantity: {product.product.quantity}</p>
