@@ -56,4 +56,14 @@
   .custom-modal .modal-body {
     padding: 0; /* Ensure no padding in the body */
   }
+  .custom-alert .btn-close {
+    width: 16px;  /* Make the button smaller */
+    height: 16px; /* Adjust the height to match */
+    padding: 0;
+  }
+  
+  .custom-alert .btn-close::before {
+    font-size: 12px; 
+    margin: 1rem;
+  }
   

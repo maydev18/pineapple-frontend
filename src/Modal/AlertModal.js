@@ -1,9 +1,7 @@
-
 import React, { useEffect } from 'react';
-import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
+import './Modal.css'; // Custom styling if needed
 import { useError } from '../context/ErrorContext';
-import './Modal.css';
 
 function AlertModal() {
   const { error, type, hideError, visible } = useError();
@@ -12,35 +10,36 @@ function AlertModal() {
     if (visible) {
       const timer = setTimeout(() => {
         hideError();
-      }, 2000); 
+      }, 2000);
 
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer);
     }
   }, [visible, hideError]);
 
   return (
     <>
-      <div
-      className="modal show"
-      style={{ display: 'block', position: 'initial' }}
-    >{visible && 
-        <Modal
-          show={!!error}
-          onHide={hideError}
-          backdrop={false}
-         
-        >
-          <Modal.Body style={{ padding: 0 }}>
-            <Alert variant={type} style={{ padding: 0, margin: 0 }}>
-              <p style={{ color: 'black' }}>
-                {error}
-              </p>
-            </Alert>
-          </Modal.Body>
-        </Modal>
-      }</div>
+      {visible && (
+        <div style={styles.alertContainer}>
+          <Alert variant={type} >
+            <p style={{ margin: 0, color: 'black', fontSize: '20px'}}>
+              {error}!
+            </p>
+          </Alert>
+        </div>
+      )}
     </>
   );
 }
+
+// Inline styling to position the alert
+const styles = {
+  alertContainer: {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    zIndex: 1050, // Ensures it appears above other elements
+    width: 'auto', // Adjust the width of the alert as needed
+  }
+};
 
 export default AlertModal;
