@@ -6,10 +6,6 @@ import ProductView from './pages/ProductView';
 import Hero from './Components/Home';
 import RootLayout from './pages/Root';
 import ErrorPage from './pages/Error';
-import CombinedAuthPage from './pages/CombinedAuthPage';
-import {action as AuthAction} from './pages/CombinedAuthPage';
-import {tokenLoader , checkAuthLoader} from './utils/Auth';
-import {action as logoutAction} from './pages/logout';
 import {loader as ProductLoader} from './pages/ProductView';
 import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
@@ -20,23 +16,18 @@ import EditProduct from './Components/admin/EditProduct';
 import Inventory from './Components/admin/Inventory';
 import ReturnPolicy from './pages/PolicyPage';
 import Exchange from './Components/admin/Exchange';
-const router = createBrowserRouter([
+import PrivateRoute from './router/PrivateRouter';
+export const router = createBrowserRouter([
   {
     path : '/',
     element : < RootLayout />,
     errorElement : <ErrorPage />,
     id : 'root',
-    loader : tokenLoader,
     children : [
       {
         index : true,
         element : <Hero />,
         loader : TopProductsLoader
-      },
-      {
-        path : 'auth',
-        element : <CombinedAuthPage />,
-        action : AuthAction
       },
       {
         path : 'products',
@@ -54,40 +45,47 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path : 'checkout',
-        element : <Checkout />
-      },
-      {
-        path : 'logout',
-        action : logoutAction
-      },
-      {
-        path : 'orders',
-        element : <Orderspage/>
+        element : <PrivateRoute/>,
+        children : [
+          {
+            path : 'checkout',
+            element : <Checkout />
+          },
+          {
+            path : 'orders',
+            element : <Orderspage/>
+          }
+        ]
       },
       {
         path : 'admin',
-        element : <Dashboard/>
-      },
-      {
-        path : 'addproducts',
-        element : <AddProducts/>
-      },
-      {
-        path : 'placedorder',
-        element : <PlacedOrder/>
-      },
-      {
-        path : 'edit',
-        element : <EditProduct/>
-      },
-      {
-        path : 'inventory',
-        element : <Inventory/>
-      },
-      {
-        path : 'exchange',
-        element : <Exchange/>
+        element : <PrivateRoute />,
+        children : [
+          {
+            index : true,
+            element : <Dashboard />
+          },
+          {
+            path : 'addproducts',
+            element :  <AddProducts/>
+          },
+          {
+            path : 'placedorder',
+            element : <PlacedOrder />
+          },
+          {
+            path : 'edit',
+            element : <EditProduct/>
+          },
+          {
+            path : 'inventory',
+            element : <Inventory/>
+          },
+          {
+            path : 'exchange',
+            element : <Exchange/>
+          }
+        ]
       },
       {
         path : 'terms',
@@ -95,10 +93,10 @@ const router = createBrowserRouter([
       },
     ]
   }
-])
+]);
+
 function App() {
   return <RouterProvider router={router}/>;
 }
-
 export default App;
 

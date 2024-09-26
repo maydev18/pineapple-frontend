@@ -3,12 +3,13 @@ import { Form, Modal } from 'react-bootstrap';
 import { useState , useEffect } from 'react';
 import { getsize } from '../../../utils/cartUtils/convertSize';
 import { useError } from '../../../context/ErrorContext';
-import { getAuthToken } from '../../../utils/Auth';
+import { useAuth } from '../../../context/AuthContext';
 import {Spinner} from 'react-bootstrap';
 function EditProductModal({ selectedProduct, show, handleClose , fetchProducts}) {
     const [isSubmitting , setIsSubmitting] = useState(false);
     const [error , setError] = useState("");
     const {showError} = useError();
+    const {isLoggedIn , token} = useAuth();
     const [product , setProduct] = useState({
         productId :"",
         title : "",
@@ -58,7 +59,7 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
             const res = await fetch(process.env.REACT_APP_BASE_URL + "admin/edit-product" , {
                 headers : {
                     'Content-type' : "application/json",
-                    'authorization' : 'bearer ' + getAuthToken()
+                    'authorization' : 'bearer ' + token
                 },
                 body : JSON.stringify(product),
                 method : 'post'

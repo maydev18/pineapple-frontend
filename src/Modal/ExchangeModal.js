@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Modal, Form, Collapse } from 'react-bootstrap'; // Using Collapse from React Bootstrap
 import styles from './OrderModal.module.css';
 import { useError } from '../context/ErrorContext';
-import { getAuthToken } from '../utils/Auth';
 import {Spinner} from 'react-bootstrap';
-import { Description } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 const ExchangeModal = ({ show, handleClose, products, orderID }) => {
   const [selectedProducts, setSelectedProducts] = useState({});
   const [exchangeDetails, setExchangeDetails] = useState({});
   const [exchangeReasons, setExchangeReasons] = useState({});  // Store reasons
   const [isSubmitting , setIsSubmitting] = useState(false);
   const {showError} = useError();
+  const {isLoggedIn , token} = useAuth();
   // Handle checkbox change
+  const navigate = useNavigate();
   const handleProductSelect = (index) => {
     setSelectedProducts(prevState => ({
       ...prevState,
@@ -61,7 +63,7 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
       const res = await fetch(process.env.REACT_APP_BASE_URL + "exchanges/create-exchange-ticket" , {
         headers : {
           "content-type" : 'application/json',
-          "authorization" : "bearer " + getAuthToken()
+          "authorization" : "bearer " + token
         },
         method : 'POST',
         body : body
@@ -70,6 +72,7 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
         const err =  await res.json();
         throw err;
       }
+      navigate(0);
       showError("Exchange request is submitted successfully" , 'success');
     }
     catch(err){

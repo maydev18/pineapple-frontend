@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap'; 
 import styles from './Dashboard.module.css';
 import { useError } from '../../context/ErrorContext';
-import { getAuthToken } from '../../utils/Auth';
-
+import { useAuth } from '../../context/AuthContext';
 const ExchangeItemsTable = () => {
+  const {isLoggedIn , token} = useAuth();
   const [exchangeRequests, setExchangeRequests] = useState([]);
   const [actionStatus, setActionStatus] = useState({});
   const { showError } = useError();
@@ -15,7 +15,7 @@ const ExchangeItemsTable = () => {
         const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/exchange-tickets', {
           method: 'get',
           headers: {
-            'authorization': 'bearer ' + getAuthToken(),
+            'authorization': 'bearer ' + token ,
           },
         });
         if (!res.ok) {

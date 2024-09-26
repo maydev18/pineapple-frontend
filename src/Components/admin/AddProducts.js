@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import styles from './Dashboard.module.css';
 import Form from 'react-bootstrap/Form';
 import SizeQuantityInput from './SizeInput';
-import { getAuthToken } from '../../utils/Auth';
 import { Spinner } from 'react-bootstrap';
 import { getFullSize } from '../../utils/cartUtils/convertSize';
 import { useError } from '../../context/ErrorContext';
+import { useAuth } from '../../context/AuthContext';
 const AddProducts = () => {
+  const {isLoggedIn , token} = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -82,7 +83,7 @@ const AddProducts = () => {
         method: 'PUT',
         body: submissionData,
         headers: {
-            'Authorization': 'Bearer '  + getAuthToken()
+            'Authorization': 'Bearer '  + token
         }
       });
       if(!response.ok){

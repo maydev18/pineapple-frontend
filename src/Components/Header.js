@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styles from './Header.module.css';
 import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
-import { CartContext } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
+import { useCart } from '../context/CartContext';
 const sidebarVariants = {
   open: {
     x: 0,
@@ -40,10 +41,13 @@ const itemVariants = {
 
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {openCart} = useContext(CartContext);
+  const { openCart } = useCart();
+  const {Logout , login , isLoggedIn} = useAuth();
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  
   return (
 
     <>
@@ -59,11 +63,19 @@ const Header = () => {
           </div>
         </Link>
         <div className={styles.navigationIcons}>
-          <Link to="auth?mode=login">
-            <Icon icon="ic:baseline-person-outline" width="30" height="30" color='white' />
-          </Link>
-          <div onClick={() => {openCart()}} style={{cursor : "pointer"}}>
-            <Icon icon="ic:baseline-shopping-bag"width="30" height="30" color='white' />
+          {
+            !isLoggedIn ? (
+              <Link onClick={() => { login() }}>
+                <Icon icon="ic:baseline-person-outline" width="30" height="30" color='white' />
+              </Link>
+            ) : (
+              <Link onClick={() => {Logout()}}>
+                Logout
+              </Link>
+            )
+          }
+          <div onClick={() => { openCart() }} style={{ cursor: "pointer" }}>
+            <Icon icon="ic:baseline-shopping-bag" width="30" height="30" color='white' />
           </div>
         </div>
       </header>
@@ -80,7 +92,7 @@ const Header = () => {
           <motion.div variants={itemVariants}><Link to="/products">NEW ARRIVALS</Link></motion.div>
           <motion.div variants={itemVariants}><Link to="/orders">MY ORDERS</Link></motion.div>
           <motion.div variants={itemVariants}><Link to="/terms">POLICY AND TERMS</Link></motion.div>
-         
+
         </nav>
       </motion.div>
 

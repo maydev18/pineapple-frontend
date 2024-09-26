@@ -3,18 +3,19 @@ import { Modal, Accordion, Form } from 'react-bootstrap';
 import styles from './OrderModal.module.css';
 import StarRating from '../Components/StarRating';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getAuthToken } from '../utils/Auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getsize } from '../utils/cartUtils/convertSize';
 import { useError } from '../context/ErrorContext';
+import { useAuth } from '../context/AuthContext';
 const OrderDetailsModal = ({ show, handleClose , order }) => {
+  const {isLoggedIn , token} = useAuth();
   const [reviewOpenIndex, setReviewOpenIndex] = useState(null);
   const [username, setUserName] = useState('');
   const [stars, setStars] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {showError} = useError();
-
+  const navigate = useNavigate();
   const handleReviewSubmit = async (event , id) => {
     try{
       setIsSubmitting(true);
@@ -22,7 +23,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
       const res = await fetch('http://localhost:8080/post-review', {
         method: 'post',
         headers : {
-          "Authorization" : 'bearer ' + getAuthToken(),
+          "Authorization" : 'bearer ' + token,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -41,6 +42,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
       setStars(null);
       setContent('');
       setUserName('');
+      navigate('/products/' + id);
     }
     catch(err){
       showError("Failed to submit the review, Please try again!" , 'danger');

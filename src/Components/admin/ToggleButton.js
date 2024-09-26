@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styles from './Dashboard.module.css'
+import { useAuth } from '../../context/AuthContext';
 import { Spinner } from 'react-bootstrap';
-import { getAuthToken } from '../../utils/Auth';
 import { useError } from '../../context/ErrorContext';
 const ToggleButton = ({visible , id}) => {
   const [isToggled, setIsToggled] = useState(visible === true ? true : false);
   const [isSubmitting , setIsSubmitting] = useState(false);
+  const {isLoggedIn , token} = useAuth();
   const {showError} = useError();
   const handleToggle = async () => {
     try {
@@ -14,7 +15,7 @@ const ToggleButton = ({visible , id}) => {
         const res = await fetch(`${process.env.REACT_APP_BASE_URL}admin/toggle-visibility/${id}`, {
           method: "GET",
           headers: {
-            'Authorization': 'Bearer ' + getAuthToken()
+            'Authorization': 'Bearer ' + token
           }
         });
         if (!res.ok) {

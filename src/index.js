@@ -2,21 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './context/CartContext';
 import { ErrorProvider } from './context/ErrorContext';
+import { AuthProvider } from './context/AuthContext';
+import { Auth0ProviderWithNavigate } from './context/Auth0ProviderWithNavigate';
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <ErrorProvider>
-      <CartProvider>
-        <App />
-      </CartProvider>
-    </ErrorProvider>
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+root.render(
+  <Auth0ProviderWithNavigate >
+    <ErrorProvider>
+      <AuthProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </AuthProvider>
+    </ErrorProvider>
+    </Auth0ProviderWithNavigate>
+);
