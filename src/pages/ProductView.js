@@ -95,7 +95,7 @@ const ProductPage = () => {
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
           <p className={classes.productPrice}>
-            <span>₹ {0.5 * product.price}</span> ₹ {product.price} (Inc. of all tax)
+            <span>₹ {2 * product.price}</span> ₹ {product.price} (Inc. of all tax)
           </p>
           <p className={classes.productDescription}>{product.description}</p>
 
