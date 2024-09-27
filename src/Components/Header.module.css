@@ -197,9 +197,13 @@
 
 @media (max-width: 480px) {
   .signinbutton,.profileDisplay {
-    padding: 10px 10px;
+    padding: 10px 5px;
     font-size: 0.7rem;
    
+  }
+
+  .profileDisplaytext{
+    font-size: 0.7rem;
   }
 
   .signinbutton:hover::before {
@@ -219,8 +223,8 @@
 
 @media (max-width: 480px) {
   .logo img {
-    height: 60px;
-        width: 200px;
+    height: 50px;
+        width: 160px;
   }
 }
 }
@@ -228,7 +232,7 @@
 .profileDisplay{
   cursor: pointer;
   position: relative;
-  padding: 10px 14px;
+  padding: 7px 50px;
   font-size: 1rem;
   border-radius: 30px;
   background-color: whitesmoke;
@@ -241,3 +245,8 @@
 
 }
 
+.profileDisplaytext{
+  color: #000;
+  font-size: 12px;
+  margin: 0;
+}

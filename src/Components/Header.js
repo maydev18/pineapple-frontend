@@ -71,7 +71,7 @@ const Header = () => {
               onClick={() => {logout()}}
               >
                 <button onClick={() => { login(); } } className={styles.signinbutton}>
-                  <Icon icon="mdi:user" width="30" height="24" color= '#0E201D' On/>LOG OUT
+                 WELCOME RAVLEEN!
                 </button>
               </div>
             ) : (
@@ -113,6 +113,9 @@ const Header = () => {
           </motion.div>
           <motion.div variants={itemVariants}>
             <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>POLICY AND TERMS</Link>
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>LOG OUT</Link>
           </motion.div>
 
          
