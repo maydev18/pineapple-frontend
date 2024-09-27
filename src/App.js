@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Checkout from './pages/Checkout/Checkout';
 import ProductPage from './pages/ProductPage';
@@ -25,24 +25,23 @@ export const router = createBrowserRouter([
     id : 'root',
     children : [
       {
-        index : true,
-        element : <Hero />,
-        loader : TopProductsLoader
+        index: true,
+        element: <Hero />,
+        loader: TopProductsLoader,
       },
       {
         path : 'products',
         children : [
           {
-            index : true,
-            element : <ProductPage />,
+            index: true,
+            element: <ProductPage />,
           },
           {
-            path : ':productID',
-            element : <ProductView />,
-            loader : ProductLoader,
+            path: ':productID',
+            element: <ProductView />,
+            loader: ProductLoader,
           },
-          
-        ]
+        ],
       },
       {
         element : <PrivateRoute/>,
@@ -88,15 +87,18 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path : 'terms',
-        element : <ReturnPolicy/>
+        path: 'terms',
+        element: <ReturnPolicy />,
       },
     ]
   }
 ]);
 
 function App() {
-  return <RouterProvider router={router}/>;
+  return (
+    <>
+      <RouterProvider router={router}/>
+    </>
+  );
 }
 export default App;
-

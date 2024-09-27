@@ -3,7 +3,7 @@ import styles from './Card.module.css';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import placeholder from '../images/placeholder.png';
 
-const Card = ({ image, hoverImage, title, price, titleColor, priceColor }) => {
+const Card = ({ image, hoverImage, title, price, titleColor, priceColor, isSoldOut }) => {
   return (
     <div className={styles.card}>
       <div className={styles.cardImageWrapper}>
@@ -21,8 +21,15 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor }) => {
           placeholderSrc={placeholder}
           effect='blur'
         />
+        {isSoldOut && (
+          <div className={styles.soldOutOverlay}>
+            <span className={styles.soldOutLabel}>
+              <p>Sold Out</p>
+            </span>
+          </div>
+        )}
       </div>
-      <h2 className={styles.cardTitle} style={{ color: titleColor,textAlign: 'center', fontWeight: 400}}>{title}</h2>
+      <h2 className={styles.cardTitle} style={{ color: titleColor, textAlign: 'center', fontWeight: 400 }}>{title}</h2>
       <p className={styles.cardPrice} style={{ color: priceColor }}>INR {price}</p>
     </div>
   );

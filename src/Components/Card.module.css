@@ -110,3 +110,34 @@
     font-size: 10px; /* Adjust font size for extra-small screens */
   }
 }
+
+
+.soldOutOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  background-color: rgba(185, 185, 185, 0.521); 
+  z-index: 1; /* Make sure it appears above the image */
+}
+
+.soldOutLabel {
+  position: absolute;
+  top: 4%; 
+  left: 5%;
+  background-color: var(--green); 
+  color: white;
+  
+  padding: 10px; 
+  border-radius: 5px; 
+  z-index: 100; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+}
+
+.soldOutLabel p{
+  font-weight: 300;
+  font-size: 18px; /* Font size */
+  margin-bottom: 0;
+}

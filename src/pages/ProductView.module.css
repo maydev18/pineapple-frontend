@@ -3,7 +3,8 @@
   flex-direction: column; /* Default to column for smaller screens */
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.7rem;
+  gap: 1.5rem;
   background-color: #e2e2e2;
 }
 
@@ -93,6 +94,14 @@ font-size: 17px;
   text-align: left;
 }
 
+.productPrice span{
+  text-decoration: line-through;
+  color: red;
+  font-size: 17px;
+  font-weight: 300;
+  padding: 4px;
+}
+
 .productRating {
   text-align: left;
 }
@@ -132,7 +141,7 @@ font-size: 17px;
 
 .sizes {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .sizeButton {
@@ -181,6 +190,45 @@ font-size: 17px;
 .productViewButton:hover{
   background-color: var(--green);
 }
+
+.productViewButton:disabled {
+  background-color: grey; /* Change to grey when disabled */
+  color: #ccc; /* Lighten the text color */
+  cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+
+}
+
+.soldOutOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  background-color: rgba(185, 185, 185, 0.521); 
+  z-index: 1; /* Make sure it appears above the image */
+}
+
+
+.soldOutLabel {
+  position: absolute;
+  top: 4%; 
+  left: 5%;
+  background-color: var(--green); 
+  color: white;
+  
+  padding: 10px; 
+  border-radius: 5px; 
+  z-index: 100; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+}
+
+.soldOutLabel p{
+  font-weight: 300;
+  font-size: 18px; /* Font size */
+  margin-bottom: 0;
+}
+
 
 .reviewSection {
 
