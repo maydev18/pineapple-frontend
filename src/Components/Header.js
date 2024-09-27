@@ -1,11 +1,13 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styles from './Header.module.css';
 import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
-import { CartContext } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import GoogleButton from 'react-google-button'
 
 const sidebarVariants = {
   open: {
@@ -40,12 +42,13 @@ const itemVariants = {
 
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {openCart} = useContext(CartContext);
+  const { openCart } = useCart();
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  const {isLoggedIn , login , logout} = useAuth();
   return (
-
     <>
       <header className={styles.header}>
         <div className={styles.menuIcon} onClick={toggleSidebar}>
@@ -62,11 +65,19 @@ const Header = () => {
          
         </Link>
         <div className={styles.navigationIcons}>
-          <Link to="auth?mode=login">
-            <Icon icon="ic:baseline-person-outline" width="30" height="30" color='white' />
-          </Link>
-          <div onClick={() => {openCart()}} style={{cursor : "pointer"}}>
-            <Icon icon="ic:baseline-shopping-bag"width="30" height="30" color='white' />
+          {
+            isLoggedIn ? (
+              <Link onClick={() => {logout()}}>
+                logout
+              </Link>
+            ) : (
+              <button onClick={() => {login()}} style={styles.button}>
+              <GoogleButton /> {/* Using the Google icon */}
+            </button>
+            )
+          }
+          <div onClick={() => { openCart() }} style={{ cursor: "pointer" }}>
+            <Icon icon="ic:baseline-shopping-bag" width="30" height="30" color='white' />
           </div>
         </div>
       </header>

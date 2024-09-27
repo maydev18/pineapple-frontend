@@ -3,11 +3,12 @@ import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import ToggleButton from './ToggleButton';
-import { getAuthToken } from '../../utils/Auth';
 import { useError } from '../../context/ErrorContext';
+import { useAuth } from '../../context/AuthContext';
 import EditProductModal from './adminComponents/EditProductModal';
 const Inventory = () => {
   const [products, setProducts] = useState([]);
+  const {isLoggedIn , token} = useAuth();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState([]);
   const {showError} = useError();
@@ -21,7 +22,7 @@ const Inventory = () => {
       const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/products' , {
         method : 'get',
         headers : {
-          'authorization' : 'bearer ' + getAuthToken()
+          'authorization' : 'bearer ' + token
         },
       });
       if(!res.ok){

@@ -1,7 +1,5 @@
 import DataTable from 'react-data-table-component';
 import { useEffect, useState } from 'react';
-import { getAuthToken } from '../../utils/Auth';
-import { Link } from 'react-router-dom';
 import { Spinner, Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import { Check } from 'react-bootstrap-icons';
@@ -9,6 +7,7 @@ import styles from './Dashboard.module.css'; // Import the CSS module
 import { format } from 'date-fns';
 import { getsize } from '../../utils/cartUtils/convertSize';
 import { useError } from '../../context/ErrorContext';
+import { useAuth } from '../../context/AuthContext';
 
 const sortIcon = <ArrowDownward />;
 
@@ -34,6 +33,7 @@ const customStyles = {
 
 
 const Demo = () => {
+  const {isLoggedIn , token} = useAuth();
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState([]);
@@ -143,7 +143,7 @@ const Demo = () => {
       try{
         const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/orders', {
           headers: {
-            'authorization': "bearer " + getAuthToken(),
+            'authorization': "bearer " + token,
           },
         });
         if(!res.ok){
@@ -183,7 +183,7 @@ const Demo = () => {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
-            'authorization': 'Bearer ' + getAuthToken(),
+            'authorization': 'Bearer ' + token,
           },
           body: JSON.stringify({ orderID }),
         });

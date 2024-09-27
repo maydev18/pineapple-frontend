@@ -3,11 +3,12 @@ import { Collapse, Form, Card, Spinner } from 'react-bootstrap';
 import classes from './Checkout.module.css';
 import { useState , useEffect } from 'react';
 import { useError } from '../../context/ErrorContext';
-import { getAuthToken } from '../../utils/Auth';
 import { Icon } from '@iconify/react';
 import editIcon from '@iconify-icons/mdi/pencil';
 import deleteIcon from '@iconify-icons/mdi/trash-can';
+import { useAuth } from '../../context/AuthContext';
 const AddressForm = ({updateSelectedAddress}) => {
+    const {token} = useAuth();
     const [savedAddresses, setAddresses] = useState([]);
     const [isloading , setIsLoading] = useState(false);
     const [selectedAddress , setSelectedAddress] = useState(null);
@@ -33,7 +34,7 @@ const AddressForm = ({updateSelectedAddress}) => {
             try {
                 const res = await fetch("http://localhost:8080/get-addresses", {
                     headers: {
-                        'Authorization': 'bearer ' + getAuthToken()
+                        'Authorization': 'bearer ' + token
                     }
                 });
                 if (!res.ok) {
@@ -64,7 +65,7 @@ const AddressForm = ({updateSelectedAddress}) => {
             const res = await fetch("http://localhost:8080/add-address", {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'bearer ' + getAuthToken(),
+                    'Authorization': 'bearer ' + token,
                     'Content-type': 'application/json',
                 },
                 body: JSON.stringify(addressFields)
@@ -102,7 +103,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + getAuthToken()
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(addressFields)
             });
@@ -142,7 +143,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                 body: JSON.stringify({ addressID: id }),
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization': 'bearer ' + getAuthToken()
+                    'authorization': 'bearer ' + token
                 }
             });
             if (!res.ok) {

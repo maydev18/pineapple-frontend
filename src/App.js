@@ -6,12 +6,8 @@ import ProductView from './pages/ProductView';
 import Hero from './Components/Home';
 import RootLayout from './pages/Root';
 import ErrorPage from './pages/Error';
-import CombinedAuthPage from './pages/CombinedAuthPage';
-import { action as AuthAction } from './pages/CombinedAuthPage';
-import { tokenLoader } from './utils/Auth';
-import { action as logoutAction } from './pages/logout';
-import { loader as ProductLoader } from './pages/ProductView';
-import { loader as TopProductsLoader } from './Components/Home';
+import {loader as ProductLoader} from './pages/ProductView';
+import {loader as TopProductsLoader} from './Components/Home';
 import Orderspage from './Components/Orderspage';
 import Dashboard from './Components/admin/Dashboard';
 import AddProducts from './Components/admin/AddProducts';
@@ -20,28 +16,22 @@ import EditProduct from './Components/admin/EditProduct';
 import Inventory from './Components/admin/Inventory';
 import ReturnPolicy from './pages/PolicyPage';
 import Exchange from './Components/admin/Exchange';
-
-const router = createBrowserRouter([
+import PrivateRoute from './router/PrivateRouter';
+export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <RootLayout />,
-    errorElement: <ErrorPage />,
-    id: 'root',
-    loader: tokenLoader,
-    children: [
+    path : '/',
+    element : < RootLayout />,
+    errorElement : <ErrorPage />,
+    id : 'root',
+    children : [
       {
         index: true,
         element: <Hero />,
         loader: TopProductsLoader,
       },
       {
-        path: 'auth',
-        element: <CombinedAuthPage />,
-        action: AuthAction,
-      },
-      {
-        path: 'products',
-        children: [
+        path : 'products',
+        children : [
           {
             index: true,
             element: <ProductPage />,
@@ -54,57 +44,61 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'checkout',
-        element: <Checkout />,
+        element : <PrivateRoute/>,
+        children : [
+          {
+            path : 'checkout',
+            element : <Checkout />
+          },
+          {
+            path : 'orders',
+            element : <Orderspage/>
+          }
+        ]
       },
       {
-        path: 'logout',
-        action: logoutAction,
-      },
-      {
-        path: 'orders',
-        element: <Orderspage />,
-      },
-      {
-        path: 'admin',
-        element: <Dashboard />,
-      },
-      {
-        path: 'addproducts',
-        element: <AddProducts />,
-      },
-      {
-        path: 'placedorder',
-        element: <PlacedOrder />,
-      },
-      {
-        path: 'edit',
-        element: <EditProduct />,
-      },
-      {
-        path: 'inventory',
-        element: <Inventory />,
-      },
-      {
-        path: 'exchange',
-        element: <Exchange />,
+        path : 'admin',
+        element : <PrivateRoute />,
+        children : [
+          {
+            index : true,
+            element : <Dashboard />
+          },
+          {
+            path : 'addproducts',
+            element :  <AddProducts/>
+          },
+          {
+            path : 'placedorder',
+            element : <PlacedOrder />
+          },
+          {
+            path : 'edit',
+            element : <EditProduct/>
+          },
+          {
+            path : 'inventory',
+            element : <Inventory/>
+          },
+          {
+            path : 'exchange',
+            element : <Exchange/>
+          }
+        ]
       },
       {
         path: 'terms',
         element: <ReturnPolicy />,
       },
-    ],
-  },
+    ]
+  }
 ]);
 
 function App() {
   return (
     <>
       <RouterProvider router={router}/>
-        
-      
     </>
   );
 }
-
 export default App;

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
 import CartItem from '../../Components/CartItem';
-import { getAuthToken } from '../../utils/Auth';
 import { useNavigate } from 'react-router-dom';
 import { getsize } from '../../utils/cartUtils/convertSize';
 import { useError } from '../../context/ErrorContext';
@@ -9,41 +8,24 @@ import { useCart } from '../../context/CartContext';
 import AddressBox from './AddressBox';
 import logo from '../../images/logo_black.png';
 import { Spinner } from 'react-bootstrap';
+import { useAuth } from '../../context/AuthContext';
 const Checkout = () => {
+    const {token} = useAuth();
     const navigate = useNavigate();
-    const [cartItems, setCartProducts] = useState([]);
-    const [amount, setAmount] = useState(null);
     const [checkoutDetails , setCheckoutDetails] = useState({
         methodOfPayment : null,
         addressID : null
     })
     const { showError } = useError();
-    const { fetchCart } = useCart();
-    const[isloading , setIsLoading] = useState(false);
+    const {total , quantity , discount , cart , fetchCart} = useCart();
     useEffect(() => {
-        const getCartItems = async () => {
-            try {
-                const data = await fetchCart();
-                setCartProducts(data);
-                let total = 0
-                data.forEach(item => {
-                    total += item.productID.price * item.quantity;
-                })
-                setAmount(total);
-                if(total === 0){
-                    navigate('/products');
-                }
-            }
-            catch (err) {
-                showError(err.message, 'danger');
-            }
-        }
-        getCartItems();
-    }, []);
+        if(total === 0) navigate('/products');
+    } , [total])
+    const[isloading , setIsLoading] = useState(false);
     const generateOrderId = async() => {
         const res = await fetch('http://localhost:8080/checkout' , {
             headers : {
-                'Authorization' : 'Bearer ' + getAuthToken()
+                'Authorization' : 'Bearer ' + token
             }
         })
         if (!res.ok) {
@@ -65,7 +47,7 @@ const Checkout = () => {
                 "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
-                "description": "Test Transaction",
+                "description": "Online payment of thepineapple.in",
                 "image": logo,
                 "order_id": id,
                 "handler": async function (response) {
@@ -107,7 +89,7 @@ const Checkout = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'bearer ' + getAuthToken()
+                    'Authorization': 'bearer ' + token
                 },
                 body: JSON.stringify(order)
             });
@@ -137,7 +119,7 @@ const Checkout = () => {
                 <div className={classes.cartSummary}>
                     <h2>Cart Summary</h2>
                     <div className={classes.cartItemsContainer}>
-                        {cartItems.map((item, index) => (
+                        {cart.map((item, index) => (
                             <CartItem
                                 key={index}
                                 image={item.productID.mainImage}
@@ -146,7 +128,7 @@ const Checkout = () => {
                                 quantity={item.quantity}
                                 price={item.productID.price}
                                 checkout={true} 
-                                />
+                            />
                         ))}
                     </div>
                     <div className={classes.cartSummaryFooter}>
@@ -154,7 +136,11 @@ const Checkout = () => {
                         <div style={{ padding: "12px" }}>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>Total Items: </strong>
-                                <div>{cartItems.length}</div>
+                                <div>{quantity}</div>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <strong>Total Discount: </strong>
+                                <div>{discount}</div>
                             </div>
                             {checkoutDetails.methodOfPayment && 
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -165,7 +151,7 @@ const Checkout = () => {
                             <div style={{ display: "flex", justifyContent: "space-between", paddingTop: '12px' }}>
                                 <div><strong>Total Price: </strong></div>
                                 <div> ₹
-                                    {checkoutDetails.methodOfPayment === 'cod' ? (amount + 100) : amount}</div>
+                                    {checkoutDetails.methodOfPayment === 'cod' ? (total + 100) : total}</div>
                             </div>
                         </div>
                     </div>

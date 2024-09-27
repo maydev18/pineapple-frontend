@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import OrderItem from './OrderItem';
 import classes from './Orderspage.module.css';
-import { getAuthToken } from '../utils/Auth';
 import { useError } from '../context/ErrorContext';
+import { useAuth } from '../context/AuthContext';
 const OrdersPage = () => {
   const {showError} = useError();
+  const {isLoggedIn , token} = useAuth();
   const [orders,onOrdersChange] = useState([]);
   
   async function orderLoader() {
     try {
       const res = await fetch('http://localhost:8080/orders', {
         headers: {
-          'Authorization': 'bearer ' + getAuthToken()
+          'Authorization': 'bearer ' + token
         }
       });
       if (!res.ok) {
