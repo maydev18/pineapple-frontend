@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     const {showError} = useError();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
-    const [isLoading , setIsLoading] = useState(true);
     const [user , setUser] = useState(null);
     useEffect(() => {
         setInitialAuthState();
@@ -43,15 +42,20 @@ export const AuthProvider = ({ children }) => {
         }
     }
     async function login(){
-        if(!isTokenValid()){
-            const provider = new GoogleAuthProvider();
-            const res = await signInWithPopup(auth , provider);
-            setUser({
-                name : res.user.displayName,
-                email : res.user.email,
-                email_verified : res.user.emailVerified,
-                photoURL : res.user.photoURL
-            })
+        try{
+            if(!isTokenValid()){
+                const provider = new GoogleAuthProvider();
+                const res = await signInWithPopup(auth , provider);
+                setUser({
+                    name : res.user.displayName,
+                    email : res.user.email,
+                    email_verified : res.user.emailVerified,
+                    photoURL : res.user.photoURL
+                })
+            }
+        }
+        catch(err){
+            showError("Failed to login");
         }
     }
     function logout() {
@@ -59,6 +63,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('expiration');
         localStorage.removeItem('name');
         setIsLoggedIn(false);
+        setUser(null);
     }
     function setInitialAuthState() {
         if(isTokenValid()){
@@ -69,7 +74,6 @@ export const AuthProvider = ({ children }) => {
             setToken(null);
             setIsLoggedIn(false);
         }
-        setIsLoading(false);
     }
     function isTokenValid(){
         const token = localStorage.getItem('token');
@@ -92,9 +96,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('expiration' , expiration.toISOString());
         localStorage.setItem("expiration" , expiration);
     }
-    console.log(isLoggedIn , token);
     return (
-        <AuthContext.Provider value={{ logout, isLoggedIn , login , token , isLoading}}>
+        <AuthContext.Provider value={{ logout, isLoggedIn , login , token}}>
             {children}
         </AuthContext.Provider>
     );

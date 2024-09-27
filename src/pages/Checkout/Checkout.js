@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
 import CartItem from '../../Components/CartItem';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import logo from '../../images/logo_black.png';
 import { Spinner } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthContext';
 const Checkout = () => {
-    const {isLoggedIn , token , isLoading} = useAuth();
+    const {token} = useAuth();
     const navigate = useNavigate();
     const [checkoutDetails , setCheckoutDetails] = useState({
         methodOfPayment : null,
@@ -18,6 +18,9 @@ const Checkout = () => {
     })
     const { showError } = useError();
     const {total , quantity , discount , cart , fetchCart} = useCart();
+    useEffect(() => {
+        if(total === 0) navigate('/products');
+    } , [total])
     const[isloading , setIsLoading] = useState(false);
     const generateOrderId = async() => {
         const res = await fetch('http://localhost:8080/checkout' , {
@@ -44,7 +47,7 @@ const Checkout = () => {
                 "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
-                "description": "Test Transaction",
+                "description": "Online payment of thepineapple.in",
                 "image": logo,
                 "order_id": id,
                 "handler": async function (response) {

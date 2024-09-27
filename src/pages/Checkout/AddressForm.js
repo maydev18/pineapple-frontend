@@ -8,7 +8,7 @@ import editIcon from '@iconify-icons/mdi/pencil';
 import deleteIcon from '@iconify-icons/mdi/trash-can';
 import { useAuth } from '../../context/AuthContext';
 const AddressForm = ({updateSelectedAddress}) => {
-    const {isLoggedIn , token , isLoading} = useAuth();
+    const {token} = useAuth();
     const [savedAddresses, setAddresses] = useState([]);
     const [isloading , setIsLoading] = useState(false);
     const [selectedAddress , setSelectedAddress] = useState(null);
@@ -50,9 +50,8 @@ const AddressForm = ({updateSelectedAddress}) => {
                 setIsLoading(false);
             }
         };
-        if(isLoggedIn && !isLoading)
         getAddresses();
-    }, [isLoading]);
+    }, []);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setAddressFields((prevAddress) => ({

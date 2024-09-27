@@ -3,18 +3,18 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {Spinner} from 'react-bootstrap';
 const PrivateRoute = () => {
-    const { isLoggedIn, isLoading, login } = useAuth();
+    const { isLoggedIn, login } = useAuth();
     const [initiatingLogin, setInitiatingLogin] = useState(false);
 
     useEffect(() => {
-        if (!isLoading && !isLoggedIn) {
+        if(!isLoggedIn) {
             // Trigger login if the user is not authenticated
             setInitiatingLogin(true);
             login().then(() => setInitiatingLogin(false));  // Trigger login and wait for it to finish
         }
-    }, [isLoading, isLoggedIn]);
+    }, [isLoggedIn]);
 
-    if (isLoading || initiatingLogin) {
+    if (initiatingLogin) {
         return <div><Spinner /></div>; // Show a loader while checking auth state or initiating login
     }
 
