@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useError } from './ErrorContext';
-
+import { GoogleAuthProvider , signInWithPopup} from 'firebase/auth';
+import { auth } from '../utils/firebase';
+import { Email } from '@mui/icons-material';
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -11,13 +12,13 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
-    const { loginWithRedirect, user, isAuthenticated , logout} = useAuth0();
+    const [user , setUser] = useState(null);
     useEffect(() => {
         setInitialAuthState();
         if(!isTokenValid() && user){
             authenticate();
         }
-    } , [isAuthenticated]);
+    } , [user]);
     const authenticate = async () => {
         try {
             const res = await fetch(process.env.REACT_APP_BASE_URL + 'auth/authenticate', {
@@ -43,11 +44,17 @@ export const AuthProvider = ({ children }) => {
     }
     async function login(){
         if(!isTokenValid()){
-            await loginWithRedirect();
+            const provider = new GoogleAuthProvider();
+            const res = await signInWithPopup(auth , provider);
+            setUser({
+                name : res.user.displayName,
+                email : res.user.email,
+                email_verified : res.user.emailVerified,
+                photoURL : res.user.photoURL
+            })
         }
     }
-    function Logout() {
-        logout();
+    function logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('expiration');
         localStorage.removeItem('name');
@@ -87,7 +94,7 @@ export const AuthProvider = ({ children }) => {
     }
     console.log(isLoggedIn , token);
     return (
-        <AuthContext.Provider value={{ Logout, isLoggedIn , login , token , isLoading}}>
+        <AuthContext.Provider value={{ logout, isLoggedIn , login , token , isLoading}}>
             {children}
         </AuthContext.Provider>
     );

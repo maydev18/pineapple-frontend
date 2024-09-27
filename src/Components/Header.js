@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,8 +6,9 @@ import styles from './Header.module.css';
 import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
 import { useAuth } from '../context/AuthContext';
-
 import { useCart } from '../context/CartContext';
+import GoogleButton from 'react-google-button'
+
 const sidebarVariants = {
   open: {
     x: 0,
@@ -42,14 +43,12 @@ const itemVariants = {
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { openCart } = useCart();
-  const {Logout , login , isLoggedIn} = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  
+  const {isLoggedIn , login , logout} = useAuth();
   return (
-
     <>
       <header className={styles.header}>
         <div className={styles.menuIcon} onClick={toggleSidebar}>
@@ -64,14 +63,14 @@ const Header = () => {
         </Link>
         <div className={styles.navigationIcons}>
           {
-            !isLoggedIn ? (
-              <Link onClick={() => { login() }}>
-                <Icon icon="ic:baseline-person-outline" width="30" height="30" color='white' />
+            isLoggedIn ? (
+              <Link onClick={() => {logout()}}>
+                logout
               </Link>
             ) : (
-              <Link onClick={() => {Logout()}}>
-                Logout
-              </Link>
+              <button onClick={() => {login()}} style={styles.button}>
+              <GoogleButton /> {/* Using the Google icon */}
+            </button>
             )
           }
           <div onClick={() => { openCart() }} style={{ cursor: "pointer" }}>
