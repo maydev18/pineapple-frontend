@@ -142,8 +142,14 @@ const Checkout = () => {
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>Total Discount: </strong>
-                                <div>{discount === 0 ? "--" : discount}</div>
+                                <div>{discount === 0 ? "--": discount}</div>
                             </div>
+                            {
+                                discount === 0 &&
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    (Add ₹{600-total} worth of items more to get a flat 10% off)
+                                </div>
+                            }
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>Shipping Charges: </strong>
                                 <div>₹ {!checkoutDetails.methodOfPayment? "--" : (checkoutDetails.methodOfPayment === 'cod' ? 100 : 0)}</div>

@@ -7,7 +7,6 @@ import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import GoogleButton from 'react-google-button'
 
 const sidebarVariants = {
   open: {
@@ -67,17 +66,22 @@ const Header = () => {
         <div className={styles.navigationIcons}>
           {
             isLoggedIn ? (
-              <Link onClick={() => {logout()}}>
-                logout
-              </Link>
+              <div 
+              onClick={() => {logout()}}
+              >
+                <button onClick={() => { login(); } } className={styles.signinbutton}>
+                 WELCOME {localStorage.getItem('name')}
+                </button>
+              </div>
             ) : (
-              <button onClick={() => {login()}} style={styles.button}>
-              <GoogleButton /> {/* Using the Google icon */}
-            </button>
+              <>
+              <button onClick={() => { login(); } } className={styles.signinbutton}>
+                  <Icon icon="mdi:user" width="30" height="24" color= '#0E201D' On/>SIGN IN
+                </button></>
             )
           }
-          <div onClick={() => { openCart() }} style={{ cursor: "pointer" }}>
-            <Icon icon="ic:baseline-shopping-bag" width="30" height="30" color='white' />
+          <div onClick={() => { openCart() }} className={styles.signinbutton}>
+            <Icon icon="ic:baseline-shopping-bag" width="30" height="24" color='#0E201D' />CART
           </div>
         </div>
       </header>
@@ -109,7 +113,13 @@ const Header = () => {
           <motion.div variants={itemVariants}>
             <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>POLICY AND TERMS</Link>
           </motion.div>
-
+          {isLoggedIn && <motion.div variants={itemVariants}>
+            <Link to = "#" onClick={() => {
+              logout();
+              toggleSidebar()
+            }} className={StyleSheet.linkStyle}>LOG OUT</Link>
+          </motion.div>
+          }
          
         </nav>
       </motion.div>

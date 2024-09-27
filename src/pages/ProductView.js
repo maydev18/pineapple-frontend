@@ -41,7 +41,8 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       const res = await fetch(`http://localhost:8080/reviews/${productID}`);
-      const data = await res.json();
+      let data = await res.json();
+      data = data.reverse();
       setReviews(data);
 
      

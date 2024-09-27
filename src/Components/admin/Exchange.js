@@ -21,7 +21,8 @@ const ExchangeItemsTable = () => {
         if (!res.ok) {
           throw new Error();
         }
-        const data = await res.json();
+        let data = await res.json();
+        data = data.reverse();
         setExchangeRequests(data);
       } catch (err) {
         showError('Failed fetching exchange requests', 'danger');

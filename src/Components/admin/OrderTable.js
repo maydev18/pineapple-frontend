@@ -150,7 +150,8 @@ const Demo = () => {
           const err = await res.json();
           throw err;
         }
-        const data = await res.json();
+        let data = await res.json();
+        data = data.reverse();
         setOrders(data);
         setFilter(data);
       }

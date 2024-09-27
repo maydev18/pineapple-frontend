@@ -250,10 +250,6 @@ p {
  
 }
 
-.cartSummaryFooter strong{
- 
-}
-
 /* Media Queries for Responsiveness */
 @media (max-width: 1024px) {
   .container {
@@ -390,3 +386,20 @@ p {
     font-size: 12px;
   }
 }
+
+.floatingLabel input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.floatingLabel input:focus {
+  border-color: var(--green);
+  outline: none;
+}
+
