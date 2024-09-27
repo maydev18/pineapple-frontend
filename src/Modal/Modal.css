@@ -36,3 +36,34 @@
     height: 80%;
   }
   
+  .backdrop{
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .custom-modal {
+    max-width: 400px; /* Set the maximum width of the modal */
+    width: 100%; /* Full width for small screens */
+  }
+  
+  .custom-modal .modal-header {
+    border-bottom: none; /* Remove bottom border */
+  }
+  
+  .custom-modal .modal-title {
+    font-weight: bold; /* Optional: Customize title style */
+  }
+  
+  .custom-modal .modal-body {
+    padding: 0; /* Ensure no padding in the body */
+  }
+  .custom-alert .btn-close {
+    width: 16px;  /* Make the button smaller */
+    height: 16px; /* Adjust the height to match */
+    padding: 0;
+  }
+  
+  .custom-alert .btn-close::before {
+    font-size: 12px; 
+    margin: 1rem;
+  }
+  

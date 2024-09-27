@@ -11,14 +11,14 @@ const sidebarVariants = {
   open: {
     x: 0,
     transition: {
-      stiffness: 20,
+      stiffness: 10,
       staggerChildren: 0.2,
     },
   },
   closed: {
     x: '-100%',
     transition: {
-      stiffness: 20,
+      stiffness: 5,
       staggerChildren: 0.1,
       staggerDirection: -1,
     },
@@ -54,9 +54,12 @@ const Header = () => {
           <div></div>
         </div>
         <Link to="/" className={styles.logoContainer}>
+       
           <div className={styles.logo}>
             <img src={logo} alt="Logo" />
+            
           </div>
+         
         </Link>
         <div className={styles.navigationIcons}>
           <Link to="auth?mode=login">
@@ -75,11 +78,27 @@ const Header = () => {
         variants={sidebarVariants}
       >
         <nav className={styles.sidebarNav}>
-          <img src={logo_black} alt='logo_black' />
-          <motion.div variants={itemVariants}><Link to="/">HOME</Link></motion.div>
-          <motion.div variants={itemVariants}><Link to="/products">NEW ARRIVALS</Link></motion.div>
-          <motion.div variants={itemVariants}><Link to="/orders">MY ORDERS</Link></motion.div>
-          <motion.div variants={itemVariants}><Link to="/terms">POLICY AND TERMS</Link></motion.div>
+        
+          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+         
+          <p style={{fontSize: '2rem', color: 'black', marginRight: '1rem'}} onClick={toggleSidebar}>X</p>
+         
+            </div>
+            <img src={logo_black} alt='logo_black' />
+          
+            <motion.div variants={itemVariants}>
+            <Link to="/" onClick={toggleSidebar} className={StyleSheet.linkStyle}>HOME</Link>
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <Link to="/products" onClick={toggleSidebar} className={StyleSheet.linkStyle}>NEW ARRIVALS</Link>
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <Link to="/orders" onClick={toggleSidebar} className={StyleSheet.linkStyle}>MY ORDERS</Link>
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>POLICY AND TERMS</Link>
+          </motion.div>
+
          
         </nav>
       </motion.div>

@@ -14,7 +14,7 @@ const CartSidebar = () => {
         <h1 className={styles.cartHeading}>Cart</h1>
         <hr />
         {cart.length === 0 ? (
-          <p style={{color: "black"}}>Your cart is empty</p>
+          <><p style={{ color: "black" }}>Your cart is empty</p><button onClick={() => closeCart()} className={styles.cartButton}><Link to='/products' className={styles.cartbuttontext}>Continue Shopping</Link></button></>
         ) : (
           <>
             {cart.map((product, index) => (

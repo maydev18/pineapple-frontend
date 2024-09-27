@@ -2,13 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 2rem;
+ 
   position: relative;
 }
 
 .mainImage {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   margin-bottom: 1rem;
   position: relative;
   
@@ -42,5 +42,16 @@
 
   .mainImage {
     margin-bottom: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .singleProduct {
+    flex-direction: row;
+  }
+
+  .mainImage {
+   width: 130%;
+   height: 120%;
   }
 }
