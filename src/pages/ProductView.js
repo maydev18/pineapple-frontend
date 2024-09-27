@@ -4,7 +4,7 @@ import CartSidebar from '../Components/CartSidebar';
 import { json, useLoaderData, useParams } from 'react-router-dom';
 import classes from './ProductView.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Accordion, Spinner, Modal, Alert } from 'react-bootstrap';
+import { Accordion, Spinner, Modal } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import RatingSummary from '@keyvaluesystems/react-star-rating-summary';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -17,11 +17,11 @@ import { format } from 'date-fns';
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
 const ProductPage = () => {
-  const { addToCart, openCart } = useContext(CartContext);
+  const { addToCart} = useContext(CartContext);
   const { productID } = useParams();
   const [reviews, setReviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const [selectedSize, setSelectedSize] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [ratingValues, setRatingValues] = useState({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
   const [showSizeChart, setShowSizeChart] = useState(false);
@@ -33,17 +33,9 @@ const ProductPage = () => {
 
   const handleAddToCart = async () => {
     const size = getFullSize(selectedSize);
-    const sizeStock = product[size];
-
-    if (sizeStock === 0) {
-     alert('size not selected')
-      return;
-    }
-
     setIsSubmitting(true);
     await addToCart(productID, size);
     setIsSubmitting(false);
-    openCart(true);
   };
 
   useEffect(() => {
@@ -112,7 +104,10 @@ const ProductPage = () => {
                     {size}
                   </button>
                   <p className={classes.stockInfo} style={{ color: 'red', fontSize: '15px', fontWeight: '400' }}>
-                    {product[getFullSize(size)] === 0 ? 'Out of Stock' : `${product[getFullSize(size)]} Left`}
+                    {product[getFullSize(size)] === 0 ? 'Out of Stock' : (
+                      product[getFullSize(size)] <= 5 ? product[getFullSize(size)] : ""
+                    )
+                    }
                   </p>
                 </div>
               ))}
@@ -134,14 +129,14 @@ const ProductPage = () => {
           <button
             className={classes.productViewButton}
             onClick={handleAddToCart}
-            disabled={allSizesOutOfStock}
+            disabled={allSizesOutOfStock || !selectedSize}
           >
             {isSubmitting ? (
               <Spinner />
             ) : (
               <span style={{ color: 'white' }}>
                 <Icon icon="bi:cart3" style={{ paddingRight: '6px', paddingBottom: '6px', fontSize: '29px' }} />
-                {allSizesOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+                {allSizesOutOfStock ? 'Out of Stock' : !selectedSize ? "Select your size" : 'Add to Cart'}
               </span>
             )}
           </button>

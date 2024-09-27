@@ -1,25 +1,18 @@
-import { useEffect , useState} from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import {Spinner} from 'react-bootstrap';
+import classes from './PrivateRouter.module.css';
 const PrivateRoute = () => {
-    const { isLoggedIn, login } = useAuth();
-    const [initiatingLogin, setInitiatingLogin] = useState(false);
+    const { isLoggedIn , login} = useAuth();
 
-    useEffect(() => {
-        if(!isLoggedIn) {
-            // Trigger login if the user is not authenticated
-            setInitiatingLogin(true);
-            login().then(() => setInitiatingLogin(false));  // Trigger login and wait for it to finish
-        }
-    }, [isLoggedIn]);
-
-    if (initiatingLogin) {
-        return <div><Spinner /></div>; // Show a loader while checking auth state or initiating login
-    }
-
-    // Once login is completed or user is authenticated, allow access to the route
-    return isLoggedIn ? <Outlet /> : <h1>Please log in to access this page.</h1>;
+    return isLoggedIn ? <Outlet /> : (
+        <div className={classes.loginContainer}>
+            <div className = {classes.loginCard}>
+                <h2>Welcome Back!</h2>
+                <p>Please log in to continue ahead.</p>
+                <button onClick={() => {login()}} className={classes.loginButton}>Login with Google</button>
+            </div>
+        </div>
+    );
 };
 
 export default PrivateRoute;
