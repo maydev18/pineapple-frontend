@@ -3,7 +3,9 @@ import styles from './Card.module.css';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import placeholder from '../images/placeholder.png';
 
-const Card = ({ image, hoverImage, title, price, titleColor, priceColor, isSoldOut }) => {
+const Card = ({ image, hoverImage, title, price, titleColor, priceColor, allSizesOutOfStock }) => {
+
+ 
   return (
     <div className={styles.card}>
       <div className={styles.cardImageWrapper}>
@@ -21,7 +23,7 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor, isSoldO
           placeholderSrc={placeholder}
           effect='blur'
         />
-        {isSoldOut && (
+        {allSizesOutOfStock && (
           <div className={styles.soldOutOverlay}>
             <span className={styles.soldOutLabel}>
               <p>Sold Out</p>

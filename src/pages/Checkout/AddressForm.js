@@ -51,7 +51,7 @@ const AddressForm = ({updateSelectedAddress}) => {
             }
         };
         getAddresses();
-    }, []);
+    }, [showError, token]);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setAddressFields((prevAddress) => ({
@@ -223,7 +223,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                 </div>} />
                             <Collapse in={selectedAddress === address._id && isEditOpen}>
                                 <div style={{marginTop: '20px'}}>
-                                    <div>
+                                     <div className={classes.floatingLabel}>
                                         <label htmlFor="name">Full Name</label>
                                         <input
                                             type="text"
@@ -338,7 +338,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                 <Collapse in={isAddOpen}>
                     <div className={classes.floatingLabel}>
                         
-                        <label htmlFor="name">Full Name</label>
+                        <label htmlFor="name" >Full Name</label>
                         <input
                             type="text"
                             name="fullName"

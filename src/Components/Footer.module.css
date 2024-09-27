@@ -59,14 +59,25 @@
   text-decoration: underline; /* Add underline on hover */
 }
 
+/* Media query for smaller screens */
 @media (max-width: 768px) {
   .footerContent {
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* Center-align columns horizontally */
   }
 
   .footerColumn {
     max-width: 100%;
+    text-align: center; /* Center-align text */
+  }
+
+  .footerColumn ul, .footerColumn p, .footerColumn form {
+    text-align: center; /* Center-align lists, paragraphs, and forms */
+  }
+
+  .socialIcons {
+    justify-content: center; /* Center-align social icons */
     text-align: center;
   }
 }

@@ -67,17 +67,22 @@ const Header = () => {
         <div className={styles.navigationIcons}>
           {
             isLoggedIn ? (
-              <Link onClick={() => {logout()}}>
-                logout
-              </Link>
+              <div 
+              onClick={() => {logout()}}
+              >
+                <button onClick={() => { login(); } } className={styles.signinbutton}>
+                  <Icon icon="mdi:user" width="30" height="24" color= '#0E201D' On/>LOG OUT
+                </button>
+              </div>
             ) : (
-              <button onClick={() => {login()}} style={styles.button}>
-              <GoogleButton /> {/* Using the Google icon */}
-            </button>
+              <>
+              <button onClick={() => { login(); } } className={styles.signinbutton}>
+                  <Icon icon="mdi:user" width="30" height="24" color= '#0E201D' On/>SIGN IN
+                </button></>
             )
           }
-          <div onClick={() => { openCart() }} style={{ cursor: "pointer" }}>
-            <Icon icon="ic:baseline-shopping-bag" width="30" height="30" color='white' />
+          <div onClick={() => { openCart() }} className={styles.signinbutton}>
+            <Icon icon="ic:baseline-shopping-bag" width="30" height="24" color='#0E201D' />CART
           </div>
         </div>
       </header>
