@@ -7,7 +7,6 @@ import { ErrorProvider } from './context/ErrorContext';
 import { AuthProvider } from './context/AuthContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
 root.render(
   <ErrorProvider>
     <AuthProvider>
