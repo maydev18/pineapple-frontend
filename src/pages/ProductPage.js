@@ -65,6 +65,7 @@ const Product = () => {
           <div className={classes.cardContainer}>
             {products.map((product, index) => {
               const allSizesOutOfStock = sizes.every(size => product[getFullSize(size)] === 0);
+              console.log(allSizesOutOfStock);
               return (
                 <Link to={`/products/${product._id}`} style={{ textDecoration: "none" }} key={index}>
                   <Card
@@ -75,10 +76,11 @@ const Product = () => {
                     price={product.price}
                     titleColor="black"
                     priceColor="black"
-                    isSoldOut={allSizesOutOfStock}
+                    allSizesOutOfStock={allSizesOutOfStock}  // Updated this prop
                   />
                 </Link>
               );
+              
             })}
           </div>
         )}

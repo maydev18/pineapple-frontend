@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import editIcon from '@iconify-icons/mdi/pencil';
 import deleteIcon from '@iconify-icons/mdi/trash-can';
 import { useAuth } from '../../context/AuthContext';
+import { color } from 'framer-motion';
 const AddressForm = ({updateSelectedAddress}) => {
     const {token} = useAuth();
     const [savedAddresses, setAddresses] = useState([]);
@@ -224,7 +225,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                             <Collapse in={selectedAddress === address._id && isEditOpen}>
                                 <div style={{marginTop: '20px'}}>
                                      <div className={classes.floatingLabel}>
-                                        <label htmlFor="name">Full Name</label>
+                                        <label htmlFor="name">Full Name <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="fullName"
@@ -232,7 +233,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="phone">Phone</label>
+                                        <label htmlFor="phone">Phone <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="phone"
@@ -240,7 +241,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="email">Email</label>
+                                        <label htmlFor="email">Email <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="email"
@@ -248,7 +249,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="firstLine">Address Line 1</label>
+                                        <label htmlFor="firstLine">Address Line 1 <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="firstLine"
@@ -256,7 +257,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="secondLine">Address Line 2</label>
+                                        <label htmlFor="secondLine">Address Line 2 <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="secondLine"
@@ -271,7 +272,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="city">City</label>
+                                        <label htmlFor="city">City <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="city"
@@ -279,7 +280,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="pincode">Pin code</label>
+                                        <label htmlFor="pincode">Pin code <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="pincode"
@@ -287,7 +288,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                                             onChange={handleInputChange}
                                             placeholder=" "
                                             required />
-                                        <label htmlFor="landmark">Landmark</label>
+                                        <label htmlFor="landmark">Landmark <span style={{color: 'red'}}>*</span></label>
                                         <input
                                             type="text"
                                             name="landmark"
@@ -338,7 +339,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                 <Collapse in={isAddOpen}>
                     <div className={classes.floatingLabel}>
                         
-                        <label htmlFor="name" >Full Name</label>
+                       
+                        <label htmlFor="name" >Full Name <span style={{color: 'red'}}>*</span></label>
+                       
                         <input
                             type="text"
                             name="fullName"
@@ -346,7 +349,11 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="phone">Phone</label>
+
+                      
+                        <label htmlFor="name" >Phone <span style={{color: 'red'}}>*</span></label>
+                       
+                        
                         <input
                             type="text"
                             name="phone"
@@ -354,7 +361,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="email">Email</label>
+                       
+                        <label htmlFor="name" >Email <span style={{color: 'red'}}>*</span></label>
+                       
                         <input
                             type="text"
                             name="email"
@@ -362,7 +371,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="firstLine">Address Line 1</label>
+                     
+                        <label htmlFor="name" >Address Line 1 <span style={{color: 'red'}}>*</span></label>
+                       
                         <input
                             type="text"
                             name="firstLine"
@@ -370,14 +381,18 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="secondLine">Address Line 2</label>
+                       
+                        <label htmlFor="name" >Address Line 2 <span style={{color: 'red'}}>*</span></label>
+                       
                         <input
                             type="text"
                             name="secondLine"
                             value={addressFields.secondLine}
                             onChange={handleInputChange}
                             placeholder=" " />
-                        <label htmlFor="state">State</label>
+                        
+                        <label htmlFor="name" >State <span style={{color: 'red'}}>*</span></label>
+                       
                         <input
                             type="text"
                             name="state"
@@ -385,7 +400,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="city">City</label>
+                       
+                        <label htmlFor="name" >City <span style={{color: 'red'}}>*</span></label>
+                      
                         <input
                             type="text"
                             name="city"
@@ -393,7 +410,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="pincode">Pin code</label>
+                        <label htmlFor="pincode">Pin code <span style={{color: 'red'}}>*</span></label>
                         <input
                             type="text"
                             name="pincode"
@@ -401,7 +418,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="landmark">Landmark</label>
+                        <label htmlFor="landmark">Landmark <span style={{color: 'red'}}>*</span> </label>
                         <input
                             type="text"
                             name="landmark"
