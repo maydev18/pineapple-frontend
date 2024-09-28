@@ -7,7 +7,6 @@ import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import GoogleButton from 'react-google-button'
 
 const sidebarVariants = {
   open: {
@@ -71,7 +70,7 @@ const Header = () => {
               onClick={() => {logout()}}
               >
                 <button onClick={() => { login(); } } className={styles.signinbutton}>
-                 WELCOME RAVLEEN!
+                 WELCOME {localStorage.getItem('name')}
                 </button>
               </div>
             ) : (
@@ -114,10 +113,13 @@ const Header = () => {
           <motion.div variants={itemVariants}>
             <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>POLICY AND TERMS</Link>
           </motion.div>
-          <motion.div variants={itemVariants}>
-            <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>LOG OUT</Link>
+          {isLoggedIn && <motion.div variants={itemVariants}>
+            <Link to = "#" onClick={() => {
+              logout();
+              toggleSidebar()
+            }} className={StyleSheet.linkStyle}>LOG OUT</Link>
           </motion.div>
-
+          }
          
         </nav>
       </motion.div>

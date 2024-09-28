@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './Checkout.module.css';
 import CartItem from '../../Components/CartItem';
 import { useNavigate } from 'react-router-dom';
@@ -9,18 +9,16 @@ import AddressBox from './AddressBox';
 import logo from '../../images/logo_black.png';
 import { Spinner } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthContext';
+
 const Checkout = () => {
-    const {token} = useAuth();
     const navigate = useNavigate();
     const [checkoutDetails , setCheckoutDetails] = useState({
         methodOfPayment : null,
         addressID : null
     })
     const { showError } = useError();
-    const {total , quantity , discount , cart , fetchCart} = useCart();
-    useEffect(() => {
-        if(total === 0) navigate('/products');
-    } , [total])
+    const {cart , total , quantity , discount , fetchCart} = useCart();
+    const {token} = useAuth();
     const[isloading , setIsLoading] = useState(false);
     const generateOrderId = async() => {
         const res = await fetch('http://localhost:8080/checkout' , {
@@ -47,7 +45,7 @@ const Checkout = () => {
                 "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
-                "description": "Online payment of thepineapple.in",
+                "description": "Payment to thepineapple.in",
                 "image": logo,
                 "order_id": id,
                 "handler": async function (response) {
@@ -139,19 +137,28 @@ const Checkout = () => {
                                 <div>{quantity}</div>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <strong>Total Discount: </strong>
-                                <div>{discount}</div>
+                                <strong>Total Price: </strong>
+                                <div>{total + discount}</div>
                             </div>
-                            {checkoutDetails.methodOfPayment && 
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <strong>Total Discount: </strong>
+                                <div>{discount === 0 ? "--": discount}</div>
+                            </div>
+                            {
+                                discount === 0 &&
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    (Add ₹{600-total} worth of items more to get a flat 10% off)
+                                </div>
+                            }
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>Shipping Charges: </strong>
-                                <div>₹ {checkoutDetails.methodOfPayment === 'cod' ? 100 : 0}</div>
-                            </div>}
-                            
+                                <div>₹ {!checkoutDetails.methodOfPayment? "--" : (checkoutDetails.methodOfPayment === 'cod' ? 100 : 0)}</div>
+                            </div>
+                            <hr/>
                             <div style={{ display: "flex", justifyContent: "space-between", paddingTop: '12px' }}>
-                                <div><strong>Total Price: </strong></div>
+                                <div><h3>Total Price: </h3></div>
                                 <div> ₹
-                                    {checkoutDetails.methodOfPayment === 'cod' ? (total + 100) : total}</div>
+                                    {!checkoutDetails.methodOfPayment ? "--" : (checkoutDetails.methodOfPayment === 'cod' ? (total + 100) : total)}</div>
                             </div>
                         </div>
                     </div>

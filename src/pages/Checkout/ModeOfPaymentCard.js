@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Card, Form } from 'react-bootstrap';
 import classes from './Checkout.module.css';
 

@@ -5,7 +5,7 @@ export const CartContext = createContext();
 export const useCart = () => useContext(CartContext); 
 export const CartProvider = ({children}) => {
     const [cart , setCartProducts] = useState([]);
-    const {isLoggedIn , token , isLoading , login} = useAuth();
+    const {isLoggedIn , token , login} = useAuth();
     const [total , setTotal] = useState(0);
     const[quantity , setQuantity] = useState(0);
     const [isOpen , setIsOpen] = useState(false);
@@ -13,6 +13,7 @@ export const CartProvider = ({children}) => {
     const {showError} = useError();
     const fetchCart = async () => {
         try{
+            console.log("fetched cart");
             const res = await fetch('http://localhost:8080/cart', {
                 headers: {
                 Authorization: 'bearer ' + token,
@@ -34,14 +35,12 @@ export const CartProvider = ({children}) => {
         }
     };
     useEffect(() => {
-        if(isLoggedIn && !isLoading){
-            fetchCart();
-        }
-    } , [isLoading , isLoggedIn]);
+        fetchCart();
+    } , [isLoggedIn]);
     const addToCart = async(productID , size) => {
         try{
             if(!isLoggedIn){
-                return await login();
+                return showError("Please login to continue ahead");
             }
             const res = await fetch('http://localhost:8080/add-to-cart', {
                 method: 'post',

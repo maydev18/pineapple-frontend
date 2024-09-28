@@ -5,7 +5,7 @@ import { useError } from '../context/ErrorContext';
 import { useAuth } from '../context/AuthContext';
 const OrdersPage = () => {
   const {showError} = useError();
-  const {isLoggedIn , token} = useAuth();
+  const {token} = useAuth();
   const [orders,onOrdersChange] = useState([]);
   
   async function orderLoader() {
@@ -19,7 +19,8 @@ const OrdersPage = () => {
         const err = await res.json();
         throw err;
       }
-      const resData = await res.json();
+      let resData = await res.json();
+      resData = resData.reverse()
       onOrdersChange(resData);
     }
     catch (err) {

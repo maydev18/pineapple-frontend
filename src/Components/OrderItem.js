@@ -10,14 +10,6 @@ const OrderItem = ({order}) => {
   const handleClose = () => setShowModal(false);
   const handleShowExchange = () => setShowExchangeModal(true);
   const handleCloseExchange = () => setShowExchangeModal(false);
-
-  const totalPrice = () => {
-    let total = 0;
-    order.products.forEach(pro => {
-      total += pro.quantity * pro.price;
-    });
-    return total;
-  };
   const canExchange = () => {
     const daysFromDelivery = (Date.now() - new Date(order.deliveryDate ? order.deliveryDate : 0)) / (1000 * 60 * 60 * 24);
     if(!order.completed || daysFromDelivery >= 4 || order.exchanged) return false;
@@ -32,7 +24,7 @@ const OrderItem = ({order}) => {
           </button>
           <p><span>Order ID: </span>{order.orderID}</p>
           <p><span>Order Date: </span>{new Date(order.time).toLocaleString()}</p>
-          <p><span>Total Amount: ₹</span>{totalPrice()}</p>
+          <p><span>Total Amount: ₹</span>{order.total}</p>
           <p style={{textTransform : 'capitalize'}}><span>Shipping Address: </span>{`${order.address.fullName}, ${order.address.firstLine}, ${order.address.secondLine}, ${order.address.city}, ${order.address.state}, ${order.address.landmark}`}</p>
           <p><span>Phone : </span>{order.address.phone}</p>
           <p><span>Email : </span>{order.address.email}</p>      

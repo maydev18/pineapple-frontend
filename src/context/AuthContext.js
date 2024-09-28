@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useError } from './ErrorContext';
 import { GoogleAuthProvider , signInWithPopup} from 'firebase/auth';
 import { auth } from '../utils/firebase';
-import { Email } from '@mui/icons-material';
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -64,6 +63,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('name');
         setIsLoggedIn(false);
         setUser(null);
+        setToken(null);
     }
     function setInitialAuthState() {
         if(isTokenValid()){
@@ -86,6 +86,10 @@ export const AuthProvider = ({ children }) => {
         const date = new Date(expiration);
         const now = new Date();
         const duration = date.getTime() - now.getTime();
+        if(duration <= 0){
+            localStorage.removeItem('token');
+            localStorage.removeItem('expiration');
+        }
         return duration;
     }
     function saveDetails(token , name){
