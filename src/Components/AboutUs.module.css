@@ -28,47 +28,49 @@
   object-fit: cover; /* Ensure aspect ratio is preserved */
 }
 
-p {
+.content p {
   font-family: "Outfit", sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 1.5rem;
   line-height: 1.6;
   color: #f0e5d8;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
 @media (max-width: 768px) {
   .aboutUsSection {
-    padding: 5rem 1rem; /* Adjust padding for smaller screens */
+    padding: 5rem 1rem; 
   }
 
   .content {
-    padding: 1rem; /* Adjust padding for smaller screens */
+    padding: 1rem;
   }
 
   p {
-    font-size: 1rem; /* Adjust paragraph font size for smaller screens */
+    font-size: 1rem; 
   }
 }
 
 @media (max-width: 480px) {
   .content {
     max-width: 100%;
-    padding: 1rem; /* Adjust padding for very small screens */
+    padding: 1rem; 
   }
 
   h1 {
-    font-size: 1.5rem; /* Adjust heading size for smaller screens */
+    font-size: 1.5rem; 
   }
 
   .aboutUsSection {
-    padding: 7rem 1rem; /* Adjust padding for very small screens */
+    padding: 7rem 1rem; 
   }
 
   p {
-    margin-top: 1rem; /* Adjust paragraph margin for very small screens */
+    margin-top: 1rem; 
   }
 
-  .content img{
-    width: 70%;
+  .content img {
+   width: 80%;
   }
+
 }

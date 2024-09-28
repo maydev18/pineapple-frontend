@@ -70,7 +70,10 @@ const Header = () => {
               onClick={() => {logout()}}
               >
                 <button onClick={() => { login(); } } className={styles.signinbutton}>
-                 WELCOME {localStorage.getItem('name')}
+                 <div className={styles.signinbuttontext}>
+                  <p> <strong>WELCOME</strong></p> 
+                  <p>{localStorage.getItem('name')}</p>
+                 </div>
                 </button>
               </div>
             ) : (

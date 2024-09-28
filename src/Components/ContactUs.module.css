@@ -48,6 +48,14 @@
   margin-top: 2rem;
 }
 
+.contactDetails p{
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #f0e5d8;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
 @media (max-width: 768px) {
   .headingContact {
     font-size: 2.5rem;
