@@ -9,67 +9,33 @@
   font-family: "Outfit", sans-serif;
   font-weight: 400;
   text-shadow: 3px 3px black;
-  font-size: 3.75rem; /* Adjusted to be more responsive */
+  font-size: 3.75rem; /* Scales for larger screens */
   color: #ffebd2;
   padding-bottom: 2rem;
   text-decoration: none;
-  text-align: center;
 }
 
-.circles {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap; /* Make the circles wrap to new lines */
-}
-
-.circle {
-  background-color: beige;
-  width: 14vw; /* Responsive width based on viewport */
-  height: 14vw; /* Make height same as width for perfect circles */
-  max-width: 148px;
-  max-height: 148px;
-  
-  border-radius: 50%;
+.image {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
-.circle img {
-  width: 100%;
+.image img {
+  width: 30vw; /* Responsive width */
   height: auto;
+  max-width: 900px; /* Set max width to limit image size */
+  
 }
 
-.contactDetails {
-  font-size: 1.2rem;
-  margin-top: 2rem;
-}
-
-.contactDetails p{
-  font-family: "Outfit", sans-serif;
-  font-weight: 500;
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: #f0e5d8;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-}
 @media (max-width: 768px) {
   .headingContact {
     font-size: 2.5rem;
   }
 
-  .circles {
-    gap: 1rem;
-  }
-
-  .circle {
-    width: 25vw;
-    height: 25vw;
-    max-width: 120px;
-    max-height: 120px;
+  .image img {
+    width: 90vw;
+    max-width: 800px;
   }
 }
 
@@ -78,14 +44,8 @@
     font-size: 1.75rem;
   }
 
-  .circle {
-    width: 35vw;
-    height: 35vw;
-    max-width: 100px;
-    max-height: 100px;
-  }
-
-  .contactDetails {
-    font-size: 1rem;
+  .image img {
+    width: 90vw;
+    max-width: 800px;
   }
 }

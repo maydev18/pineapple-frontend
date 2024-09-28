@@ -11,15 +11,6 @@
   width: 100%;
  
 }
-
-
-p {
-  color: black;
-  margin-bottom: 12px;
-  text-align: center;
-  font-size: 10px;
-}
-
 .checkoutContent {
   flex: 3;
 }

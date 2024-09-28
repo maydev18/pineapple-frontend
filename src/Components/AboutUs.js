@@ -9,8 +9,7 @@ const AboutUs = () => {
     <div className={styles.aboutUsSection} style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className={styles.content}>
         <FadeInComponent>
-        {/* <h3 className="sub-heading">about us</h3>
-        <h1 className={styles.heading}>WHO WE ARE</h1> */}
+       
          <img src={title}/>
 
         <p>

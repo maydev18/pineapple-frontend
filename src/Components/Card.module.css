@@ -67,6 +67,14 @@
   text-decoration: none;
 }
 
+.cardPrice span{
+  text-decoration: line-through;
+  color: red;
+  font-size: 17px;
+  font-weight: 300;
+  padding: 4px;
+}
+
 .cardDescription {
   font-size: 14px;
   color: white;

@@ -32,7 +32,7 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor, allSize
         )}
       </div>
       <h2 className={styles.cardTitle} style={{ color: titleColor, textAlign: 'center', fontWeight: 400 }}>{title}</h2>
-      <p className={styles.cardPrice} style={{ color: priceColor }}>INR {price}</p>
+      <p className={styles.cardPrice} style={{ color: priceColor }}>  <span>₹ {2 * price}</span>  INR {price}</p>
     </div>
   );
 };

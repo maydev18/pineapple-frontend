@@ -145,13 +145,6 @@
   background-color: #e0e0e0;
 }
 
-span, p {
-  color: black;
-}
-
-p {
-  font-size: 20px;
-}
 
 .ButtonClass {
   display: flex;
@@ -173,6 +166,10 @@ p {
   align-items: center;
   justify-items: right;
   text-decoration: none;
+}
+
+.noAddresses p{
+  text-align: center;
 }
 
 .selected {

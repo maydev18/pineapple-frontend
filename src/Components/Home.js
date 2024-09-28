@@ -20,7 +20,7 @@ const Hero = () => {
           <div className={classes.typedText}>
             <p>We, at PINEAPPLE, redefine modern fashion with a blend of quiet confidence and bold expression. Embrace a style that speaks subtly yet leaves a lasting impression.
               </p>
-              <p>Check out our collection now!</p>
+              <p><strong>Check out our collection now!</strong></p>
           </div>
           <div className={classes.heroButtons}>
            
