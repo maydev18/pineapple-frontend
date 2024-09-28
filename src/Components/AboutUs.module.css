@@ -46,9 +46,13 @@
     padding: 1rem;
   }
 
-  p {
-    font-size: 1rem; 
+  .content p {
+    font-size: 2rem; 
   }
+
+  .content img {
+    width: 80%;
+   }
 }
 
 @media (max-width: 480px) {
@@ -65,8 +69,9 @@
     padding: 7rem 1rem; 
   }
 
-  p {
+  .content p {
     margin-top: 1rem; 
+    font-size: 15px;
   }
 
   .content img {

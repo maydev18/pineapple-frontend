@@ -76,7 +76,7 @@ const Product = () => {
                     price={product.price}
                     titleColor="black"
                     priceColor="black"
-                    allSizesOutOfStock={allSizesOutOfStock}  // Updated this prop
+                    allSizesOutOfStock={allSizesOutOfStock}  
                   />
                 </Link>
               );
