@@ -23,7 +23,7 @@ const ContactUs = () => {
             <div className={classes.contactDetails}>
                 <p>For any inquiries, feel free to contact us at:</p>
                 <p><strong>Email:</strong> pineappleindiaofficial@gmail.com</p>
-                <p><strong>Phone:</strong>+91 9911501073</p>
+                <p><strong>Phone:</strong>+91 8447375001</p>
             </div>
             
         </section>

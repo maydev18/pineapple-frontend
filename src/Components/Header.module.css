@@ -140,7 +140,7 @@
 .signinbutton {
   cursor: pointer;
   position: relative;
-  padding: 10px 14px;
+  padding: 8px 12px;
   font-size: 1rem;
   border-radius: 30px;
   background-color: whitesmoke;
@@ -207,26 +207,6 @@
   }
 }
 
-@media (max-width: 480px) {
-  .signinbutton,.profileDisplay {
-    padding: 10px 5px;
-    font-size: 0.7rem;
-   
-  }
-
-  .profileDisplaytext{
-    font-size: 0.7rem;
-  }
-
-  .signinbutton:hover::before {
-    scale: 6; 
-  }
-
-  .signinbutton:hover {
-    scale: 1.05; 
-  }
-}
-
 @media (max-width: 768px) {
   .logo img {
     height: 60px;
@@ -236,7 +216,25 @@
 @media (max-width: 480px) {
   .logo img {
     height: 50px;
-        width: 160px;
+    width: 180px;  
+    padding-right: 20px;
+  }
+
+  .signinbutton {
+    padding: 10px 5px;
+    font-size: 0.7rem;
+   
+  }
+
+  .signinbuttontext p{
+    font-size: 0.7rem;
+  }
+  .signinbutton:hover::before {
+    scale: 6; 
+  }
+
+  .signinbutton:hover {
+    scale: 1.05; 
   }
 }
 }
@@ -261,4 +259,13 @@
   color: #000;
   font-size: 12px;
   margin: 0;
+}
+
+.signinbuttontext p{
+  font-size: 0.8rem;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  text-transform: uppercase;
 }

@@ -13,7 +13,6 @@ export const CartProvider = ({children}) => {
     const {showError} = useError();
     const fetchCart = async () => {
         try{
-            console.log("fetched cart");
             const res = await fetch(`${process.env.REACT_APP_BASE_URL}cart`, {
                 headers: {
                 Authorization: 'bearer ' + token,

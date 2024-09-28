@@ -67,8 +67,11 @@ const Header = () => {
           {
             isLoggedIn ? (
               <div>
-                <button className={styles.signedinbutton}>
-                  WELCOME {localStorage.getItem('name')}
+                <button className={styles.signinbutton}>
+                 <div className={styles.signinbuttontext}>
+                  <p> <strong>WELCOME</strong></p> 
+                  <p>{localStorage.getItem('name')}</p>
+                 </div>
                 </button>
               </div>
             ) : (

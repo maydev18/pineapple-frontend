@@ -33,8 +33,6 @@ const Hero = () => {
         </div>
         
       </div> 
-    
- 
       <ProductsShowcase />
       <AboutUs />
       <ContactUs />
