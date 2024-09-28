@@ -20,7 +20,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
     try{
       setIsSubmitting(true);
       event.preventDefault();
-      const res = await fetch('http://localhost:8080/post-review', {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}post-review`, {
         method: 'post',
         headers : {
           "Authorization" : 'bearer ' + token,

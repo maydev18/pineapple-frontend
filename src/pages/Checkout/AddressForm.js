@@ -33,7 +33,7 @@ const AddressForm = ({updateSelectedAddress}) => {
         const getAddresses = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch("http://localhost:8080/get-addresses", {
+                const res = await fetch(`${process.env.REACT_APP_BASE_URL}get-addresses`, {
                     headers: {
                         'Authorization': 'bearer ' + token
                     }
@@ -63,7 +63,7 @@ const AddressForm = ({updateSelectedAddress}) => {
     const handleAddAddress = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch("http://localhost:8080/add-address", {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}add-address`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'bearer ' + token,
@@ -100,7 +100,7 @@ const AddressForm = ({updateSelectedAddress}) => {
     const handleEditAddress = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:8080/edit-address', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}edit-addres`, {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
@@ -139,7 +139,7 @@ const AddressForm = ({updateSelectedAddress}) => {
     const handleDeleteAddress = async (id) => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:8080/delete-address', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}delete-address`, {
                 method: 'delete',
                 body: JSON.stringify({ addressID: id }),
                 headers: {

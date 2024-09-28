@@ -14,7 +14,7 @@ export const CartProvider = ({children}) => {
     const fetchCart = async () => {
         try{
             console.log("fetched cart");
-            const res = await fetch('http://localhost:8080/cart', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}cart`, {
                 headers: {
                 Authorization: 'bearer ' + token,
                 },
@@ -42,7 +42,7 @@ export const CartProvider = ({children}) => {
             if(!isLoggedIn){
                 return showError("Please login to continue ahead");
             }
-            const res = await fetch('http://localhost:8080/add-to-cart', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}add-to-cart`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export const CartProvider = ({children}) => {
             if(!isLoggedIn){
                 return await login();
             }
-            const res = await fetch('http://localhost:8080/delete-from-cart' , {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}delete-from-cart` , {
                 method : "post",
                 headers : {
                     'Content-Type': 'application/json',
