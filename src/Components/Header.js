@@ -69,12 +69,12 @@ const Header = () => {
               <div 
               onClick={() => {logout()}}
               >
-                <button onClick={() => { login(); } } className={styles.signinbutton}>
+                {/* <button onClick={() => { login(); } } className={styles.signinbutton}> */}
                  <div className={styles.signinbuttontext}>
                   <p> <strong>WELCOME</strong></p> 
-                  <p>{localStorage.getItem('name')}</p>
+                  <p>{localStorage.getItem('name')}!</p>
                  </div>
-                </button>
+                {/* </button> */}
               </div>
             ) : (
               <>

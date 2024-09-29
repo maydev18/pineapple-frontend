@@ -183,7 +183,18 @@
   scale: 1;
 }
 
-
+.signinbuttontext p{
+  font-size: 1rem;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
 @media (max-width: 768px) {
   .signinbutton, .profileDisplay {
     padding: 10px 10px;
@@ -198,24 +209,25 @@
 @media (max-width: 768px) {
   .logo img {
     height: 60px;
-        width: 200px;
+    width: 240px;
 }
 
 @media (max-width: 480px) {
   .logo img {
-    height: 50px;
-    width: 180px;  
+    height: 70px;
+    width: 230px;
     padding-right: 20px;
+    bottom: 12px;
   }
 
   .signinbutton {
-    padding: 10px 5px;
-    font-size: 0.7rem;
-   
+    padding: 2px;
+            font-size: 0.8rem;
+            margin: 0;
+            width: 19vw;
   }
-
   .signinbuttontext p{
-    font-size: 0.7rem;
+    font-size: 12px;
   }
   .signinbutton:hover::before {
     scale: 6; 
@@ -249,11 +261,3 @@
   margin: 0;
 }
 
-.signinbuttontext p{
-  font-size: 0.8rem;
-  color: #000;
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-  text-transform: uppercase;
-}

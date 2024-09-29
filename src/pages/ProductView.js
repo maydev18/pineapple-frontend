@@ -175,11 +175,12 @@ const ProductPage = () => {
             </Accordion.Item>
 
             <Accordion.Item eventKey="3" className={classes.accordionItem}>
-              <Accordion.Header className={classes.accordionHeader}>Shipping & Returns</Accordion.Header>
+              <Accordion.Header className={classes.accordionHeader}>Shipping & Exchange</Accordion.Header>
               <Accordion.Body className={classes.accordionBody}>
                 <ul>
-                  <li>Free shipping on orders over INR 1000.</li>
-                  <li>Easy returns within 30 days of purchase.</li>
+                  <li>Delivery charge of ₹100 will be levied on COD</li>
+                  <li>free delivery for online transactions</li>
+                  <li>Easy exchange within 4 days of purchase.</li>
                 </ul>
               </Accordion.Body>
             </Accordion.Item>

@@ -102,8 +102,10 @@
 
 @media (max-width: 480px) {
   .card {
-    max-width: 100%; /* Full width on extra-small screens */
-    padding: 8px; /* Reduced padding for very small screens */
+    max-width: 100%;
+    padding: 8px;
+    margin-bottom: 25px;
+    
   }
 
   .cardTitle {

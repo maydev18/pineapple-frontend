@@ -244,42 +244,15 @@ font-size: 17px;
 
 
 
-
-
-.customerReview {
-  position: fixed;
-  color: #000;
-} 
-
-.reviewInput{
-  margin-left: 2rem;
-  margin-top: 0;
-  padding: 0 ;
-  align-items: left;
-  color: black;
-  display: flex;
-  flex-direction: column;
-
-  
-}
-
-.reviewInput h3{
-  font-size: 30px;
-}
-
 .CustomerReviews{
-  padding: 6rem;
+  padding: 2rem;
   display: flex;
  
   align-items: center;
   justify-content: center;
   
 }
-.customerReviewscard{
- 
-  width: 60vw;
- 
-}
+
 
 .reviewSection h3, .CustomerReviews h3 {
   font-family: "outfit", sans-serif;
@@ -305,7 +278,6 @@ font-size: 17px;
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
   text-align: left; 
-
 }
 
 .alignCard{
@@ -328,7 +300,7 @@ font-size: 17px;
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  
+
 }
 
 .reviewForm textarea {
@@ -358,7 +330,7 @@ font-size: 17px;
 .ReviewBar{
   display: flex;
   flex-direction: column;
-  width: 50vh;
+  width: 40vh;
   margin-bottom: 1rem;
   margin-top: 2rem;
 
