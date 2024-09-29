@@ -51,13 +51,8 @@ const Checkout = () => {
                 "handler": async function (response) {
                     createOrder(response);
                 },
-                "prefill": {
-                    "name": "Mayank Sharma",
-                    "email": "ms772254@gmail.com",
-                    "contact": "8750355389"
-                },
                 "theme": {
-                    "color": "#3399cc"
+                    "color": "#0E201D"
                 }
             };
             var rzp1 = new window.Razorpay(options);
