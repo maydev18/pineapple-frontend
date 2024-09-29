@@ -1,18 +1,17 @@
 import React from 'react';
 import { Collapse, Form, Card, Spinner } from 'react-bootstrap';
 import classes from './Checkout.module.css';
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useError } from '../../context/ErrorContext';
 import { Icon } from '@iconify/react';
 import editIcon from '@iconify-icons/mdi/pencil';
 import deleteIcon from '@iconify-icons/mdi/trash-can';
 import { useAuth } from '../../context/AuthContext';
-import { color } from 'framer-motion';
-const AddressForm = ({updateSelectedAddress}) => {
-    const {token} = useAuth();
+const AddressForm = ({ updateSelectedAddress }) => {
+    const { token } = useAuth();
     const [savedAddresses, setAddresses] = useState([]);
-    const [isloading , setIsLoading] = useState(false);
-    const [selectedAddress , setSelectedAddress] = useState(null);
+    const [isloading, setIsLoading] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState(null);
     const [addressFields, setAddressFields] = useState({
         fullName: '',
         phone: '',
@@ -23,17 +22,17 @@ const AddressForm = ({updateSelectedAddress}) => {
         city: '',
         pincode: '',
         landmark: '',
-        addressID : ''
+        addressID: ''
     });
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isAddOpen, setIsAddOpen] = useState(false);
-    const {showError} = useError();
+    const { showError } = useError();
 
     useEffect(() => {
         const getAddresses = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch("http://localhost:8080/get-addresses", {
+                const res = await fetch(`${process.env.REACT_APP_BASE_URL}get-addresses`, {
                     headers: {
                         'Authorization': 'bearer ' + token
                     }
@@ -47,7 +46,7 @@ const AddressForm = ({updateSelectedAddress}) => {
             } catch (err) {
                 showError(err.message, 'danger');
             }
-            finally{
+            finally {
                 setIsLoading(false);
             }
         };
@@ -63,7 +62,7 @@ const AddressForm = ({updateSelectedAddress}) => {
     const handleAddAddress = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch("http://localhost:8080/add-address", {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}add-address`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'bearer ' + token,
@@ -87,20 +86,20 @@ const AddressForm = ({updateSelectedAddress}) => {
                 pincode: '',
                 landmark: '',
                 email: '',
-                addressID : ''
+                addressID: ''
             });
             setIsAddOpen(false);
         } catch (err) {
             showError(err.message, 'danger');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
     const handleEditAddress = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:8080/edit-address', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}edit-address`, {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
@@ -124,7 +123,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                 pincode: '',
                 landmark: '',
                 email: '',
-                addressID : ''
+                addressID: ''
             });
             setAddresses(savedAddresses.map(address =>
                 address._id === updatedAddress._id ? updatedAddress : address
@@ -132,14 +131,14 @@ const AddressForm = ({updateSelectedAddress}) => {
         } catch (err) {
             showError(err.message, 'danger');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
     const handleDeleteAddress = async (id) => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:8080/delete-address', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}delete-address`, {
                 method: 'delete',
                 body: JSON.stringify({ addressID: id }),
                 headers: {
@@ -155,7 +154,7 @@ const AddressForm = ({updateSelectedAddress}) => {
         } catch (err) {
             showError("Failed to delete the address", 'danger');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
@@ -170,9 +169,10 @@ const AddressForm = ({updateSelectedAddress}) => {
             pincode: address.pincode,
             landmark: address.landmark,
             email: address.email,
-            addressID : address._id
+            addressID: address._id
         });
         setIsEditOpen(!isEditOpen);
+        updateSelectedAddress(address._id);
         setIsAddOpen(false);
         setSelectedAddress(address._id);
     }
@@ -187,7 +187,7 @@ const AddressForm = ({updateSelectedAddress}) => {
             pincode: "",
             landmark: "",
             email: "",
-            addressID : ""
+            addressID: ""
         });
         setIsAddOpen(true);
         setIsEditOpen(false);
@@ -199,128 +199,127 @@ const AddressForm = ({updateSelectedAddress}) => {
     return (
         <div>
             {savedAddresses.length > 0 ? (
-                savedAddresses.map((address , index) => (
-                    <>
-                     
-                    <Card className={classes.savedAddresscard} key={index}>
-                        <Card.Body>
-                            <Form.Check
-                                type='radio'
-                                name='address'
-                                checked={selectedAddress === address._id}
-                                onChange={() => handleAddressesChecked(address._id)}
-                                label={<div className={classes.savedAddresses}>
-                                    <div className={classes.savedAddress}>
-                                        <div>
-                                            <h5>{address.fullName}</h5>
-                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>{address.firstLine + " " + address.secondLine}, {address.state}, {address.city} - {address.pincode}</p>
-                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Landmark: {address.landmark}</p>
-                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Phone: {address.phone}</p>
-                                            <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Email: {address.email}</p>
-                                        </div>
-                                       
+                savedAddresses.map((address, index) => (
+                    <div key={address._id}>
+                        <Card className={classes.savedAddresscard} key={address._id}>
+                            <Card.Body>
+                                <Form.Check
+                                    type='radio'
+                                    name='address'
+                                    checked={selectedAddress === address._id}
+                                    onChange={() => handleAddressesChecked(address._id)}
+                                    label={<div className={classes.savedAddresses}>
+                                        <div className={classes.savedAddress}>
+                                            <div>
+                                                <h5>{address.fullName}</h5>
+                                                <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>{address.firstLine + " " + address.secondLine}, {address.state}, {address.city} - {address.pincode}</p>
+                                                <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Landmark: {address.landmark}</p>
+                                                <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Phone: {address.phone}</p>
+                                                <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" , textTransform: "lowercase" }}>Email: {address.email}</p>
+                                            </div>
 
-                                    </div>
-                                </div>} />
-                            <Collapse in={selectedAddress === address._id && isEditOpen}>
-                                <div style={{marginTop: '20px'}}>
-                                     <div className={classes.floatingLabel}>
-                                        <label htmlFor="name">Full Name <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            value={addressFields.fullName}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="phone">Phone <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="phone"
-                                            value={addressFields.phone}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="email">Email <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            value={addressFields.email}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="firstLine">Address Line 1 <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="firstLine"
-                                            value={addressFields.firstLine}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="secondLine">Address Line 2 <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="secondLine"
-                                            value={addressFields.secondLine}
-                                            onChange={handleInputChange}
-                                            placeholder=" " />
-                                        <label htmlFor="state">State</label>
-                                        <input
-                                            type="text"
-                                            name="state"
-                                            value={addressFields.state}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="city">City <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="city"
-                                            value={addressFields.city}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="pincode">Pin code <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="pincode"
-                                            value={addressFields.pincode}
-                                            onChange={handleInputChange}
-                                            placeholder=" "
-                                            required />
-                                        <label htmlFor="landmark">Landmark <span style={{color: 'red'}}>*</span></label>
-                                        <input
-                                            type="text"
-                                            name="landmark"
-                                            value={addressFields.landmark}
-                                            onChange={handleInputChange}
-                                            placeholder=" " />
-                                        <div className={classes.ButtonClass}>
-                                            {isloading ? <Spinner /> :
-                                                <button onClick={handleEditAddress} className={classes.addAddressButton}>
-                                                    Save Changes
-                                                </button>}
-                                            <button onClick={() => { setIsEditOpen(false); } } className={classes.addAddressButton}>
-                                                Cancel
-                                            </button>
+
+                                        </div>
+                                    </div>} />
+                                <Collapse in={selectedAddress === address._id && isEditOpen}>
+                                    <div style={{ marginTop: '20px' }}>
+                                        <div className={classes.floatingLabel}>
+                                            <label htmlFor="name">Full Name <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="fullName"
+                                                value={addressFields.fullName}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="phone">Phone <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="phone"
+                                                value={addressFields.phone}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="email">Email <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                value={addressFields.email}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="firstLine">Address Line 1 <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="firstLine"
+                                                value={addressFields.firstLine}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="secondLine">Address Line 2 <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="secondLine"
+                                                value={addressFields.secondLine}
+                                                onChange={handleInputChange}
+                                                placeholder=" " />
+                                            <label htmlFor="state">State</label>
+                                            <input
+                                                type="text"
+                                                name="state"
+                                                value={addressFields.state}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="city">City <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="city"
+                                                value={addressFields.city}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="pincode">Pin code <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="pincode"
+                                                value={addressFields.pincode}
+                                                onChange={handleInputChange}
+                                                placeholder=" "
+                                                required />
+                                            <label htmlFor="landmark">Landmark <span style={{ color: 'red' }}>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="landmark"
+                                                value={addressFields.landmark}
+                                                onChange={handleInputChange}
+                                                placeholder=" " />
+                                            <div className={classes.ButtonClass}>
+                                                {isloading ? <Spinner /> :
+                                                    <button onClick={handleEditAddress} className={classes.addAddressButton}>
+                                                        Save Changes
+                                                    </button>}
+                                                <button onClick={() => { setIsEditOpen(false); }} className={classes.addAddressButton}>
+                                                    Cancel
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Collapse>
-                        </Card.Body>
-                    </Card>
-                    <div className={classes.iconButtonsContainer}>
-                        <button className={classes.addressbuttons} onClick={() => handleEditClick(address)}>
-                            <Icon icon={editIcon} />
-                        </button>
-                        {isloading ? <Spinner /> : 
-                        <button className={classes.addressbuttons} onClick={() => handleDeleteAddress(address._id)}>
-                            <Icon icon={deleteIcon} />
-                        </button>}
+                                </Collapse>
+                            </Card.Body>
+                        </Card>
+                        <div className={classes.iconButtonsContainer}>
+                            <button className={classes.addressbuttons} onClick={() => handleEditClick(address)}>
+                                <Icon icon={editIcon} />
+                            </button>
+                            {isloading ? <Spinner /> :
+                                <button className={classes.addressbuttons} onClick={() => handleDeleteAddress(address._id)}>
+                                    <Icon icon={deleteIcon} />
+                                </button>}
+                        </div>
+
+
                     </div>
-                 
-                   
-</>
                 ))
             ) : (
                 <div className={classes.noAddresses}>
@@ -338,10 +337,10 @@ const AddressForm = ({updateSelectedAddress}) => {
                 )}
                 <Collapse in={isAddOpen}>
                     <div className={classes.floatingLabel}>
-                        
-                       
-                        <label htmlFor="name" >Full Name <span style={{color: 'red'}}>*</span></label>
-                       
+
+
+                        <label htmlFor="name" >Full Name <span style={{ color: 'red' }}>*</span></label>
+
                         <input
                             type="text"
                             name="fullName"
@@ -350,10 +349,10 @@ const AddressForm = ({updateSelectedAddress}) => {
                             placeholder=" "
                             required />
 
-                      
-                        <label htmlFor="name" >Phone <span style={{color: 'red'}}>*</span></label>
-                       
-                        
+
+                        <label htmlFor="name" >Phone <span style={{ color: 'red' }}>*</span></label>
+
+
                         <input
                             type="text"
                             name="phone"
@@ -361,9 +360,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                       
-                        <label htmlFor="name" >Email <span style={{color: 'red'}}>*</span></label>
-                       
+
+                        <label htmlFor="name" >Email <span style={{ color: 'red' }}>*</span></label>
+
                         <input
                             type="text"
                             name="email"
@@ -371,9 +370,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                     
-                        <label htmlFor="name" >Address Line 1 <span style={{color: 'red'}}>*</span></label>
-                       
+
+                        <label htmlFor="name" >Address Line 1 <span style={{ color: 'red' }}>*</span></label>
+
                         <input
                             type="text"
                             name="firstLine"
@@ -381,18 +380,18 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                       
-                        <label htmlFor="name" >Address Line 2 <span style={{color: 'red'}}>*</span></label>
-                       
+
+                        <label htmlFor="name" >Address Line 2 <span style={{ color: 'red' }}>*</span></label>
+
                         <input
                             type="text"
                             name="secondLine"
                             value={addressFields.secondLine}
                             onChange={handleInputChange}
                             placeholder=" " />
-                        
-                        <label htmlFor="name" >State <span style={{color: 'red'}}>*</span></label>
-                       
+
+                        <label htmlFor="name" >State <span style={{ color: 'red' }}>*</span></label>
+
                         <input
                             type="text"
                             name="state"
@@ -400,9 +399,9 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                       
-                        <label htmlFor="name" >City <span style={{color: 'red'}}>*</span></label>
-                      
+
+                        <label htmlFor="name" >City <span style={{ color: 'red' }}>*</span></label>
+
                         <input
                             type="text"
                             name="city"
@@ -410,7 +409,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="pincode">Pin code <span style={{color: 'red'}}>*</span></label>
+                        <label htmlFor="pincode">Pin code <span style={{ color: 'red' }}>*</span></label>
                         <input
                             type="text"
                             name="pincode"
@@ -418,7 +417,7 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="landmark">Landmark <span style={{color: 'red'}}>*</span> </label>
+                        <label htmlFor="landmark">Landmark <span style={{ color: 'red' }}>*</span> </label>
                         <input
                             type="text"
                             name="landmark"
@@ -426,10 +425,10 @@ const AddressForm = ({updateSelectedAddress}) => {
                             onChange={handleInputChange}
                             placeholder=" " />
                         <div className={classes.ButtonClass}>
-                            {isloading ? <Spinner /> :  
-                            <button
-                                onClick={handleAddAddress}
-                                className={classes.addAddressButton}> Save Address </button>
+                            {isloading ? <Spinner /> :
+                                <button
+                                    onClick={handleAddAddress}
+                                    className={classes.addAddressButton}> Save Address </button>
                             }
                             <button
                                 className={classes.addAddressButton}

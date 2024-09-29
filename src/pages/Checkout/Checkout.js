@@ -21,7 +21,7 @@ const Checkout = () => {
     const {token} = useAuth();
     const[isloading , setIsLoading] = useState(false);
     const generateOrderId = async() => {
-        const res = await fetch('http://localhost:8080/checkout' , {
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}checkout` , {
             headers : {
                 'Authorization' : 'Bearer ' + token
             }
@@ -83,7 +83,7 @@ const Checkout = () => {
                 addressID: checkoutDetails.addressID,
                 method: checkoutDetails.methodOfPayment
             };
-            const res = await fetch('http://localhost:8080/create-order', {
+            const res = await fetch(`${process.env.REACT_APP_BASE_URL}create-order`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
