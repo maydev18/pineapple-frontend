@@ -40,7 +40,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchReviews = async () => {
-      const res = await fetch(`http://localhost:8080/reviews/${productID}`);
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}reviews/${productID}`);
       let data = await res.json();
       data = data.reverse();
       setReviews(data);
@@ -106,7 +106,7 @@ const ProductPage = () => {
                   </button>
                   <p className={classes.stockInfo} style={{ color: 'red', fontSize: '15px', fontWeight: '400' }}>
                     {product[getFullSize(size)] === 0 ? 'Out of Stock' : (
-                      product[getFullSize(size)] <= 5 ? product[getFullSize(size)] : ""
+                      product[getFullSize(size)] <= 5 ? product[getFullSize(size)] + " left" : ""
                     )
                     }
                   </p>

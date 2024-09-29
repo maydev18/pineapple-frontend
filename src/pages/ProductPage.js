@@ -17,7 +17,7 @@ const Product = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:8080/products?page=${currentPage}`);
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}products?page=${currentPage}`);
       if (!response.ok) {
         const err = await response.json();
         throw err;

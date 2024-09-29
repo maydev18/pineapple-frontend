@@ -10,7 +10,7 @@ const OrdersPage = () => {
   
   async function orderLoader() {
     try {
-      const res = await fetch('http://localhost:8080/orders', {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}orders`, {
         headers: {
           'Authorization': 'bearer ' + token
         }

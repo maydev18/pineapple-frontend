@@ -151,6 +151,18 @@
   overflow: hidden;
   
 }
+.signedinbutton {
+  cursor :default;
+  position: relative;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 30px;
+  background-color: whitesmoke;
+  color: var(--green);
+  border: 2px solid white;
+  font-weight: 500;
+  overflow: hidden;
+}
 
 .signinbutton::before {
   content: '';

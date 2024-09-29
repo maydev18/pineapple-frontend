@@ -30,7 +30,7 @@ const Footer = () => {
           <ul>
             <li><Link to="/terms">terms and conditions</Link></li>
             <li> <p>For any inquiries, feel free to contact us at:</p>
-                <p style={{textTransform:"none"}}>pineappleindiaofficial@gmail.com  +91 9911501073</p></li>
+                <p style={{textTransform:"none"}}>pineappleindiaofficial@gmail.com  +91 8447375001</p></li>
                
           </ul>
         </div>
