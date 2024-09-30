@@ -7,6 +7,7 @@ import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { Spinner } from 'react-bootstrap';
 
 const sidebarVariants = {
   open: {
@@ -46,7 +47,7 @@ const Header = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  const {isLoggedIn , login , logout} = useAuth();
+  const {isLoggedIn , login , logout , isLoading} = useAuth();
   return (
     <>
       <header className={styles.header}>
@@ -69,27 +70,26 @@ const Header = () => {
                     <div className={styles.userContainer}>
                       <div className={styles.userImageContainer}>
                         <img 
-                          src={'https://placehold.co/600x400'} 
+                          src={localStorage.getItem("photo")} 
                           alt="User" 
                           className={styles.userImage} 
                         />
                         <div className={styles.userDropdown}>
-                          <p className={styles.userName}>Ravleen Kaur</p>
+                          <p className={styles.userName}>{localStorage.getItem("name")} </p>
                           <div>
-                          <p className={styles.userDetails}>ravkaurbaani@gmail.com</p>
-                          <p className={styles.userDetails}>99108774895</p>
+                          <p className={styles.userDetails}>{localStorage.getItem("email")}</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <button onClick={() => { login(); }} className={styles.signinbutton}>
-                      <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
-                    </button>
+                    isLoading ? <Spinner/> : (
+                      <button onClick={() => { login(); }} className={styles.signinbutton}>
+                        <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
+                      </button>
+                    )
                   )
                 }
-
-
           <div className={styles.signinbutton}>
           <div onClick={() => { openCart() }} className={styles.cartIconContainer}>
             <Icon icon="ic:baseline-shopping-bag" width="30" height="24" color='#0E201D' />CART

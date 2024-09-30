@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
     const [user , setUser] = useState(null);
+    const [isLoading , setIsLoading] = useState(false);
     useEffect(() => {
         setInitialAuthState();
         if(!isTokenValid() && user){
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     } , [user]);
     const authenticate = async () => {
         try {
+            setIsLoading(true);
             const res = await fetch(process.env.REACT_APP_BASE_URL + 'auth/authenticate', {
                 headers: {
                     'content-type': "application/json"
@@ -31,13 +33,16 @@ export const AuthProvider = ({ children }) => {
                 throw err;
             }
             const details = await res.json();
-            saveDetails(details.token , details.name);
+            saveDetails(details.token , details.name , user.photoURL , user.email);
             setIsLoggedIn(true);
             setToken(details.token);
-            showError('Logged in successfully', 'success');
+            // showError('Logged in successfully', 'success');
         }
         catch (err) {
             showError(err);
+        }
+        finally{
+            setIsLoading(false);
         }
     }
     async function login(){
@@ -61,6 +66,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('expiration');
         localStorage.removeItem('name');
+        localStorage.removeItem('photo');
+        localStorage.removeItem('email');
         setIsLoggedIn(false);
         setUser(null);
         setToken(null);
@@ -89,19 +96,23 @@ export const AuthProvider = ({ children }) => {
         if(duration <= 0){
             localStorage.removeItem('token');
             localStorage.removeItem('expiration');
+            localStorage.removeItem('name');
+            localStorage.removeItem('photo');
+            localStorage.removeItem('email');
         }
         return duration;
     }
-    function saveDetails(token , name){
+    function saveDetails(token , name , photo , email){
         localStorage.setItem("token" , token);
         localStorage.setItem("name" , name);
         const expiration = new Date();
         expiration.setDate(expiration.getDate() + 30);
         localStorage.setItem('expiration' , expiration.toISOString());
-        localStorage.setItem("expiration" , expiration);
+        localStorage.setItem("photo" , photo);
+        localStorage.setItem("email" , email);
     }
     return (
-        <AuthContext.Provider value={{ logout, isLoggedIn , login , token}}>
+        <AuthContext.Provider value={{ logout, isLoggedIn , login , token , isLoading}}>
             {children}
         </AuthContext.Provider>
     );
