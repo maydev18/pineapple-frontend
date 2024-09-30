@@ -63,26 +63,37 @@ const Header = () => {
           </div>
          
         </Link>
-        <div className={styles.navigationIcons}>
-          {
-            isLoggedIn ? (
-              <div>
-               
-                 <div className={styles.signinbuttontext}>
-                  <p> <strong>WELCOME</strong></p> 
-                  <p>{localStorage.getItem('name')}!</p>
-                 </div>
-                
-              </div>
-            ) : (
-              <>
-              <button onClick={() => { login(); } } className={styles.signinbutton}>
-                  <Icon icon="mdi:user" width="30" height="24" color= '#0E201D' On/>SIGN IN
-                </button></>
-            )
-          }
-          <div onClick={() => { openCart() }} className={styles.signinbutton}>
+                  <div className={styles.navigationIcons}>
+                  {
+                  isLoggedIn ? (
+                    <div className={styles.userContainer}>
+                      <div className={styles.userImageContainer}>
+                        <img 
+                          src={'https://placehold.co/600x400'} 
+                          alt="User" 
+                          className={styles.userImage} 
+                        />
+                        <div className={styles.userDropdown}>
+                          <p className={styles.userName}>Ravleen Kaur</p>
+                          <div>
+                          <p className={styles.userDetails}>ravkaurbaani@gmail.com</p>
+                          <p className={styles.userDetails}>99108774895</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <button onClick={() => { login(); }} className={styles.signinbutton}>
+                      <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
+                    </button>
+                  )
+                }
+
+
+          <div className={styles.signinbutton}>
+          <div onClick={() => { openCart() }} className={styles.cartIconContainer}>
             <Icon icon="ic:baseline-shopping-bag" width="30" height="24" color='#0E201D' />CART
+          </div>
           </div>
         </div>
       </header>
