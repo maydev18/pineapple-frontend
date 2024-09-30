@@ -78,8 +78,9 @@
 
 @media (max-width: 480px) {
   .navigationIcons {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 5px;
+   
   }
 }
 
@@ -138,10 +139,11 @@
 }
 
 .signinbutton {
+ 
   cursor: pointer;
   position: relative;
   padding: 8px 12px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   border-radius: 30px;
   background-color: whitesmoke;
   color: var(--green);
@@ -149,19 +151,8 @@
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
   overflow: hidden;
+
   
-}
-.signedinbutton {
-  cursor :default;
-  position: relative;
-  padding: 10px 14px;
-  font-size: 1rem;
-  border-radius: 30px;
-  background-color: whitesmoke;
-  color: var(--green);
-  border: 2px solid white;
-  font-weight: 500;
-  overflow: hidden;
 }
 
 .signinbutton::before {
@@ -210,7 +201,7 @@
 @media (max-width: 768px) {
   .signinbutton, .profileDisplay {
     padding: 10px 10px;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .signinbutton:hover::before {
@@ -233,10 +224,11 @@
   }
 
   .signinbutton {
-    padding: 2px;
-            font-size: 0.8rem;
+    
+            font-size: 0.7rem;
             margin: 0;
-            width: 19vw;
+            width: 20vw;
+            padding: 2px;
   }
   .signinbuttontext p{
     font-size: 12px;
@@ -251,25 +243,127 @@
 }
 }
 
-.profileDisplay{
-  cursor: pointer;
-  position: relative;
-  padding: 7px 50px;
-  font-size: 1rem;
-  border-radius: 30px;
-  background-color: whitesmoke;
-  color: var(--green);
-  border: 2px solid white;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-  overflow: hidden;
-  border-radius: 10px solid black;
-
+.userContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.profileDisplaytext{
-  color: #000;
-  font-size: 12px;
+.userImageContainer {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid white;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.userImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.cartIconContainer {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  width: 100%;             /* Full width to allow proper centering */
+  height: 100%;
+  font-weight: 500;
+}
+
+.cartIcon {
+  font-size: 1.5rem;      /* Default size for larger screens */
+  cursor: pointer;
+  color: #fff;
+  transition: font-size 0.3s ease; /* Smooth size transition */
+ 
+}
+
+.userDropdown {
+  display: none;
+  position: absolute;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 5px 5px;
+  height: 8vh;
+  border-radius: 4px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  z-index: 10;
+  margin: 7px;
+ 
+}
+
+.userName {
+  color: #0E201D; /* Adjust the text color as needed */
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
   margin: 0;
 }
 
+
+.dropdownMenu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+.dropdownMenu li {
+  padding: 8px 12px;
+  color: #0E201D;
+  cursor: pointer;
+  
+}
+
+.dropdownMenu li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Show dropdown on hover */
+.userImageContainer:hover .userDropdown,
+.showDropdown {
+  display: block;
+ 
+}
+
+.userDetails{
+  font-size: 13px;
+  color: #818181;
+  text-align: center;
+  margin: 0;
+}
+
+/* Media query for tablets and smaller devices */
+@media (max-width: 768px) {
+  .cartIcon {
+    font-size: 1.2rem; /* Reduce size on tablets */
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+  .cartIcon {
+    font-size: 1rem; /* Further reduce size on mobile */
+  }
+
+  .signinbutton{
+    width: 50px;
+    height: 50px;
+    font-size: 0.5rem;
+  }
+
+  .cartIconContainer{
+  
+    display: flex;
+    flex-direction: column;
+  }
+
+  .userDropdown{
+    margin: 10px;
+  }
+}
