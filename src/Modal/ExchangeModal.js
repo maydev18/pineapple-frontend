@@ -33,8 +33,8 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
     setExchangeReasons(prevState => ({
       ...prevState,
       [index]: {
-        ...(prevState[index] || {}),  // Ensure to spread existing reasons
-        [reason]: !prevState[index]?.[reason]  // Toggle the selected reason
+        ...(prevState[index] || {}),  
+        [reason]: !prevState[index]?.[reason]  
       }
     }));
   };

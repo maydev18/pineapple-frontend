@@ -65,7 +65,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
         <div className={styles.modalHeading}>
           <Modal.Title className={styles.modalTitle}>Order Details</Modal.Title>
           <p style={{ marginLeft: '2rem', color: 'black', fontSize: '20px' }}>Order Id: {order.orderID}</p>
-          <div className={styles.modalStatus}>{order.completed ? 'Delivered' : 'Processing'}</div>
+          
         </div>
         <p>{order.date}</p>
       </Modal.Header>
@@ -87,7 +87,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
                       <p><strong>Price: </strong> ₹ {pro.price * pro.quantity}</p>
                     </div>
                   </div>
-                  {!pro.reviewed && order.completed && (
+                  {!pro.reviewed && order.status === 2 && (
                     <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index , )} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
                       Write a Review
                     </button>

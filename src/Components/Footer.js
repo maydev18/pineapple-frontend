@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
-
+import razorpayLogo from '../images/Razorpay_logo.webp'; 
+import shiprocketLogo from '../images/shiprocket_logo.png'; 
+import { Icon } from '@iconify/react';
 const Footer = () => {
   return (
     <div className={styles.footer}>
@@ -26,12 +28,15 @@ const Footer = () => {
         </div>
 
         <div className={styles.footerColumn}>
-          <h3>Quick link</h3>
+          <h3>Quick Link</h3>
           <ul>
-            <li><Link to="/terms">terms and conditions</Link></li>
-            <li> <p>For any inquiries, feel free to contact us at:</p>
-                <p style={{textTransform:"none"}}>pineappleindiaofficial@gmail.com</p></li>
-               
+            <li><Link to="/terms">Terms and Conditions</Link></li>
+            <li>
+              <p>For any inquiries, feel free to contact us at:</p>
+              <p style={{ textTransform: 'none' }}>
+                pineappleindiaofficial@gmail.com +91 8447375001
+              </p>
+            </li>
           </ul>
         </div>
 
@@ -39,10 +44,33 @@ const Footer = () => {
           <h3>Work Hours</h3>
           <p>7:00 am to 12:00pm<br />Monday to Saturday</p>
         </div>
+
+        <div className={styles.footerColumn}>
+          <h3>Delivery & Payment Partners</h3>
+          <div className={styles.partners}>
+            <div className={styles.partner}>
+              <img src={razorpayLogo} alt="Razorpay" className={styles.partnerLogo} />
+              <p>Razorpay</p>
+            </div>
+            <div className={styles.partner}>
+              <img src={shiprocketLogo} alt="Shiprocket" className={styles.partnerLogo} />
+              <p>Shiprocket</p>
+            </div>
+          </div>
+        </div>
       </div>
-      
+
       <div className={styles.footerBottom}>
-        <p>&copy; 2024 Pineapple | All rights reserved</p>
+        <p>&copy; 2024 Pineapple | All rights reserved</p> 
+        <p>Created by Mayank Sharma and Ravleen Kaur</p>
+        <div className={styles.socialMediaIcons}>
+                <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer" >
+                  <Icon icon="mdi:instagram" width="18" height="18" color='white' style={{margin: '0 6px'}}/>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61855791867340&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer" >
+                  <Icon icon="mdi:facebook" width="18" height="18" color='white' style={{margin: '0 6px'}}/>
+                </a>
+              </div>
       </div>
     </div>
   );

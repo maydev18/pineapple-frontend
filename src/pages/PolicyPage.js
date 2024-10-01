@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './PolicyPage.module.css';
-import { useError } from '../context/ErrorContext'; 
 
 const ReturnPolicy = () => {
   
