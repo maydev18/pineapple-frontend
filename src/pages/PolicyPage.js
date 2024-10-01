@@ -29,7 +29,7 @@ const ReturnPolicy = () => {
         Damaged product arrived/Wrong product received/Accessories Missing
       </h2>
       <p className={styles.policyText}>
-        If your order is <span className={styles.capitalized}>damaged</span>/<span className={styles.capitalized}>wrong</span>/<span className={styles.capitalized}>SIZE</span> issue, please raise a complaint within 24 business hours from the time of delivery.
+        If your order is <span className={styles.capitalized}>damaged</span>/<span className={styles.capitalized}>wrong</span>/<span className={styles.capitalized}>SIZE</span> issue, please raise a complaint within 4 days from the time of delivery.
       </p>
       <p className={styles.policyText}>
         You can email us at pineappleindiaofficial@gmail.com. We will need your order ID and a few images of the product to process the replacement or initiate a refund.

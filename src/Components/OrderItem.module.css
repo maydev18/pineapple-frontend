@@ -13,6 +13,8 @@
 .orderItem:hover{
   background: #d8d8d8;
 }
+
+
 .itemDetails {
   display: flex;
   align-items: center;

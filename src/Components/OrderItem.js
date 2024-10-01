@@ -15,6 +15,11 @@ const OrderItem = ({order}) => {
     if(!order.completed || daysFromDelivery >= 4 || order.exchanged) return false;
     return true;
   }
+  const getExchangeDate = () => {
+    const exchangeDate = new Date(order.deliveryDate);
+    exchangeDate.setDate(exchangeDate.getDate() + 4);
+    return exchangeDate.toLocaleDateString('en-GB');
+  }
   return (
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
@@ -23,18 +28,26 @@ const OrderItem = ({order}) => {
             Order Summary<span className={classes.arrow}></span>
           </button>
           <p><span>Order ID: </span>{order.orderID}</p>
-          <p><span>Order Date: </span>{new Date(order.time).toLocaleString()}</p>
+          <p><span>Order Date: </span>{new Date(order.time).toLocaleDateString('en-GB')}</p>
+          {
+            order.deliveryDate && <p><span>Delivery Date: </span>{new Date(order.deliveryDate).toLocaleDateString('en-GB')}</p>
+          }
           <p><span>Total Amount: ₹</span>{order.total}</p>
           <p style={{textTransform : 'capitalize'}}><span>Shipping Address: </span>{`${order.address.fullName}, ${order.address.firstLine}, ${order.address.secondLine}, ${order.address.city}, ${order.address.state}, ${order.address.landmark}`}</p>
           <p><span>Phone : </span>{order.address.phone}</p>
-          <p><span>Email : </span>{order.address.email}</p>      
-
+          <p><span>Email : </span>{order.address.email}</p>  
+          {
+            order.exchanged && <p>Exchange request raised</p>
+          }    
         </div>
       </div>
 
       <div className={classes.buttons}>
         {canExchange() && 
-          <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>
+          <div>
+            <button  className={classes.cancelButton} onClick={handleShowExchange}>Exchange</button>
+            <p>Exchange applicable till {getExchangeDate()}</p>
+          </div>
         }
       </div>
 

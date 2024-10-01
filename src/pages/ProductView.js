@@ -88,7 +88,7 @@ const ProductPage = () => {
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
           <p className={classes.productPrice}>
-            <span>₹ {2 * product.price}</span> ₹ {product.price} (Inc. of all tax)
+            <span>₹ {899}</span> ₹ {product.price} (Inc. of all tax)
           </p>
           <p className={classes.productDescription}>{product.description}</p>
 
@@ -221,7 +221,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className={classes.CustomerReviews}>
+      <div className={classes.CustomerReviews} id='reviews'>
         {reviews.length > 0 ? (
           <div className={classes.customerReviewscard}>
             <ul className={classes.reviewList}>
