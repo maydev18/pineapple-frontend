@@ -64,7 +64,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
         <div className={styles.modalHeading}>
           <Modal.Title className={styles.modalTitle}>Order Details</Modal.Title>
           <p style={{ marginLeft: '2rem', color: 'black', fontSize: '20px' }}>Order Id: {order.orderID}</p>
-          <div className={styles.modalStatus}>{order.completed ? 'Delivered' : 'Processing'}</div>
+          
         </div>
         <p>{order.date}</p>
       </Modal.Header>

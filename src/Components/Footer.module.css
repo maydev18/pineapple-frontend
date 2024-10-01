@@ -12,13 +12,13 @@
 }
 
 .footerColumn {
-  max-width: 200px;
+  max-width: 250px; /* Increased max width for more room */
 }
 
 .footerColumn h3 {
   font-family: "Outfit", sans-serif;
   font-size: 1.6rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem; /* Slightly larger margin for better spacing */
 }
 
 .footerColumn p, .footerColumn ul, .footerColumn form {
@@ -34,50 +34,94 @@
 }
 
 .footerColumn ul li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem; /* Increased spacing between list items */
 }
 
 .socialIcons i {
-  font-size: 1.2rem;
-  margin-right: 0.5rem;
+  font-size: 1.5rem; /* Increased icon size for better visibility */
+  margin-right: 0.7rem;
   color: #f0e5d8;
 }
 
 .footerBottom {
-  margin-top: 2rem;
-  font-size: 0.8rem;
+  margin-top: 3rem;
+  font-size: 0.9rem; /* Slightly larger font for better readability */
   color: #aaa;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .footerColumn ul li a {
-  color: white; /* Set the link color to white */
-  text-decoration: none; /* Remove underline */
+  color: white;
+  text-decoration: none;
 }
 
 .footerColumn ul li a:hover {
-  text-decoration: underline; /* Add underline on hover */
+  text-decoration: underline;
 }
+
+/* Styling for delivery and payment partner logos */
+.partners {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: left;
+  align-items: left;
+}
+
+.partner {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  text-align: left;
+}
+
+.partnerLogo {
+  width: 60px;
+  height: auto;
+  transition: filter 0.3s ease-in-out;
+}
+
+
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   .footerContent {
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Center-align columns horizontally */
+    justify-content: center;
   }
 
   .footerColumn {
     max-width: 100%;
-    text-align: center; /* Center-align text */
+    text-align: center;
+    margin-bottom: 2rem; /* Add space between columns on smaller screens */
   }
 
   .footerColumn ul, .footerColumn p, .footerColumn form {
-    text-align: center; /* Center-align lists, paragraphs, and forms */
+    text-align: center;
   }
 
   .socialIcons {
-    justify-content: center; /* Center-align social icons */
+    justify-content: center;
+    text-align: center;
+  }
+
+  .partners {
+    flex-direction: column; /* Stack logos vertically on small screens */
+  }
+
+  .partners {
+    
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .partner {
+    align-items: center;
     text-align: center;
   }
 }

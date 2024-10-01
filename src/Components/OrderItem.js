@@ -19,9 +19,11 @@ const OrderItem = ({order}) => {
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
         <div className={classes.detailsText}>
+        <div className={classes.modalStatus}>{order.completed ? 'Delivered' : 'Processing'}</div>
           <button className={classes.arrowButton} onClick={handleShow}>
             Order Summary<span className={classes.arrow}></span>
           </button>
+        
           <p><span>Order ID: </span>{order.orderID}</p>
           <p><span>Order Date: </span>{new Date(order.time).toLocaleString()}</p>
           <p><span>Total Amount: ₹</span>{order.total}</p>

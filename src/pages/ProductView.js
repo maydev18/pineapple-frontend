@@ -104,7 +104,7 @@ const ProductPage = () => {
                   >
                     {size}
                   </button>
-                  <p className={classes.stockInfo} style={{ color: 'red', fontSize: '15px', fontWeight: '400' }}>
+                  <p className={classes.stockInfo} style={{ color: 'red', fontSize: '13px', fontWeight: '400', textAlign: 'center'}}>
                     {product[getFullSize(size)] === 0 ? 'Out of Stock' : (
                       product[getFullSize(size)] <= 5 ? product[getFullSize(size)] + " left" : ""
                     )
@@ -136,7 +136,7 @@ const ProductPage = () => {
               <Spinner />
             ) : (
               <span style={{ color: 'white' }}>
-                <Icon icon="bi:cart3" style={{ paddingRight: '6px', paddingBottom: '6px', fontSize: '29px' }} />
+                <Icon icon="bi:cart3" className={classes.sizesText } />
                 {allSizesOutOfStock ? 'Out of Stock' : !selectedSize ? "Select your size" : 'Add to Cart'}
               </span>
             )}
@@ -231,7 +231,7 @@ const ProductPage = () => {
                     <strong>{rev.buyer}</strong>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <VerifiedIcon style={{ color: green[500] }} />
-                      <span style={{ marginLeft: '8px' }}>Verified Buyer</span>
+                      <span style={{ marginLeft: '8px', fontSize: '15px' }}>Verified Buyer</span>
                     </div>
                   </div>
                   <div>
