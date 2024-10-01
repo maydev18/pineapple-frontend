@@ -7,8 +7,6 @@ import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Spinner } from 'react-bootstrap';
-
 const sidebarVariants = {
   open: {
     x: 0,
@@ -47,7 +45,7 @@ const Header = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  const {isLoggedIn , login , logout , isLoading} = useAuth();
+  const {isLoggedIn , login , logout} = useAuth();
   return (
     <>
       <header className={styles.header}>
@@ -57,43 +55,31 @@ const Header = () => {
           <div></div>
         </div>
         <Link to="/" className={styles.logoContainer}>
-       
           <div className={styles.logo}>
             <img src={logo} alt="Logo" />
-            
           </div>
-         
         </Link>
-                  <div className={styles.navigationIcons}>
-                  {
-                  isLoggedIn ? (
-                    <div className={styles.userContainer}>
-                      <div className={styles.userImageContainer}>
-                        <img 
-                          src={localStorage.getItem("photo")} 
-                          alt="User" 
-                          className={styles.userImage} 
-                        />
-                        <div className={styles.userDropdown}>
-                          <p className={styles.userName}>{localStorage.getItem("name")} </p>
-                          <div>
-                          <p className={styles.userDetails}>{localStorage.getItem("email")}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    isLoading ? <Spinner/> : (
-                      <button onClick={() => { login(); }} className={styles.signinbutton}>
-                        <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
-                      </button>
-                    )
-                  )
-                }
+        <div className={styles.navigationIcons}>
+          {isLoggedIn ? (
+           
+              <div className={styles.userImageContainer}>
+                <img
+                  src={localStorage.getItem('photo')}
+                  alt="User"
+                  className={styles.userImage}
+                />
+              </div>
+  
+          ) : (
+            <button onClick={() => { login(); }} className={styles.signinbutton}>
+              <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
+            </button>
+          )}
+
           <div className={styles.signinbutton}>
-          <div onClick={() => { openCart() }} className={styles.cartIconContainer}>
-            <Icon icon="ic:baseline-shopping-bag" width="30" height="24" color='#0E201D' />CART
-          </div>
+            <div onClick={() => { openCart() }} className={styles.cartIconContainer}>
+              <Icon icon="ic:baseline-shopping-bag" width="30" height="24" color='#0E201D' />CART
+            </div>
           </div>
         </div>
       </header>
@@ -105,34 +91,70 @@ const Header = () => {
         variants={sidebarVariants}
       >
         <nav className={styles.sidebarNav}>
-        
-          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-         
-          <p style={{fontSize: '2rem', color: 'black', marginRight: '1rem'}} onClick={toggleSidebar}>X</p>
-         
-            </div>
-            <img src={logo_black} alt='logo_black' />
           
+        <motion.div variants={itemVariants}>
+          <p className={styles.closeButton} onClick={toggleSidebar}>
+            <Icon icon="mdi:close" width="30" height="30" color="#0E201D" />
+          </p>
+
+          <div className={styles.sidebarLogo}>
+            <img src={logo_black} alt='logo_black' />
+          </div> 
+          </motion.div>
+          {isLoggedIn && (
             <motion.div variants={itemVariants}>
-            <Link to="/" onClick={toggleSidebar} className={StyleSheet.linkStyle}>HOME</Link>
+              <Link to="#" className={styles.linkStyle}>
+                <div className={styles.userContainer}>
+                  <div className={styles.userImageContainer}>
+                    <img 
+                      src={localStorage.getItem('photo')} 
+                      alt="User" 
+                      className={styles.userImage} 
+                    />
+                  </div>
+                  <div>
+                    <p className={styles.userName}>{localStorage.getItem('name')}</p>
+                    <p className={styles.userDetails}>{localStorage.getItem('email')}</p>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          )}
+
+          <motion.div variants={itemVariants}>
+            <Link to="/" onClick={toggleSidebar} className={styles.linkStyle}>HOME</Link>
           </motion.div>
           <motion.div variants={itemVariants}>
-            <Link to="/products" onClick={toggleSidebar} className={StyleSheet.linkStyle}>NEW ARRIVALS</Link>
+            <Link to="/products" onClick={toggleSidebar} className={styles.linkStyle}>NEW ARRIVALS</Link>
           </motion.div>
           <motion.div variants={itemVariants}>
-            <Link to="/orders" onClick={toggleSidebar} className={StyleSheet.linkStyle}>MY ORDERS</Link>
+            <Link to="/orders" onClick={toggleSidebar} className={styles.linkStyle}>MY ORDERS</Link>
           </motion.div>
           <motion.div variants={itemVariants}>
-            <Link to="/terms" onClick={toggleSidebar} className={StyleSheet.linkStyle}>POLICY AND TERMS</Link>
+            <Link to="/terms" onClick={toggleSidebar} className={styles.linkStyle}>POLICY AND TERMS</Link>
           </motion.div>
-          {isLoggedIn && <motion.div variants={itemVariants}>
-            <Link to = "#" onClick={() => {
-              logout();
-              toggleSidebar()
-            }} className={StyleSheet.linkStyle}>LOG OUT</Link>
-          </motion.div>
-          }
-         
+
+          {isLoggedIn && (
+            <>
+              <motion.div variants={itemVariants}>
+                <Link to="#" onClick={() => {
+                  logout();
+                  toggleSidebar();
+                }} className={styles.linkStyle}>LOG OUT</Link>
+              </motion.div>
+             
+            </>
+          )}
+           <motion.div variants={itemVariants}>
+                <div className={styles.socialMediaIcons}>
+                <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer">
+                  <Icon icon="mdi:instagram" width="30" height="30" color="#0E201D" />
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61555791567340&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
+                  <Icon icon="mdi:facebook" width="30" height="30" color="#0E201D" />
+                </a>
+              </div>
+              </motion.div>
         </nav>
       </motion.div>
 

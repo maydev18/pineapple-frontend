@@ -33,8 +33,8 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
     setExchangeReasons(prevState => ({
       ...prevState,
       [index]: {
-        ...(prevState[index] || {}),  // Ensure to spread existing reasons
-        [reason]: !prevState[index]?.[reason]  // Toggle the selected reason
+        ...(prevState[index] || {}),  
+        [reason]: !prevState[index]?.[reason]  
       }
     }));
   };
@@ -73,10 +73,10 @@ const ExchangeModal = ({ show, handleClose, products, orderID }) => {
         throw err;
       }
       navigate(0);
-      showError("Exchange request is submitted successfully" , 'success');
+      showError("Exchange is initiated successfully" , 'success');
     }
     catch(err){
-      showError(err.message , "danger");
+      showError("Error creating exchange ticket, Please try again" , "danger");
     }
     finally{
       setIsSubmitting(false)

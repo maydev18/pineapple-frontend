@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Accordion, Form } from 'react-bootstrap';
+import { Modal, Accordion, Form, Spinner } from 'react-bootstrap';
 import styles from './OrderModal.module.css';
 import StarRating from '../Components/StarRating';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,7 +8,7 @@ import { getsize } from '../utils/cartUtils/convertSize';
 import { useError } from '../context/ErrorContext';
 import { useAuth } from '../context/AuthContext';
 const OrderDetailsModal = ({ show, handleClose , order }) => {
-  const {isLoggedIn , token} = useAuth();
+  const { token} = useAuth();
   const [reviewOpenIndex, setReviewOpenIndex] = useState(null);
   const [username, setUserName] = useState('');
   const [stars, setStars] = useState('');
@@ -16,7 +16,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {showError} = useError();
   const navigate = useNavigate();
-  const handleReviewSubmit = async (event , id) => {
+  const handleReviewSubmit = async (event , id , size) => {
     try{
       setIsSubmitting(true);
       event.preventDefault();
@@ -31,6 +31,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
           content: content,
           buyer: username,
           productID: id,
+          size : size,
           orderID : order.orderID
         }),
       });
@@ -64,7 +65,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
         <div className={styles.modalHeading}>
           <Modal.Title className={styles.modalTitle}>Order Details</Modal.Title>
           <p style={{ marginLeft: '2rem', color: 'black', fontSize: '20px' }}>Order Id: {order.orderID}</p>
-          <div className={styles.modalStatus}>{order.completed ? 'Delivered' : 'Processing'}</div>
+          
         </div>
         <p>{order.date}</p>
       </Modal.Header>
@@ -86,11 +87,12 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
                       <p><strong>Price: </strong> ₹ {pro.price * pro.quantity}</p>
                     </div>
                   </div>
-                  {!pro.reviewed && order.completed && (
+                  {!pro.reviewed && order.status === 2 && (
                     <button className={styles.writeReviewLink} onClick={() => toggleReviewAccordion(index , )} style={{ background: 'none', border: 'none', padding: 0, color: '#007bff', cursor: 'pointer', fontSize: '15px'}}>
                       Write a Review
                     </button>
                   )}
+                  
                 </div>
               </div>
             </div>
@@ -99,7 +101,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
           <Accordion className={styles.reviewAccordion} activeKey={reviewOpenIndex === index ? '0' : null}>
             <Accordion.Collapse eventKey="0">
               <Modal.Body>
-                <Form onSubmit={(e)=>{handleReviewSubmit(e , pro._id)}}>
+                <Form onSubmit={(e)=>{handleReviewSubmit(e , pro._id , pro.size)}}>
                   <Form.Group>
                   <StarRating rating={stars} onRatingChange={setStars} disabled={isSubmitting} /> 
                   </Form.Group>
@@ -117,7 +119,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
                   </Form.Group>
 
                 <button type="submit" className={styles.Reviewbutton} disabled={isSubmitting}> 
-                  Submit Review
+                  {isSubmitting ? <Spinner/> : "Submit Review"}
                 </button>
                 </Form>
               </Modal.Body>

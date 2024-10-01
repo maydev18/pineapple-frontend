@@ -33,11 +33,10 @@ const customStyles = {
 
 
 const Demo = () => {
-  const {isLoggedIn , token} = useAuth();
+  const {token} = useAuth();
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState([]);
-  const [isSubmitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const [selectedOrder, setSelectedOrder] = useState(null); // State to store selected order
   const {showError} = useError();
@@ -105,31 +104,37 @@ const Demo = () => {
       sortable: true,
     },
     {
-      name: 'Completed',
-      selector: row => row.completed ? 'Yes' : 'No',
-      sortable: true,
+      name: 'Mark shipped',
       cell: row => (
-        <div className={styles.completedCell}>
-          {row.completed ? 'Yes' : 'No'}
+        <div className={styles.actionCell}>
+          {row.status >= 1 ? (
+            <Check className={styles.completedIcon} />
+            ) : (
+              row.cancelled ? "Order Cancelled" :
+              <input
+                type="checkbox"
+                onChange={() => updateOrderStatus(row.orderID)}
+              />
+            )
+          }
         </div> // Apply CSS class
       ),
     },
     {
-      name: 'Actions',
+      name: 'Mark delivered',
       cell: row => (
         <div className={styles.actionCell}>
-          {row.completed ? (
+          {row.status === 2 ? (
             <Check className={styles.completedIcon} />
           ) : (
-            !isSubmitting ? (
+              row.cancelled ? "Order Cancelled" :
+              row.status === 1 && 
               <input
                 type="checkbox"
-                onChange={() => handleCheckboxClick(row.orderID)}
+                onChange={() => updateOrderStatus(row.orderID)}
               />
-            ) : (
-              <Spinner animation="border" className={styles.spinner} />
             )
-          )}
+          }
         </div> // Apply CSS class
       ),
       ignoreRowClick: true,
@@ -175,12 +180,11 @@ const Demo = () => {
     setFilter(result);
   }, [search, orders]);
 
-  const handleCheckboxClick = async (orderID) => {
-    const userConfirmed = window.confirm("Are you sure you want to mark this order as completed?");
+  const updateOrderStatus = async (orderID) => {
+    const userConfirmed = window.confirm("Are you sure you want to update the status of this order?");
     if (userConfirmed) {
-      setSubmitting(true);
       try {
-        const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/complete-order', {
+        const res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/update-order-status', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -193,14 +197,12 @@ const Demo = () => {
           throw err;
         }
         const updatedOrders = orders.map(order =>
-          order.orderID === orderID ? { ...order, completed: true } : order
+          order.orderID === orderID ? { ...order, status: order.status+1 } : order
         );
         setOrders(updatedOrders);
         setFilter(updatedOrders);
       } catch (error) {
         showError(error.message , 'danger');
-      } finally {
-        setSubmitting(false);
       }
     }
   };

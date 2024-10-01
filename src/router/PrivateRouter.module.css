@@ -31,7 +31,7 @@
 }
 
 .loginButton {
-    background-color: #4285F4;
+    background-color: #0e201d;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -42,17 +42,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
 }
 
 .loginButton:hover {
-    background-color: #357ae8;
+    background-color: #1c3e36; /* Darker shade for hover effect */
+    transform: scale(1.05); /* Slightly scale up the button */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a shadow */
 }
 
 .loginButton::before {
     content: "";
-    background: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg') no-repeat center;
-    width: 20px;
-    height: 20px;
+    background: url("../images/google.png") no-repeat center; /* Use a direct SVG link */
+    background-size: contain; /* Ensures the logo scales properly */
+    width: 20px; /* Width of the logo */
+    height: 20px; /* Height of the logo */
     display: inline-block;
     margin-right: 10px;
+    transition: transform 0.2s ease; /* Transition for logo scaling */
+}
+
+.loginButton:hover::before {
+    transform: scale(1.1); /* Scale the logo slightly on hover */
 }
