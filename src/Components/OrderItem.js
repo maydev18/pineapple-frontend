@@ -51,7 +51,7 @@ const OrderItem = ({order}) => {
     <div className={classes.orderItem}>
       <div className={classes.itemDetails}>
         <div className={classes.detailsText}>
-        <div className={classes.modalStatus}>{order.status === 0 ? 'Order Placed' : (order.status === 1 ? "Order Confirmed" : (order.cancelled ? "Order Cancelled" : "Order Delivered"))}</div>
+        <div className={classes.modalStatus}>{order.cancelled ? 'Order Cancelled' : (order.status === 0 ? "Order Placed" : (order.status === 1 ? "Order Confirmed" : "Order Delivered"))}</div>
           <button className={classes.arrowButton} onClick={handleShow}>
             Order Summary<span className={classes.arrow}></span>
           </button>
