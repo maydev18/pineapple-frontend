@@ -32,9 +32,10 @@ const Footer = () => {
           <ul>
             <li><Link to="/terms">Terms and Conditions</Link></li>
             <li>
-              <p>For any inquiries, feel free to contact us at:</p>
+              <p style={{textTransform : "none"}}>Our website: thepineapple.in</p>
+              <p>For any inquiries, feel free to contact us at</p>
               <p style={{ textTransform: 'none' }}>
-                pineappleindiaofficial@gmail.com +91 8447375001
+                pineappleindiaofficial@gmail.com
               </p>
             </li>
           </ul>
@@ -62,7 +63,6 @@ const Footer = () => {
 
       <div className={styles.footerBottom}>
         <p>&copy; 2024 Pineapple | All rights reserved</p> 
-        <p>Created by Mayank Sharma and Ravleen Kaur</p>
         <div className={styles.socialMediaIcons}>
                 <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer" >
                   <Icon icon="mdi:instagram" width="18" height="18" color='white' style={{margin: '0 6px'}}/>
