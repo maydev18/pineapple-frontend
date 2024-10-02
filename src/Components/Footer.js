@@ -47,7 +47,7 @@ const Footer = () => {
         </div>
 
         <div className={styles.footerColumn}>
-          <h3>Delivery & Payment Partners</h3>
+          <h3>Payments & Delivery Partners</h3>
           <div className={styles.partners}>
             <div className={styles.partner}>
               <img src={razorpayLogo} alt="Razorpay" className={styles.partnerLogo} />

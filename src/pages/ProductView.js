@@ -59,6 +59,7 @@ const ProductPage = () => {
       });
     };
     fetchReviews();
+    window.scrollTo(0, 0);
   }, [productID]);
 
   const data = useLoaderData();
@@ -136,7 +137,7 @@ const ProductPage = () => {
               <Spinner />
             ) : (
               <span style={{ color: 'white' }}>
-                <Icon icon="bi:cart3" className={classes.sizesText } />
+                <Icon icon="bi:cart3" className={classes.sizesText} style={{fontSize : "1.7rem"}} />
                 {allSizesOutOfStock ? 'Out of Stock' : !selectedSize ? "Select your size" : 'Add to Cart'}
               </span>
             )}
