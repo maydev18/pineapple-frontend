@@ -41,7 +41,7 @@ const Checkout = () => {
         try {
             const { amount, id } = await generateOrderId();
             var options = {
-                "key": "rzp_test_uY9lNpacaDbu5m",
+                "key": "rzp_live_P0haby0RFaLQoL",
                 "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
