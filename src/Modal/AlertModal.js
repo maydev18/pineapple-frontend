@@ -10,7 +10,7 @@ function AlertModal() {
     if (visible) {
       const timer = setTimeout(() => {
         hideError();
-      }, 2000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }

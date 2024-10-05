@@ -59,6 +59,7 @@ const ProductPage = () => {
       });
     };
     fetchReviews();
+    window.scrollTo(0, 0);
   }, [productID]);
 
   const data = useLoaderData();
@@ -88,7 +89,7 @@ const ProductPage = () => {
         <div className={classes.productDetails}>
           <h2>{product.title}</h2>
           <p className={classes.productPrice}>
-            <span>₹ {2 * product.price}</span> ₹ {product.price} (Inc. of all tax)
+            <span>₹ {899}</span> ₹ {product.price} (Inc. of all tax)
           </p>
           <p className={classes.productDescription}>{product.description}</p>
 
@@ -136,7 +137,7 @@ const ProductPage = () => {
               <Spinner />
             ) : (
               <span style={{ color: 'white' }}>
-                <Icon icon="bi:cart3" className={classes.sizesText } />
+                <Icon icon="bi:cart3" className={classes.sizesText} style={{fontSize : "1.7rem"}} />
                 {allSizesOutOfStock ? 'Out of Stock' : !selectedSize ? "Select your size" : 'Add to Cart'}
               </span>
             )}
@@ -221,7 +222,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className={classes.CustomerReviews}>
+      <div className={classes.CustomerReviews} id='reviews'>
         {reviews.length > 0 ? (
           <div className={classes.customerReviewscard}>
             <ul className={classes.reviewList}>

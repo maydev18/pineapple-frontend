@@ -9,7 +9,7 @@ const PrivateRoute = () => {
             <div className = {classes.loginCard}>
                 <h2>Welcome Back!</h2>
                 <p>Please log in to continue ahead.</p>
-                <button onClick={() => {login()}} className={classes.loginButton}>Login with Google</button>
+                <button onClick={() => {login()}} className={classes.loginButton}>Login wth Google</button>
             </div>
         </div>
     );

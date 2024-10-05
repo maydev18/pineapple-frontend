@@ -38,7 +38,7 @@ const itemVariants = {
 };
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
 
   return (
     <>
@@ -70,16 +70,15 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
           </motion.div>
 
           {/* Display user information if logged in */}
-          {isLoggedIn && user && (
+          {isLoggedIn && (
             <motion.div variants={itemVariants} className={styles.userInfo}>
               <img
-                src={user.image || 'https://placehold.co/600x400'}
+                src={localStorage.getItem('photo') || 'https://placehold.co/600x400'}
                 alt="User"
                 className={styles.userImage}
               />
-              <p className={styles.userName}>{user.name}</p>
-              <p className={styles.userDetails}>{user.email}</p>
-              <p className={styles.userDetails}>{user.phone}</p>
+              <p className={styles.userName}>{localStorage.getItem('name')}</p>
+              <p className={styles.userDetails}>{localStorage.getItem('email')}</p>
               <Link
                 to="#"
                 onClick={() => {
