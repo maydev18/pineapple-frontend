@@ -46,8 +46,10 @@ const Header = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  const toggleAuthModal = () => setIsAuthModalOpen(!isAuthModalOpen);
-  const {isLoggedIn , login , logout} = useAuth();
+  const toggleAuthModal = () => {
+    setIsAuthModalOpen(!isAuthModalOpen);
+  }
+  const {isLoggedIn  , logout} = useAuth();
   return (
     <>
       <header className={styles.header}>
@@ -151,10 +153,9 @@ const Header = () => {
           )}
            <motion.div variants={itemVariants}>
                 <div className={styles.socialMediaIcons}>
-                <a href="intent://https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==#Intent;scheme=https;package=com.android.chrome;end"  target="_self">
+                <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer">
                   <Icon icon="mdi:instagram" width="30" height="30" color="#0E201D" />
-                  </a>
-                {/* <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer"></a> */}
+                </a>
                 <a href="https://www.facebook.com/profile.php?id=61555791567340&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
                   <Icon icon="mdi:facebook" width="30" height="30" color="#0E201D" />
                 </a>
