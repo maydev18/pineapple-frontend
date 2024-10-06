@@ -7,6 +7,7 @@ import logo from '../images/logo_name.png';
 import logo_black from '../images/logo_black.png';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import AuthModal from '../Modal/AuthModal';
 const sidebarVariants = {
   open: {
     x: 0,
@@ -41,10 +42,11 @@ const itemVariants = {
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { openCart } = useCart();
-
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  const toggleAuthModal = () => setIsAuthModalOpen(!isAuthModalOpen);
   const {isLoggedIn , login , logout} = useAuth();
   return (
     <>
@@ -71,7 +73,9 @@ const Header = () => {
               </div>
   
           ) : (
-            <button onClick={() => { login(); }} className={styles.signinbutton}>
+            <button 
+            onClick={toggleAuthModal}
+            className={styles.signinbutton}>
               <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
             </button>
           )}
@@ -158,7 +162,7 @@ const Header = () => {
               </motion.div>
         </nav>
       </motion.div>
-
+      <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} /> 
       {sidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
     </>
   );
