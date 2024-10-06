@@ -1,8 +1,6 @@
-import React from 'react';
 import { Carousel } from 'react-bootstrap';
 import classes from './SingleProduct.module.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-
 const SingleProduct = ({ images, title, mainImage, backImage }) => {
   images = [mainImage, ...images, backImage];
   return (
@@ -11,6 +9,8 @@ const SingleProduct = ({ images, title, mainImage, backImage }) => {
         <Carousel
           nextIcon={<span className={`carousel-control-next-icon ${classes.carouselArrow}`} />}
           prevIcon={<span className={`carousel-control-prev-icon ${classes.carouselArrow}`} />}
+          fade = {true}
+          interval={3000}
         >
         {images.map((image, index) => (
           <Carousel.Item key={index}>
