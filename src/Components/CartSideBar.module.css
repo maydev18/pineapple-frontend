@@ -212,8 +212,15 @@
   background-color: black;
 }
 
-.cartbuttontext{
-  text-decoration: none;
-  color: white;
 
+.cartbuttontext {
+  color: white;
+  text-transform: none;
+  text-decoration: none;
+}
+
+.cartbuttontext:hover {
+  color: white;
+  text-transform: none;
+  text-decoration: none;
 }
