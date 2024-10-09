@@ -61,7 +61,6 @@ const AuthModal = ({ isOpen, onClose }) => {
               
             </div>
           </>
-
       </div>
     </div>
   );

@@ -261,14 +261,25 @@
 }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 375px) {
   .logo img {
-    height: 50px;
-    width: 210px;
+    height: 45px;
+    width: 190px;
     padding-right: 20px;
     bottom: 12px;
   }
 }
+
+@media (max-width: 338px) {
+  .logo img {
+    height: 30px;
+    width: 160px;
+    padding-right: 20px;
+    bottom: 12px;
+  }
+}
+
+
 .userContainer {
   display: flex;
   justify-content: left;
