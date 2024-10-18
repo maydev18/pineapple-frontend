@@ -38,6 +38,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       }
       setIsOtpScreen(true);
       seterr("");
+      setOtp("");
     } catch (err) {
       seterr("Failed to send OTP");
     } finally {
