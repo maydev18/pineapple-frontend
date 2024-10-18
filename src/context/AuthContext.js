@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
                 throw err;
             }
             const details = await res.json();
-            saveDetails(details.token , details.name , user.photoURL , user.email);
+            saveDetails(details.token , user.email , null);
             setIsLoggedIn(true);
             setToken(details.token);
             // showError('Logged in successfully', 'success');
@@ -45,9 +45,14 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     }
-    async function login(){
+    async function login(otp_token , phone){
         try{
-            if(!isTokenValid()){
+            if(otp_token){
+                setToken(otp_token);
+                setIsLoggedIn(true);
+                saveDetails(otp_token , null , phone)
+            }
+            else if(!isTokenValid()){
                 const provider = new GoogleAuthProvider();
                 const res = await signInWithPopup(auth , provider);
                 setUser({
@@ -65,9 +70,8 @@ export const AuthProvider = ({ children }) => {
     function logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('expiration');
-        localStorage.removeItem('name');
-        localStorage.removeItem('photo');
         localStorage.removeItem('email');
+        localStorage.removeItem('phone');
         setIsLoggedIn(false);
         setUser(null);
         setToken(null);
@@ -102,14 +106,13 @@ export const AuthProvider = ({ children }) => {
         }
         return duration;
     }
-    function saveDetails(token , name , photo , email){
+    function saveDetails(token , email , phone){
         localStorage.setItem("token" , token);
-        localStorage.setItem("name" , name);
         const expiration = new Date();
         expiration.setDate(expiration.getDate() + 30);
         localStorage.setItem('expiration' , expiration.toISOString());
-        localStorage.setItem("photo" , photo);
         localStorage.setItem("email" , email);
+        localStorage.setItem("phone" , phone);
     }
     return (
         <AuthContext.Provider value={{ logout, isLoggedIn , login , token , isLoading}}>
