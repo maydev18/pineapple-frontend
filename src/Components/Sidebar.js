@@ -71,14 +71,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
 
           {/* Display user information if logged in */}
           {isLoggedIn && (
-            <motion.div variants={itemVariants} className={styles.userInfo}>
-              <img
+            <motion.div variants={itemVariants} >
+              {/* <img
                 src={localStorage.getItem('photo') || 'https://placehold.co/600x400'}
                 alt="User"
                 className={styles.userImage}
-              />
-              <p className={styles.userName}>{localStorage.getItem('name')}</p>
-              <p className={styles.userDetails}>{localStorage.getItem('email')}</p>
+              /> */}
+              {localStorage.getItem('email') ? <p className={styles.userDetails}>{localStorage.getItem('email')}</p> : <p className={styles.userDetails}>{localStorage.getItem('phone')}</p>}
               <Link
                 to="#"
                 onClick={() => {
