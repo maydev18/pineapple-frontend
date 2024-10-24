@@ -17,6 +17,7 @@ import Inventory from './Components/admin/Inventory';
 import ReturnPolicy from './pages/PolicyPage';
 import Exchange from './Components/admin/Exchange';
 import PrivateRoute from './router/PrivateRouter';
+import AboutUsPage from './pages/AboutUsPage';
 export const router = createBrowserRouter([
   {
     path : '/',
@@ -83,13 +84,18 @@ export const router = createBrowserRouter([
           {
             path : 'exchange',
             element : <Exchange/>
-          }
+          },
+          
         ]
       },
       {
         path: 'terms',
         element: <ReturnPolicy />,
       },
+      {
+        path : 'about',
+        element : <AboutUsPage/>
+      }
     ]
   }
 ]);
