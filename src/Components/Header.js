@@ -49,7 +49,7 @@ const Header = () => {
   const toggleAuthModal = () => {
     setIsAuthModalOpen(!isAuthModalOpen);
   }
-  const {isLoggedIn  , logout} = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   return (
     <>
       <header className={styles.header}>
@@ -65,19 +65,18 @@ const Header = () => {
         </Link>
         <div className={styles.navigationIcons}>
           {isLoggedIn ? (
-           
-              <div className={styles.userImageContainer}>
-                <img
+            <div>
+              {/* <img
                   src={localStorage.getItem('photo')}
                   alt="User"
                   className={styles.userImage}
-                />
-              </div>
-  
+                /> */}
+            </div>
+
           ) : (
-            <button 
-            onClick={toggleAuthModal}
-            className={styles.signinbutton}>
+            <button
+              onClick={toggleAuthModal}
+              className={styles.signinbutton}>
               <Icon icon="mdi:user" width="30" height="24" color='#0E201D' /> SIGN IN
             </button>
           )}
@@ -97,31 +96,35 @@ const Header = () => {
         variants={sidebarVariants}
       >
         <nav className={styles.sidebarNav}>
-          
-        <motion.div variants={itemVariants}>
-          <p className={styles.closeButton} onClick={toggleSidebar}>
-            <Icon icon="mdi:close" width="30" height="30" color="#0E201D" />
-          </p>
 
-          <div className={styles.sidebarLogo}>
-            <img src={logo_black} alt='logo_black' />
-          </div> 
+          <motion.div variants={itemVariants}>
+            <p className={styles.closeButton} onClick={toggleSidebar}>
+              <Icon icon="mdi:close" width="30" height="30" color="#0E201D" />
+            </p>
+
+            <div className={styles.sidebarLogo}>
+              <img src={logo_black} alt='logo_black' />
+            </div>
           </motion.div>
           {isLoggedIn && (
             <motion.div variants={itemVariants}>
               <Link to="#" className={styles.linkStyle}>
                 <div className={styles.userContainer}>
-                  <div className={styles.userImageContainer}>
+                  {/* <div className={styles.userImageContainer}>
                     <img 
                       src={localStorage.getItem('photo')} 
                       alt="User" 
                       className={styles.userImage} 
                     />
-                  </div>
+                  </div> */}
                   <div>
-                    <p className={styles.userName}>{localStorage.getItem('name')}</p>
-                    <p className={styles.userDetails}>{localStorage.getItem('email')}</p>
+                    {localStorage.getItem('email') !== 'null' ?
+                      <p className={styles.userDetails}>{localStorage.getItem('email')}</p>
+                      : 
+                      <p className={styles.userDetails}>{localStorage.getItem('phone')}</p>
+                    }
                   </div>
+
                 </div>
               </Link>
             </motion.div>
@@ -148,23 +151,23 @@ const Header = () => {
                   toggleSidebar();
                 }} className={styles.linkStyle}>LOG OUT</Link>
               </motion.div>
-             
+
             </>
           )}
-           <motion.div variants={itemVariants}>
-                <div className={styles.socialMediaIcons}>
-                <a href="intent://https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==#Intent;scheme=https;package=com.android.chrome;end"  target="_self">
-                  <Icon icon="mdi:instagram" width="30" height="30" color="#0E201D" />
-                  </a>
-                {/* <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer"></a> */}
-                <a href="https://www.facebook.com/profile.php?id=61555791567340&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
-                  <Icon icon="mdi:facebook" width="30" height="30" color="#0E201D" />
-                </a>
-              </div>
-              </motion.div>
+          <motion.div variants={itemVariants}>
+            <div className={styles.socialMediaIcons}>
+              <a href="intent://https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==#Intent;scheme=https;package=com.android.chrome;end" target="_self">
+                <Icon icon="mdi:instagram" width="30" height="30" color="#0E201D" />
+              </a>
+              {/* <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer"></a> */}
+              <a href="https://www.facebook.com/profile.php?id=61555791567340&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer">
+                <Icon icon="mdi:facebook" width="30" height="30" color="#0E201D" />
+              </a>
+            </div>
+          </motion.div>
         </nav>
       </motion.div>
-      <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} /> 
+      <AuthModal isOpen={isAuthModalOpen} onClose={toggleAuthModal} />
       {sidebarOpen && <div className={styles.overlay} onClick={toggleSidebar}></div>}
     </>
   );

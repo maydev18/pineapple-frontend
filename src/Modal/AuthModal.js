@@ -1,67 +1,157 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import styles from './AuthModal.module.css';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
+import { useError } from '../context/ErrorContext';
 import { useAuth } from '../context/AuthContext';
+import { FaArrowLeft } from 'react-icons/fa'
 
 const AuthModal = ({ isOpen, onClose }) => {
-  const [isURLCopied , setCopyUrl] = useState(false);
-  const {login} = useAuth();
-  if (!isOpen) return null;
-  const copyToClipboard = () => {
-    const currentUrl = window.location.href; // Get current URL
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [isOtpScreen, setIsOtpScreen] = useState(false); // changed from true to false to match initial behavior
+  const [otp, setOtp] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [timer, setTimer] = useState(60); // Timer state initialized to 60 seconds
+  const [err , seterr] = useState("");
+  const { showError } = useError();
+  const { login } = useAuth();
 
-    // Check if the user is on an Android device
-    if (/android/i.test(userAgent)) {
-      // Open in Chrome on Android using intent
-      window.location.href = `intent://${currentUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-    } 
-    // Check if the user is on an iOS device
-    else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-      // Copy URL to clipboard on iOS
-      navigator.clipboard.writeText(currentUrl)
-        .then(() => {
-          setCopyUrl(true);
-        })
-        .catch(err => {
-          setCopyUrl(false);
-        });
-    } 
-    // For Desktop
-    else {
-      // Copy URL to clipboard for desktop
-      navigator.clipboard.writeText(currentUrl)
-      .then(() => {
-        setCopyUrl(true);
-      })
-      .catch(err => {
-        setCopyUrl(false);
-      });
+  useEffect(() => {
+    if (isOtpScreen && timer > 0) {
+      const countdown = setTimeout(() => setTimer(timer - 1), 1000);
+      return () => clearTimeout(countdown);
+    }
+  }, [timer, isOtpScreen]); // Runs when the timer changes or OTP screen is active
+
+  if (!isOpen) return null;
+
+  // Timer logic
+
+  const handleMobileSubmit = async () => {
+    try {
+      setIsLoading(true);
+      setTimer(60); // Reset the timer when requesting a new OTP
+      const res = await fetch(process.env.REACT_APP_BASE_URL + 'auth/login-with-phone/' + mobileNumber);
+      if (!res.ok) {
+        throw new Error("Failed to send OTP");
+      }
+      setIsOtpScreen(true);
+      seterr("");
+      setOtp("");
+    } catch (err) {
+      seterr("Failed to send OTP");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const handleOTPSubmit = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(process.env.REACT_APP_BASE_URL + 'auth/verify-otp/' + mobileNumber + '/' + otp);
+      if (!res.ok) {
+        throw new Error("Failed to verify OTP");
+      }
+      const token = await res.json();
+      await login(token.token, mobileNumber);
+      closeModal();
+      showError("Logged in Successfully", "success");
+    } catch (err) {
+      seterr("OTP did not match");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const closeModal = () => {
+    setMobileNumber(null);
+    setIsOtpScreen(null);
+    setIsLoading(null);
+    setOtp(null);
+    seterr("");
+    onClose();
+  }
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-
-        <button className={styles.modalClose} onClick={() => {setCopyUrl(false); onClose();}}>
+        <button className={styles.modalClose} onClick={closeModal}>
           <Icon icon="mdi:close" width="30" height="30" color="#0E201D" />
         </button>
+
+        {!isOtpScreen ? (
           <>
+            <h2 className={styles.modalTitle}>Login / Signup</h2>
+            <p className={styles.modalSubtitle}>Join us now to be a part of our family.</p>
+            {
+              err.length > 0 ? <p className={styles.modalSubtitle} style={{color : "red"}}>{err}</p> : ""
+            }
+            <div className={styles.inputContainer}>
+              <Icon icon="twemoji:flag-for-india" width="30" height="30" />
+              <input
+                type="text"
+                placeholder="Enter Mobile Number"
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}
+                className={styles.inputField}
+              />
+            </div>
+
+            <button className={styles.continueButton} onClick={handleMobileSubmit}>
+              {isLoading ? <Spinner /> : "CONTINUE"}
+            </button>
+          </>
+        ) : (
+          <>
+            <div style={{display : 'flex' , alignContent : "space-around"}}>
+              <FaArrowLeft size={20} onClick={() => setIsOtpScreen(false)} style={{marginRight : '5rem'}}/>
+              <h2 className={styles.modalTitle}>Enter OTP</h2>
+            </div>
+            <p className={styles.modalSubtitle}>We've sent a 4-digit OTP to your mobile number.</p>
+            {
+              err.length > 0 ? <p className={styles.modalSubtitle} style={{color : "red"}}>{err}</p> : ""
+            }
+            <div className={styles.inputContainer}>
+              <Icon icon="ic:baseline-message" width="30" height="30" />
+              <input
+                type="text"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className={styles.inputField}
+              />
+            </div>
+
+            <button className={styles.continueButton} onClick={handleOTPSubmit}>
+              {isLoading ? <Spinner /> : "SUBMIT OTP"}
+            </button>
+
+            {/* Display resend button after timer hits 0 */}
+            {timer > 0 ? (
+              <p className={styles.timerText}>Resend OTP in {timer}s</p>
+            ) : (
+              <button className={styles.continueButton} onClick={handleMobileSubmit}>
+                Resend OTP
+              </button>
+            )}
+          </>
+        )}
+
+        {!isOtpScreen && (
+          <>
+            <div className={styles.separator}>OR</div>
+
             <div className={styles.socialLoginContainer}>
-              <button className={styles.googleButton} style={{marginTop : '2rem'}} onClick={async () => {await login(); onClose();}}>
-                <Icon icon="logos:google-icon" width="24" height="24" style={{padding: '4px'}}/>
-                Login with Google
+              <button className={styles.googleButton} onClick={async () => { await login(); closeModal(); showError("Logged in successfully", "success"); }}>
+                <Icon icon="logos:google-icon" width="24" height="24" style={{ padding: '4px' }} />
+                Google
               </button>
             </div>
-            <p className={styles.termsText}>
-              By creating an account or logging in, you agree with our <Link to='/terms' onClick={onClose}>Terms and Conditions</Link>
-            </p>
-            <div className={styles.separator} style={{color : 'red'}}>If you are viewing this page on Instagram, Please switch to Chrome/Safari for seamless login and added security <Link to="#" onClick={copyToClipboard} style={{color : isURLCopied? "green" : "blue"}}> {isURLCopied ? "URL Copied" : "Copy URL"}</Link>
-              
-            </div>
-          </>
 
+            <p className={styles.termsText}>
+              By creating an account or logging in, you agree with our <Link to='/terms' onClick={closeModal}>Terms and Conditions</Link>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

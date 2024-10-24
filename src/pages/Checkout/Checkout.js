@@ -41,7 +41,7 @@ const Checkout = () => {
         try {
             const { amount, id } = await generateOrderId();
             var options = {
-                "key": "rzp_live_P0haby0RFaLQoL",
+                "key": process.env.REACT_APP_PAYMENT_ID,
                 "amount": amount,
                 "currency": "INR",
                 "name": "Pineapple fashion",
@@ -49,7 +49,7 @@ const Checkout = () => {
                 "image": logo,
                 "order_id": id,
                 "handler": async function (response) {
-                    createOrder(response);
+                    await createOrder(response);
                 },
                 "theme": {
                     "color": "#0E201D"
