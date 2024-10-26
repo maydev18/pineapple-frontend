@@ -16,7 +16,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {showError} = useError();
   const navigate = useNavigate();
-  const handleReviewSubmit = async (event , id , size) => {
+  const handleReviewSubmit = async (event , id , size , productName) => {
     try{
       setIsSubmitting(true);
       event.preventDefault();
@@ -43,7 +43,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
       setStars(null);
       setContent('');
       setUserName('');
-      navigate('/products/' + id);
+      navigate('/products/' + productName);
     }
     catch(err){
       showError("Failed to submit the review, Please try again!" , 'danger');
@@ -75,7 +75,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
           <Modal.Body>
             <div className={styles.orderDetails}>
               <div className={styles.products}>
-                <Link to = {'/products/' + pro._id}><img src={pro.image} alt="Product" className={`${styles.productImage} mb-3`} /> </Link>
+                <Link to = {'/products/' + pro.title.replace(/ /g , '-')}><img src={pro.image} alt="Product" className={`${styles.productImage} mb-3`} /> </Link>
                 <div className={styles.Details}>
                   <h5>{pro.title}</h5>
                   <div className={styles.Description}>
@@ -101,7 +101,7 @@ const OrderDetailsModal = ({ show, handleClose , order }) => {
           <Accordion className={styles.reviewAccordion} activeKey={reviewOpenIndex === index ? '0' : null}>
             <Accordion.Collapse eventKey="0">
               <Modal.Body>
-                <Form onSubmit={(e)=>{handleReviewSubmit(e , pro._id , pro.size)}}>
+                <Form onSubmit={(e)=>{handleReviewSubmit(e , pro._id , pro.size , pro.title.replace(/ /g , '-'))}}>
                   <Form.Group>
                   <StarRating rating={stars} onRatingChange={setStars} disabled={isSubmitting} /> 
                   </Form.Group>

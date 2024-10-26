@@ -93,10 +93,14 @@ const AuthModal = ({ isOpen, onClose }) => {
                 value={mobileNumber}
                 onChange={(e) => setMobileNumber(e.target.value)}
                 className={styles.inputField}
+                maxLength={10}
               />
             </div>
 
-            <button className={styles.continueButton} onClick={handleMobileSubmit}>
+            <button className={styles.continueButton} onClick={handleMobileSubmit} disabled = {mobileNumber.length !== 10}
+              style={{
+                backgroundColor: mobileNumber.length === 10 ? "#0E201D" : "grey" // Replace "blue" with your desired color
+              }}>
               {isLoading ? <Spinner /> : "CONTINUE"}
             </button>
           </>
@@ -118,10 +122,14 @@ const AuthModal = ({ isOpen, onClose }) => {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 className={styles.inputField}
+                maxLength={10}
               />
             </div>
 
-            <button className={styles.continueButton} onClick={handleOTPSubmit}>
+            <button className={styles.continueButton} onClick={handleOTPSubmit} disabled = {otp.length !== 4}
+              style={{
+                backgroundColor: otp.length === 4 ? "#0E201D" : "grey" // Replace "blue" with your desired color
+              }}>
               {isLoading ? <Spinner /> : "SUBMIT OTP"}
             </button>
 

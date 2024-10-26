@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './Card.module.css';
 
 const Card = ({ image, hoverImage, title, price, titleColor, priceColor, allSizesOutOfStock }) => {
-
- 
   return (
     <div className={styles.card}>
       <div className={styles.cardImageWrapper}>

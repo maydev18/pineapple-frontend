@@ -67,7 +67,7 @@ const Product = () => {
               const allSizesOutOfStock = sizes.every(size => product[getFullSize(size)] === 0);
               console.log(allSizesOutOfStock);
               return (
-                <Link to={`/products/${product._id}`} style={{ textDecoration: "none" }} key={index}>
+                <Link to={`/products/${product.title.replace(/ /g, "-")}`} style={{ textDecoration: "none" }} key={index}>
                   <Card
                     color="black"
                     image={product.mainImage}
