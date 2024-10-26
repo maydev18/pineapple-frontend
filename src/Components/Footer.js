@@ -32,19 +32,15 @@ const Footer = () => {
           <ul>
             <li><Link to="/terms">Terms and Conditions</Link></li>
             <li>
-              <p style={{textTransform : "none"}}>Our website: thepineapple.in</p>
+              
               <p>For any inquiries, feel free to contact us at</p>
               <p style={{ textTransform: 'none' }}>
-                pineappleindiaofficial@gmail.com
+               <a href="mailto:pineappleindiaofficial@gmail.com">pineappleindiaofficial@gmail.com</a> 
               </p>
             </li>
           </ul>
         </div>
 
-        <div className={styles.footerColumn}>
-          <h3>Work Hours</h3>
-          <p>Open 24*7</p>
-        </div>
 
         <div className={styles.footerColumn}>
           <h3>Payments & Delivery Partners</h3>
