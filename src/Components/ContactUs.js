@@ -1,25 +1,32 @@
 import React from 'react';
-import classes from './ContactUs.module.css'; 
-import group1 from '../images/Group 1.png'; 
-import group2 from '../images/Group 2.png'; 
-import group3 from '../images/Group 3.png'; 
+import { Icon } from '@iconify/react';
+import styles from './ContactUs.module.css'; // Updated to import CSS Module
 
 const ContactUs = () => {
-    return (
-        <section className={classes.contactUsSection}>
-            <h2 className={classes.headingContact}>Contact Us</h2>
-            <div className={classes.image}>
-                <img src={group1} alt="Placeholder 1" />
-                <img src={group2} alt="Placeholder 2" />
-                <div className={classes.contactAddress}>
-                    <img src={group3} alt="Placeholder 3" />
-                </div>
-                
-            </div>
-           
-            
-        </section>
-    );
+  return (
+    <section className={styles.contactUsSection}>
+      <h2 className={styles.headingContact}>Contact Us</h2>
+      <div className={styles.contactCards}>
+        <div className={styles.contactCard}>
+          <Icon icon="mdi:map-marker" className={styles.icon} />
+          <h3>Our Address</h3>
+          <p> X/782, Gandhi Nagar Raghubarpura no 1, East Delhi, 110031</p>
+        </div>
+
+        <div className={styles.contactCard}>
+          <Icon icon="ic:baseline-phone" className={styles.icon} />
+          <h3>Whatsapp </h3>
+          <p><a href="https://wa.me/9911501073">+91 9911501073</a></p>
+        </div>
+
+        <div className={styles.contactCard}>
+          <Icon icon="ic:baseline-email" className={styles.icon} />
+          <h3>Email Address</h3>
+          <a href="mailto:pineappleindiaofficial@gmail.com">pineappleindiaofficial@gmail.com</a> 
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ContactUs;

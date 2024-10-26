@@ -140,6 +140,9 @@ const Header = () => {
             <Link to="/orders" onClick={toggleSidebar} className={styles.linkStyle}>MY ORDERS</Link>
           </motion.div>
           <motion.div variants={itemVariants}>
+            <Link to="/about" onClick={toggleSidebar} className={styles.linkStyle}>ABOUT US</Link>
+          </motion.div>
+          <motion.div variants={itemVariants}>
             <Link to="/terms" onClick={toggleSidebar} className={styles.linkStyle}>POLICY AND TERMS</Link>
           </motion.div>
 

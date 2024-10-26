@@ -1,0 +1,112 @@
+:root {
+    --main-bg-color: #f5f8f3;
+    --header-bg-color: linear-gradient(135deg, #004d40, #002d26);
+    --text-color: #333;
+    --subtle-text-color: #666;
+    --highlight-color: #6fcf97;
+    --white-color: #ffffff;
+}
+.aboutUsPage {
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+}
+
+/* Header Banner */
+.headerBanner {
+    background: var(--header-bg-color);
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.headerTitle {
+    color: var(--white-color);
+    font-size: 48px;
+    margin: 0;
+}
+
+.breadcrumb {
+    color: var(--white-color);
+    font-size: 16px;
+}
+
+/* Section Styling */
+.sectionPurpose,
+.sectionDesign,
+.sectionHistory {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    background-color: var(--main-bg-color);
+    flex-wrap: wrap;
+    transition: background-color 0.3s;
+}
+
+.sectionDesign {
+    background-color: var(--white-color);
+}
+
+.sectionPurpose,
+.sectionHistory {
+    background-color: #f9f9f9;
+}
+
+.textBlock {
+    max-width: 40%;
+    padding: 0 20px;
+}
+
+h2 {
+    font-size: 32px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    color: var(--subtle-text-color);
+    line-height: 1.6;
+}
+
+.purposeImage,
+.designImage,
+.historyImage {
+    max-width: 300px;
+    border-radius: 10px;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+    .textBlock {
+        max-width: 100%;
+        text-align: center;
+    }
+
+
+
+    .sectionPurpose,
+    .sectionDesign,
+    .sectionHistory {
+        flex-direction: column;
+        padding: 20px;
+    }
+}
+
+.svgContainer {
+    max-width: 300px;
+    margin: 0 20px;
+}
+
+.purposeSvg,
+.designSvg,
+.historySvg {
+    width: 100%;
+    height: auto;
+}
+
+/* Hover Effect */
+.sectionPurpose:hover,
+.sectionDesign:hover,
+.sectionHistory:hover {
+    background-color: #e8f5e9; /* Light green on hover */
+}
