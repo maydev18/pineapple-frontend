@@ -75,7 +75,7 @@ const aboutUsPage = () => {
         </div>
         {/* SVG Illustration for History */}
         <div className={styles.svgContainer}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={styles.purposeSvg}>
+          <svg xmlns="../images/1.jpg" viewBox="0 0 64 64" className={styles.purposeSvg}>
             <defs>
               <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style={{ stopColor: "#6fcf97", stopOpacity: 1 }} />

@@ -1,6 +1,6 @@
 import DataTable from 'react-data-table-component';
 import { useEffect, useState } from 'react';
-import { Spinner, Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
+import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import { Check } from 'react-bootstrap-icons';
 import styles from './Dashboard.module.css'; // Import the CSS module
@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { getsize } from '../../utils/cartUtils/convertSize';
 import { useError } from '../../context/ErrorContext';
 import { useAuth } from '../../context/AuthContext';
-
+import * as XLSX from 'xlsx'
 const sortIcon = <ArrowDownward />;
 
 const customStyles = {
@@ -206,6 +206,36 @@ const Demo = () => {
       }
     }
   };
+  const downloadExcel = () => {
+    // Extract and format product data from orders
+    const productsData = orders.flatMap(order => 
+        order.products.map(product => ({
+            orderID: order.orderID,
+            fullName: order.address.fullName,
+            email: order.address.email,
+            phone: order.address.phone,
+            productTitle: product.title,
+            productID: product._id,
+            quantity: product.quantity,
+            price: product.price,
+            size: product.size,
+            orderStatus: order.status,
+            cancelled: order.cancelled,
+            orderDate: order.time,
+            deliveryDate: order.deliveryDate || "N/A",
+        }))
+    );
+
+    // Create a new workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(productsData);
+
+    // Append worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Products");
+
+    // Create and download the Excel file
+    XLSX.writeFile(workbook, "ProductsData.xlsx");
+};
 
   return (
     <><div className={styles.tableWrapper}>
@@ -229,6 +259,7 @@ const Demo = () => {
         customStyles={customStyles} // Apply custom styles
       />
     </div>
+    <button onClick={downloadExcel} className={styles.btn}>Download Excel</button>
     <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Order Details</Modal.Title>
