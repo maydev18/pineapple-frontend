@@ -79,13 +79,14 @@ const Inventory = () => {
                     <th>XL</th>
                     <th>XXL</th>
                     <th>Visibility</th>
+                    <th>Top Product</th>
                     <th>Edit</th>
                   </tr>
                 </thead>
                 <tbody className={styles.table}>
                   {filter.map((product, index) => (
                     <tr key={index}>
-                      <td><Link to={'/products/' + product._id}><img src={product.mainImage} alt={product.title} style={{ width: "8rem", height: "auto", borderRadius: '10px' }} /></Link></td>
+                      <td><Link to={'/admin/product/' + product._id +'/' + token}><img src={product.mainImage} alt={product.title} style={{ width: "8rem", height: "auto", borderRadius: '10px' }} /></Link></td>
                       <td>{product._id}</td>
                       <td>{product.title}</td>
                       <td>{product.price}</td>
@@ -96,8 +97,16 @@ const Inventory = () => {
                       <td>{product.doubleExtraLarge}</td>
                       <td>
                         <ToggleButton
-                          visible = {product.visible}
+                          on = {product.visible}
                           id = {product._id}
+                          top={false}
+                        />
+                      </td>
+                      <td>
+                        <ToggleButton
+                          on = {product.top}
+                          id = {product._id}
+                          top={true}
                         />
                       </td>
                       <td><p onClick={() => {setProduct(product); setShowModal(true);}}>Edit</p></td>

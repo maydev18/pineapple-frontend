@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
 import Card from '../Components/Card';
 import classes from './ProductPage.module.css';
-import { Link } from 'react-router-dom';
 import { Pagination, Spinner } from 'react-bootstrap';
 import { useError } from '../context/ErrorContext';
 import { getFullSize } from '../utils/cartUtils/convertSize';
 
 const Product = () => {
   const { showError } = useError();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialPage = parseInt(searchParams.get('page')) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +39,14 @@ const Product = () => {
     fetchProducts();
   }, [currentPage]);
 
+  useEffect(() => {
+    setSearchParams({ page: currentPage });
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const renderPaginationItems = () => {
     let items = [];
     for (let number = 1; number <= totalPages; number++) {
@@ -44,7 +54,7 @@ const Product = () => {
         <Pagination.Item
           key={number}
           active={number === currentPage}
-          onClick={() => setCurrentPage(number)}
+          onClick={() => handlePageChange(number)}
         >
           {number}
         </Pagination.Item>
@@ -65,7 +75,6 @@ const Product = () => {
           <div className={classes.cardContainer}>
             {products.map((product, index) => {
               const allSizesOutOfStock = sizes.every(size => product[getFullSize(size)] === 0);
-              console.log(allSizesOutOfStock);
               return (
                 <Link to={`/products/${product.title.replace(/ /g, "-")}`} style={{ textDecoration: "none" }} key={index}>
                   <Card
@@ -76,23 +85,22 @@ const Product = () => {
                     price={product.price}
                     titleColor="black"
                     priceColor="black"
-                    allSizesOutOfStock={allSizesOutOfStock}  
+                    allSizesOutOfStock={allSizesOutOfStock}
                   />
                 </Link>
               );
-              
             })}
           </div>
         )}
         <div className={classes.paginationContainer}>
           <Pagination>
             <Pagination.Prev
-              onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
+              onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
               disabled={currentPage === 1}
             />
             {renderPaginationItems()}
             <Pagination.Next
-              onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)}
+              onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : totalPages)}
               disabled={currentPage === totalPages}
             />
           </Pagination>

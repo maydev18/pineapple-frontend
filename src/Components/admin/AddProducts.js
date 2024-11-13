@@ -21,11 +21,11 @@ const AddProducts = () => {
   const [backImage, setBackImage] = useState(null);
   const [productImages, setProductImages] = useState([]);
   const [quantities, setQuantities] = useState({
-    S: 0,
-    M: 0,
-    L: 0,
-    XL: 0,
-    XXL: 0,
+    S: "",
+    M: "",
+    L: "",
+    XL: "",
+    XXL: "",
   });
   const {showError} = useError();
   const [isSubmitting , setSubmitting] = useState(false);
@@ -147,7 +147,7 @@ const AddProducts = () => {
         <Form.Group controlId="productPrice" className="mb-3">
           <Form.Label>Price</Form.Label>
           <Form.Control
-            type='Number'
+            type='text'
             name="price"
             placeholder="Enter product price"
             value={formData.price}

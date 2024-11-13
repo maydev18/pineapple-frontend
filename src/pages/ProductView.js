@@ -29,6 +29,7 @@ const ProductPage = () => {
 
   
     const data = useLoaderData();
+    console.log(data);
     const product = data.product;
     const images = product.moreImages;
     const reviews = product.reviews;
@@ -258,9 +259,22 @@ const ProductPage = () => {
 
 export default ProductPage;
 
-export async function loader({ params }) {
+export async function loader({ params , request }) {
   const productName = params.productName;
-  const res = await fetch(process.env.REACT_APP_BASE_URL + 'product/' + productName);
+  const token = params.token;
+  const isAdmin = request.url.includes('/admin');
+  let res;
+  if(isAdmin){
+      res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/product/' + productName , {
+        method : "get",
+        headers : {
+          'authorization' : "bearer " + token
+        }
+      });
+  }
+  else{
+      res = await fetch(process.env.REACT_APP_BASE_URL + 'product/' + productName);
+  }
   if (!res.ok) {
     throw json(
       {
