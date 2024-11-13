@@ -13,9 +13,8 @@ const SizeQuantityInput = ({ sizes, values , onQuantityChange }) => {
             <Form.Group controlId={`quantity-${size}`}>
               <Form.Label>{size}</Form.Label>
               <Form.Control
-                type="number"
-                min="0"
-                placeholder="0"
+                type="text"
+                placeholder="Quantity"
                 onChange={(e) => handleChange(size, e.target.value)}
                 value={values[index]}
               />

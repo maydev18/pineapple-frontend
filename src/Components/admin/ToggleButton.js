@@ -3,8 +3,8 @@ import styles from './Dashboard.module.css'
 import { useAuth } from '../../context/AuthContext';
 import { Spinner } from 'react-bootstrap';
 import { useError } from '../../context/ErrorContext';
-const ToggleButton = ({visible , id}) => {
-  const [isToggled, setIsToggled] = useState(visible === true ? true : false);
+const ToggleButton = ({on , id , top}) => {
+  const [isToggled, setIsToggled] = useState(on === true ? true : false);
   const [isSubmitting , setIsSubmitting] = useState(false);
   const {isLoggedIn , token} = useAuth();
   const {showError} = useError();
@@ -12,7 +12,11 @@ const ToggleButton = ({visible , id}) => {
     try {
       const userConfirmed = window.confirm("Are you sure?");
       if (userConfirmed) {
-        const res = await fetch(`${process.env.REACT_APP_BASE_URL}admin/toggle-visibility/${id}`, {
+        let url = `${process.env.REACT_APP_BASE_URL}admin/toggle-visibility/${id}`
+        if(top){
+          url = `${process.env.REACT_APP_BASE_URL}admin/toggle-top-product/${id}`
+        }
+        const res = await fetch(url , {
           method: "GET",
           headers: {
             'Authorization': 'Bearer ' + token

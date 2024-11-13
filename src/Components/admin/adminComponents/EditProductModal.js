@@ -131,7 +131,7 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
                 <Form.Group controlId="productPrice" className="mb-3">
                     <Form.Label><h3>Price</h3></Form.Label>
                     <Form.Control
-                        type='Number'
+                        type='text'
                         name="price"
                         placeholder="Enter product price"
                         value={product.price}
