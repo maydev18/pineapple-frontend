@@ -37,11 +37,18 @@ const Product = () => {
 
   useEffect(() => {
     fetchProducts();
+    setSearchParams({page : currentPage});
   }, [currentPage]);
 
   useEffect(() => {
-    setSearchParams({ page: currentPage });
-  }, [currentPage]);
+    if (products.length) {
+      const scrollPosition = sessionStorage.getItem('scroll');
+      if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition, 10));
+        sessionStorage.removeItem('scroll');
+      }
+    }
+  }, [products]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -62,6 +69,9 @@ const Product = () => {
     }
     return items;
   };
+  const saveScrollPosition = () => {
+    sessionStorage.setItem("scroll" , window.scrollY);
+  }
 
   return (
     <>
@@ -76,7 +86,7 @@ const Product = () => {
             {products.map((product, index) => {
               const allSizesOutOfStock = sizes.every(size => product[getFullSize(size)] === 0);
               return (
-                <Link to={`/products/${product.title.replace(/ /g, "-")}`} style={{ textDecoration: "none" }} key={index}>
+                <Link to={`/products/${product.title.replace(/ /g, "-")}`} style={{ textDecoration: "none" }} key={index} onClick={saveScrollPosition}>
                   <Card
                     color="black"
                     image={product.mainImage}
