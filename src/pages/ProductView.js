@@ -18,8 +18,6 @@ const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
 const ProductPage = () => {
   const { addToCart} = useContext(CartContext);
-  const { productID } = useParams();
-  const [reviews, setReviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -30,8 +28,14 @@ const ProductPage = () => {
   const handleShowSizeChart = () => setShowSizeChart(true);
 
   
+    const data = useLoaderData();
+    console.log(data);
+    const product = data.product;
+    const images = product.moreImages;
+    const reviews = product.reviews;
+    const productID = product._id;
 
-  const handleAddToCart = async () => {
+    const handleAddToCart = async () => {
     const size = getFullSize(selectedSize);
     setIsSubmitting(true);
     await addToCart(productID, size);
@@ -39,15 +43,9 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}reviews/${productID}`);
-      let data = await res.json();
-      data = data.reverse();
-      setReviews(data);
-
-     
+    const setReviews = async () => {   
       let stars = [0, 0, 0, 0, 0];
-      data.forEach((review) => {
+      reviews.forEach((review) => {
         stars[review.stars - 1]++;
       });
       setRatingValues({
@@ -58,13 +56,9 @@ const ProductPage = () => {
         5: stars[4],
       });
     };
-    fetchReviews();
+    setReviews();
     window.scrollTo(0, 0);
-  }, [productID]);
-
-  const data = useLoaderData();
-  const product = data.product;
-  const images = product.moreImages;
+  }, []);
   const allSizesOutOfStock = sizes.every(size => product[getFullSize(size)] === 0);
   return (
     <>
@@ -265,9 +259,22 @@ const ProductPage = () => {
 
 export default ProductPage;
 
-export async function loader({ params }) {
-  const id = params.productID;
-  const res = await fetch(process.env.REACT_APP_BASE_URL + 'product/' + id);
+export async function loader({ params , request }) {
+  const productName = params.productName;
+  const token = params.token;
+  const isAdmin = request.url.includes('/admin');
+  let res;
+  if(isAdmin){
+      res = await fetch(process.env.REACT_APP_BASE_URL + 'admin/product/' + productName , {
+        method : "get",
+        headers : {
+          'authorization' : "bearer " + token
+        }
+      });
+  }
+  else{
+      res = await fetch(process.env.REACT_APP_BASE_URL + 'product/' + productName);
+  }
   if (!res.ok) {
     throw json(
       {
