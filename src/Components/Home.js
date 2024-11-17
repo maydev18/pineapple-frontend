@@ -5,6 +5,7 @@ import ContactUs from '../Components/ContactUs';
 import AboutUs from '../Components/AboutUs';
 import FadeInComponent from '../Components/Fade';
 import classes from './Home.module.css';
+import CategorySection from './CategorySection';
 
 
 
@@ -36,6 +37,7 @@ const Hero = () => {
       <ProductsShowcase />
       <AboutUs />
       <ContactUs />
+      <CategorySection/>
     </>
   );
 };

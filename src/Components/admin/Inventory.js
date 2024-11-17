@@ -73,6 +73,7 @@ const Inventory = () => {
                     <th>Product ID</th>
                     <th>Title</th>
                     <th>Price</th>
+                    <th>Gender</th>
                     <th>S</th>
                     <th>M</th>
                     <th>L</th>
@@ -90,6 +91,7 @@ const Inventory = () => {
                       <td>{product._id}</td>
                       <td>{product.title}</td>
                       <td>{product.price}</td>
+                      <td>{product.gender}</td>
                       <td>{product.small}</td>
                       <td>{product.medium}</td>
                       <td>{product.large}</td>

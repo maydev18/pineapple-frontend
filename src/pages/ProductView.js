@@ -29,7 +29,6 @@ const ProductPage = () => {
 
   
     const data = useLoaderData();
-    console.log(data);
     const product = data.product;
     const images = product.moreImages;
     const reviews = product.reviews;

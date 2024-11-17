@@ -1,46 +1,48 @@
 import styles from '../Dashboard.module.css';
 import { Form, Modal } from 'react-bootstrap';
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getsize } from '../../../utils/cartUtils/convertSize';
 import { useError } from '../../../context/ErrorContext';
 import { useAuth } from '../../../context/AuthContext';
-import {Spinner} from 'react-bootstrap';
-function EditProductModal({ selectedProduct, show, handleClose , fetchProducts}) {
-    const [isSubmitting , setIsSubmitting] = useState(false);
-    const [error , setError] = useState("");
-    const {showError} = useError();
-    const {isLoggedIn , token} = useAuth();
-    const [product , setProduct] = useState({
-        productId :"",
-        title : "",
-        description : "",
-        price : "",
-        washCare : "",
-        fit : "",
-        size : "",
-        specifications : "",
-        small : 0,
-        medium : 0,
-        large : 0,
-        extraLarge : 0,
-        doubleExtraLarge : 0
+import { Spinner } from 'react-bootstrap';
+function EditProductModal({ selectedProduct, show, handleClose, fetchProducts }) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState("");
+    const { showError } = useError();
+    const { isLoggedIn, token } = useAuth();
+    const [product, setProduct] = useState({
+        productId: "",
+        title: "",
+        description: "",
+        price: "",
+        gender : "",
+        washCare: "",
+        fit: "",
+        size: "",
+        specifications: "",
+        small: 0,
+        medium: 0,
+        large: 0,
+        extraLarge: 0,
+        doubleExtraLarge: 0
     })
     useEffect(() => {
         if (selectedProduct) {
             setProduct({
-                productId : selectedProduct._id,
+                productId: selectedProduct._id,
                 title: selectedProduct.title || '',
                 description: selectedProduct.description || '',
                 price: selectedProduct.price || '',
                 washCare: selectedProduct.washCare || '',
                 fit: selectedProduct.fit || '',
+                gender : selectedProduct.gender || "man",
                 size: selectedProduct.size || '',
                 specifications: selectedProduct.specifications || '',
-                small : selectedProduct.small || 0,
-                medium : selectedProduct.medium || 0,
-                large : selectedProduct.large || 0,
-                extraLarge : selectedProduct.extraLarge || 0,
-                doubleExtraLarge : selectedProduct.doubleExtraLarge || 0
+                small: selectedProduct.small || 0,
+                medium: selectedProduct.medium || 0,
+                large: selectedProduct.large || 0,
+                extraLarge: selectedProduct.extraLarge || 0,
+                doubleExtraLarge: selectedProduct.doubleExtraLarge || 0
             });
         }
     }, [selectedProduct]);
@@ -51,33 +53,32 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
             [name]: value
         }));
     };
-    const submitHandler =async (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
-        try{
+        try {
             setIsSubmitting(true);
-            console.log(product);
-            const res = await fetch(process.env.REACT_APP_BASE_URL + "admin/edit-product" , {
-                headers : {
-                    'Content-type' : "application/json",
-                    'authorization' : 'bearer ' + token
+            const res = await fetch(process.env.REACT_APP_BASE_URL + "admin/edit-product", {
+                headers: {
+                    'Content-type': "application/json",
+                    'authorization': 'bearer ' + token
                 },
-                body : JSON.stringify(product),
-                method : 'post'
+                body: JSON.stringify(product),
+                method: 'post'
             })
-            if(!res.ok){
+            if (!res.ok) {
                 const err = await res.json();
                 throw err;
             }
             handleClose();
             setError("");
             setProduct({});
-            showError("Product Updated successfully" , 'success');
+            showError("Product Updated successfully", 'success');
             fetchProducts();
         }
-        catch(err){ 
+        catch (err) {
             setError(err.message);
         }
-        finally{
+        finally {
             setIsSubmitting(false);
         }
     }
@@ -86,7 +87,7 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
             <Modal.Header closeButton>
                 <Modal.Title>Edit Product Details</Modal.Title>
             </Modal.Header>
-            <p style={{'color' : "red"}}>{error}</p>
+            <p style={{ 'color': "red" }}>{error}</p>
             <Form className={styles.form}>
                 <Form.Group className="mt-3">
                     <Form.Label><h3>Current Stock</h3></Form.Label>
@@ -100,7 +101,7 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
                                         value={product[size] || 0}
                                         className={styles.quantityInput}
                                         onChange={handleChange}
-                                        name = {size}
+                                        name={size}
                                     />
                                 </div>
                             </div>
@@ -139,7 +140,17 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
                     />
                 </Form.Group>
 
-
+                <Form.Group controlId="gender" className="mb-3 mt-3">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Select
+                        name="gender"
+                        onChange={handleChange}
+                        value={product.gender}
+                    >
+                        <option value="man">Man</option>
+                        <option value="woman">Woman</option>
+                    </Form.Select>
+                </Form.Group>
                 <Form.Group controlId="productFit" className="mb-3">
                     <Form.Label><h3>Fit</h3></Form.Label>
                     <Form.Control
@@ -187,10 +198,10 @@ function EditProductModal({ selectedProduct, show, handleClose , fetchProducts})
                         onChange={handleChange}
                     />
                 </Form.Group>
-                {isSubmitting ? <Spinner /> :  <button className={styles.btn} onClick={submitHandler}>
+                {isSubmitting ? <Spinner /> : <button className={styles.btn} onClick={submitHandler}>
                     Save Changes
                 </button>}
-               
+
             </Form>
         </Modal>
     );

@@ -11,7 +11,7 @@
   margin: 0;
   width: 100%; /* Full width on small screens */
   max-width: 300px; /* Limit the max-width for larger screens */
-  height: auto; /* Auto height based on content */
+  height: 500px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -85,6 +85,7 @@
   .card {
     max-width: 100%; /* Full width on smaller screens */
     padding: 12px; /* Increased padding for better spacing */
+    height: 300px;
   }
 
   .cardTitle {
@@ -105,7 +106,7 @@
     max-width: 100%;
     padding: 8px;
     margin-bottom: 25px;
-    
+    height: 325px;
   }
 
   .cardTitle {

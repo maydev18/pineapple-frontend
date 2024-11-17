@@ -1,17 +1,31 @@
 import React from 'react';
-import styles from './AboutUsPage.module.css'; // Importing the CSS module
+import styles from './AboutUsPage.module.css'; 
+import aboutus1 from '../images/about1.jpeg';
+import aboutus2 from '../images/about2.png';
+import aboutus3 from '../images/about3.png';
 
-const aboutUsPage = () => {
+const AboutUsPage = () => {
   return (
     <div className={styles.aboutUsPage}>
       
       {/* Header Section */}
       <div className={styles.headerBanner}>
-        <div className="header-content">
-          <h1 className={styles.headerTitle}>ABOUT US</h1>
+       
+          <h1 className={styles.headerTitle} style={{marginBottom: '1rem'}}>ABOUT US</h1>
+          <p>
+            
+            Welcome to Pineapple, in which fashion meets comfort and every piece tells a story. We’re a team of fashion lovers dedicated to growing clothing that celebrates individuality, comfort, and self belief. At Pineapple, we consider that what you wear should be as precise and vibrant as you are.
+            
+            Our adventure started with a simple vision to design apparel that makes a statement while making sure great quality and latest design in each sew. We supply the greatest fabrics and put craftsmanship at the heart of everything we create, ensuring that each Pineapple piece feels as desirable as it looks. From undying essentials to trending designs, our collections are thoughtfully curated to offer something for absolutely everyone, whether or not you’re dressing for a casual day out or a unique event. Our determination to sustainability and moral practices is woven into the material of Pineapple, as we always work to reduce the aspect results at the surroundings. We design one-of-a-kind forms of tshirts for each ladies and men. The quality and design of the tshirts is designed according to the customer’s mindset. If you are looking for the best oversized t shirt in the market. This is the right place. 
+            
+            Explore Pineapple, and discover the portions that sense like they have been made only for you. Thank you for being part of our journey we’re pleased to be a part of yours.
+            
+                      </p>
         </div>
-      </div>
       
+      <div className={styles.aboutussection}>
+     
+      </div>
       {/* Purpose Section */}
       <section className={styles.sectionPurpose}>
         <div className={styles.textBlock}>
@@ -22,37 +36,17 @@ const aboutUsPage = () => {
             yourself, without saying a word.
           </p>
         </div>
-        {/* SVG Illustration for Purpose */}
-        <div className={styles.svgContainer}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={styles.purposeSvg}>
-            <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: "#6fcf97", stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: "#4caf50", stopOpacity: 1 }} />
-              </linearGradient>
-            </defs>
-            <circle cx="32" cy="32" r="30" fill="url(#grad1)" />
-            <path d="M32 10a22 22 0 100 44 22 22 0 000-44z" />
-            <text x="32" y="35" fontSize="10" textAnchor="middle" fill="#fff">Introversion</text>
-          </svg>
+        {/* Image for Purpose */}
+        <div className={styles.imageContainer}>
+          <img src={aboutus2} alt="Purpose Illustration" className={styles.responsiveImage} />
         </div>
       </section>
 
       {/* Design Section */}
       <section className={styles.sectionDesign}>
-        {/* SVG Illustration for Designs */}
-        <div className={styles.svgContainer}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={styles.purposeSvg}>
-            <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: "#6fcf97", stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: "#4caf50", stopOpacity: 1 }} />
-              </linearGradient>
-            </defs>
-            <circle cx="32" cy="32" r="30" fill="url(#grad1)" />
-            <path d="M32 10a22 22 0 100 44 22 22 0 000-44z" />
-            <text x="32" y="35" fontSize="10" textAnchor="middle" fill="#fff">Minimalist</text>
-          </svg>
+        {/* Image for Designs */}
+        <div className={styles.imageContainer}>
+          <img src={aboutus3} alt="Design Illustration" className={styles.responsiveImage} />
         </div>
         <div className={styles.textBlock}>
           <h2>Our Designs</h2>
@@ -73,23 +67,13 @@ const aboutUsPage = () => {
             they created PINEAPPLE to fill that gap.
           </p>
         </div>
-        {/* SVG Illustration for History */}
-        <div className={styles.svgContainer}>
-          <svg xmlns="../images/1.jpg" viewBox="0 0 64 64" className={styles.purposeSvg}>
-            <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{ stopColor: "#6fcf97", stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: "#4caf50", stopOpacity: 1 }} />
-              </linearGradient>
-            </defs>
-            <circle cx="32" cy="32" r="30" fill="url(#grad1)" />
-            <path d="M32 10a22 22 0 100 44 22 22 0 000-44z" />
-            <text x="32" y="35" fontSize="9" textAnchor="middle" fill="#fff">Quiet, yet bold</text>
-          </svg>
+        {/* Image for History */}
+        <div className={styles.imageContainer}>
+          <img src={aboutus1} alt="History Illustration" className={styles.responsiveImage} />
         </div>
       </section>
     </div>
   );
 };
 
-export default aboutUsPage;
+export default AboutUsPage;
