@@ -37,7 +37,7 @@ const Hero = () => {
       <ProductsShowcase />
       <AboutUs />
       <ContactUs />
-      /*<CategorySection/>*/
+      {/* <CategorySection/> */}
     </>
   );
 };
