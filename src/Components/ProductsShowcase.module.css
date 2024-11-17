@@ -88,7 +88,7 @@
 
 .cardContainer {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-columns: repeat(4, 1fr); 
   gap: 0.5rem;
   width: 100%;
   margin-bottom: 5rem;
@@ -97,20 +97,18 @@
 
 @media (max-width: 1200px) {
   .cardContainer {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+    grid-template-columns: repeat(2, 2fr); 
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 300px) {
   .cardContainer {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+    grid-template-columns: repeat(2, 1fr); 
   }
 }
 
 @media (max-width: 600px) {
   .cardContainer {
-    grid-template-columns: 1fr; 
-    margin: 0.5rem;
     padding: 0.5rem;
   }
 }

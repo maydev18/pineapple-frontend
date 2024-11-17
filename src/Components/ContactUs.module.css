@@ -13,7 +13,6 @@
   font-size: 4rem; 
   color: #ffebd2;
   padding-bottom: 2.5rem; 
-  margin-bottom: 2rem; 
   text-decoration: none;
 }
 
@@ -27,9 +26,9 @@
 }
 
 .contactCard {
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); 
+  background-color: #000000;
+  border-radius: 5rem;
+  box-shadow: 0px 8px 20px rgba(255, 255, 255, 0.15); 
   padding: 2rem; 
   width: 450px; 
   height: 250px; 
@@ -51,29 +50,33 @@
 .contactCard h3 {
   margin-top: 1rem;
   font-size: 1.3rem; 
-  color: #333;
+  color: #f0e5d8;
   font-weight: 600; 
 }
 
 .contactCard p,
 .contactCard a {
-  color: #ff8f00;
-  font-size: 1.1rem; 
+  color: #f0e5d8;
+  font-size: 18px; 
   margin-top: 0.5rem;
   word-wrap: break-word;
 }
 
 .contactCard a {
   text-decoration: none;
-  color: #ffa726;
+  color: #f0e5d8;
   transition: color 0.3s ease;
   font-weight: 400;
 }
 
 .icon {
   font-size: 4rem !important; 
-  color: var(--green);
+  color: #f0e5d8;
  
+}
+
+.icon p{
+  max-width: 22rem;
 }
 
 /* Responsive Design */
@@ -99,5 +102,12 @@
 
   .contactCard {
     padding: 1.5rem; 
+  }
+
+  .contactCard p,
+  .contactCard a {
+    
+    font-size: 12px; 
+  
   }
 }

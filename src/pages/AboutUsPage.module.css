@@ -11,22 +11,42 @@
     color: var(--text-color);
 }
 
+.aboutussection{
+    background-color: #e8f5e9;
+    
+}
 /* Header Banner */
 .headerBanner {
-    background: var(--header-bg-color);
+    background-color: #141414;
     padding: 60px 20px;
     text-align: center;
+    padding: 3rem;
+    text-align: center;
+    margin: 3rem;
+    border-radius: 20px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.headerBanner p{
+    color: white;
+    line-height: 2rem;
+    max-width: 100rem;
+    text-align: center;
+    position: relative;
+    font-size: 18px;
+    
 }
 
 .headerTitle {
     color: var(--white-color);
     font-size: 48px;
     margin: 0;
-}
-
-.breadcrumb {
-    color: var(--white-color);
-    font-size: 16px;
 }
 
 /* Section Styling */
@@ -46,34 +66,50 @@
     background-color: var(--white-color);
 }
 
-.sectionPurpose,
-.sectionHistory {
-    background-color: #f9f9f9;
-}
-
-.textBlock {
-    max-width: 40%;
-    padding: 0 20px;
-}
-
-h2 {
-    font-size: 32px;
-    color: var(--text-color);
-    margin-bottom: 20px;
-}
-
-p {
-    font-size: 16px;
-    color: var(--subtle-text-color);
+.headerTitle {
+    font-size: 2.5rem;
+    font-family: "Outfit", sans-serif;
+    color: #ffebd2;
+  }
+  
+  .sectionPurpose,
+  .sectionDesign,
+  .sectionHistory {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .textBlock {
+    flex: 1;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .textBlock h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .textBlock p {
+    font-size: 1rem;
     line-height: 1.6;
-}
-
-.purposeImage,
-.designImage,
-.historyImage {
-    max-width: 300px;
+  }
+  
+  .imageContainer {
+    flex: 1;
+    max-width: 400px;
+  }
+  
+  .responsiveImage {
+    width: 100%;
+    height: auto;
     border-radius: 10px;
-}
+  }
+  
 
 /* For smaller screens */
 @media (max-width: 768px) {
@@ -110,3 +146,38 @@ p {
 .sectionHistory:hover {
     background-color: #e8f5e9; /* Light green on hover */
 }
+
+
+imageContainer {
+    flex: 1;
+    max-width: 500px;
+  }
+  
+  .responsiveImage {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .sectionPurpose,
+    .sectionDesign,
+    .sectionHistory {
+      flex-direction: column;
+    }
+  
+    .headerTitle {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .textBlock h2 {
+      font-size: 1.5rem;
+    }
+  
+    .textBlock p {
+      font-size: 0.9rem;
+    }
+  }
