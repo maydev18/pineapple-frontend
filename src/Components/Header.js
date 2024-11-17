@@ -145,6 +145,7 @@ const Header = () => {
           <motion.div variants={itemVariants}>
             <Link to="/terms" onClick={toggleSidebar} className={styles.linkStyle}>POLICY AND TERMS</Link>
           </motion.div>
+          
 
           {isLoggedIn && (
             <>
