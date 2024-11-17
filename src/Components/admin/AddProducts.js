@@ -7,7 +7,7 @@ import { getFullSize } from '../../utils/cartUtils/convertSize';
 import { useError } from '../../context/ErrorContext';
 import { useAuth } from '../../context/AuthContext';
 const AddProducts = () => {
-  const {isLoggedIn , token} = useAuth();
+  const { isLoggedIn, token } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -15,7 +15,8 @@ const AddProducts = () => {
     size: '',
     washCare: '',
     specifications: '',
-    price : ''
+    price: '',
+    gender: ''
   });
   const [frontImage, setFrontImage] = useState(null);
   const [backImage, setBackImage] = useState(null);
@@ -27,10 +28,10 @@ const AddProducts = () => {
     XL: "",
     XXL: "",
   });
-  const {showError} = useError();
-  const [isSubmitting , setSubmitting] = useState(false);
+  const { showError } = useError();
+  const [isSubmitting, setSubmitting] = useState(false);
   const handleChange = (e) => {
-    const { name, value} = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -65,28 +66,28 @@ const AddProducts = () => {
   const handleSubmit = async (event) => {
     setSubmitting(true);
     event.preventDefault();
-    try{
+    try {
       const submissionData = new FormData();
-      for(const key in formData){
-        submissionData.append(key , formData[key])
+      for (const key in formData) {
+        submissionData.append(key, formData[key])
       }
-      let images = [frontImage , backImage , ...productImages];
+      let images = [frontImage, backImage, ...productImages];
       images.forEach((image, index) => {
-        if (image) { 
-          submissionData.append('productImages', image); 
+        if (image) {
+          submissionData.append('productImages', image);
         }
       });
-      for(let size in quantities){
-        submissionData.append(getFullSize(size) , quantities[size]);
+      for (let size in quantities) {
+        submissionData.append(getFullSize(size), quantities[size]);
       }
       const response = await fetch(process.env.REACT_APP_BASE_URL + 'admin/add-product', {
         method: 'PUT',
         body: submissionData,
         headers: {
-            'Authorization': 'Bearer '  + token
+          'Authorization': 'Bearer ' + token
         }
       });
-      if(!response.ok){
+      if (!response.ok) {
         const err = await response.json();
         throw err;
       }
@@ -97,7 +98,7 @@ const AddProducts = () => {
         size: '',
         washCare: '',
         specifications: '',
-        price : ''
+        price: ''
       })
       setBackImage(null);
       setFrontImage(null);
@@ -109,12 +110,12 @@ const AddProducts = () => {
         XL: 0,
         XXL: 0,
       });
-      showError("Product Added Successfully" , "success");
+      showError("Product Added Successfully", "success");
     }
-    catch(err){
-      showError(err.message , 'danger');
+    catch (err) {
+      showError(err.message, 'danger');
     }
-    finally{
+    finally {
       setSubmitting(false);
     }
   };
@@ -155,7 +156,17 @@ const AddProducts = () => {
           />
         </Form.Group>
 
-        <SizeQuantityInput sizes={Object.keys(quantities)} values = {Object.values(quantities)} onQuantityChange={handleQuantityChange} />
+        <SizeQuantityInput sizes={Object.keys(quantities)} values={Object.values(quantities)} onQuantityChange={handleQuantityChange} />
+        <Form.Group controlId="gender" className="mb-3 mt-3">
+          <Form.Label>Gender</Form.Label>
+            <Form.Select
+              name="gender"
+              onChange={handleChange}
+            >
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+          </Form.Select>
+        </Form.Group>
 
         <Form.Group controlId="productFit" className="mb-3">
           <Form.Label>Fit</Form.Label>

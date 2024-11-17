@@ -40,7 +40,8 @@ const OrderItem = ({order}) => {
         if(!res.ok){
           throw new Error();
         }
-        navigate(0);
+        order.cancelled = true;
+        setShowExchangeModal(false);
         showError("Order Cancelled successfully" , "success");
       } catch (error) {
         showError("Cannot cancel the order, try again");
