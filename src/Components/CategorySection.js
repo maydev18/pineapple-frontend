@@ -3,16 +3,19 @@ import styles from "./CategorySection.module.css";
 import pic from "../images/about5.png";
 import pic2 from "../images/pic4.jpg";
 import FadeInComponent from './Fade';
+import { Link } from "react-router-dom";
 
 const categories = [
   {
     title: "Men's",
     imageUrl: pic,
+    gender:"man"
    
   },
   {
     title: "Women's",
     imageUrl: pic2,
+    gender : "woman"
     
   },
 ];
@@ -27,15 +30,17 @@ const CategorySection = () => {
     <FadeInComponent>
     <div className={styles.CardsContainer}>
         {categories.map((category, index) => (
-          <div key={index} className={styles.categoryCard}>
-            <img
-              src={category.imageUrl}
-              alt={category.title}
-              className={styles.categoryImage}
-            />
-            <h3 className={styles.categoryTitle}>{category.title}</h3>
-            
-          </div>
+          <Link to={`/products/?gender=${category.gender}`} style={{'textDecoration' : 'none'}}>
+            <div key={index} className={styles.categoryCard}>
+              <img
+                src={category.imageUrl}
+                alt={category.title}
+                className={styles.categoryImage}
+              />
+              <h3 className={styles.categoryTitle}>{category.title}</h3>
+              
+            </div>
+          </Link>
         ))}
       </div>
       </FadeInComponent>
