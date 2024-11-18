@@ -77,7 +77,20 @@ const Product = () => {
       }
     }
   }, [products]);
-
+  const handlePageUpdateChange = (number) => {
+    sessionStorage.setItem('scroll' , 0);
+    if(number !== query.currentPage){
+      handlePageChange(number)
+    }
+  }
+  const handlePageIncrement = () => {
+    sessionStorage.setItem('scroll' , 0);
+    handlePageChange(query.currentPage < totalPages ? query.currentPage + 1 : totalPages);
+  }
+  const handlePageDecrement = () => {
+    sessionStorage.setItem('scroll' , 0);
+    handlePageChange(query.currentPage > 1 ? query.currentPage - 1 : 1);
+  }
   // Render pagination items
   const renderPaginationItems = () => {
     let items = [];
@@ -86,7 +99,7 @@ const Product = () => {
         <Pagination.Item
           key={number}
           active={number === query.currentPage}
-          onClick={() => handlePageChange(number)}
+          onClick={() => handlePageUpdateChange(number)}
         >
           {number}
         </Pagination.Item>
@@ -132,12 +145,12 @@ const Product = () => {
         <div className={classes.paginationContainer}>
           <Pagination>
             <Pagination.Prev
-              onClick={() => handlePageChange(query.currentPage > 1 ? query.currentPage - 1 : 1)}
+              onClick={handlePageDecrement}
               disabled={query.currentPage === 1}
             />
             {renderPaginationItems()}
             <Pagination.Next
-              onClick={() => handlePageChange(query.currentPage < totalPages ? query.currentPage + 1 : totalPages)}
+              onClick={handlePageIncrement}
               disabled={query.currentPage === totalPages}
             />
           </Pagination>

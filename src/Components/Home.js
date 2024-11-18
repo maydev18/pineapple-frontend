@@ -35,9 +35,9 @@ const Hero = () => {
         
       </div> 
       <ProductsShowcase />
+      <CategorySection/>
       <AboutUs />
       <ContactUs />
-      {/* <CategorySection/> */}
     </>
   );
 };

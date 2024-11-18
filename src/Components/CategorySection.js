@@ -1,16 +1,21 @@
 import React from "react";
 import styles from "./CategorySection.module.css";
-import pic from '../images/about1.jpeg'
+import pic from "../images/about5.png";
+import pic2 from "../images/pic4.jpg";
+import FadeInComponent from './Fade';
+import { Link } from "react-router-dom";
 
 const categories = [
   {
     title: "Men's",
-    imageUrl: pic, 
+    imageUrl: pic,
+    gender:"man"
    
   },
   {
     title: "Women's",
-    imageUrl: pic, 
+    imageUrl: pic2,
+    gender : "woman"
     
   },
 ];
@@ -18,18 +23,27 @@ const categories = [
 const CategorySection = () => {
   return (
     <section className={styles.categorySection}>
-      {categories.map((category, index) => (
-        <div key={index} className={styles.categoryCard}>
-          
-            <img
-              src={category.imageUrl}
-              alt={category.title}
-              className={styles.categoryImage}
-            />
-            <h3 className={styles.categoryTitle}>{category.title}</h3>
-          
-        </div>
-      ))}
+      <h2 className={styles.headingCategory}>Category</h2>
+      <p className={styles.categoryDescription}>
+  Discover an exclusive selection of clothing categories tailored to fit every style and occasion. Whether you're looking for casual wear or the latest trends, our collection has something for everyone. 
+</p>
+    <FadeInComponent>
+    <div className={styles.CardsContainer}>
+        {categories.map((category, index) => (
+          <Link to={`/products/?gender=${category.gender}`} style={{'textDecoration' : 'none'}}>
+            <div key={index} className={styles.categoryCard}>
+              <img
+                src={category.imageUrl}
+                alt={category.title}
+                className={styles.categoryImage}
+              />
+              <h3 className={styles.categoryTitle}>{category.title}</h3>
+              
+            </div>
+          </Link>
+        ))}
+      </div>
+      </FadeInComponent>
     </section>
   );
 };
