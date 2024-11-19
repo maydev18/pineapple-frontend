@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import ToggleButton from './ToggleButton';
@@ -38,6 +38,26 @@ const Inventory = () => {
       showError("Cannot fetch the Inventory, please try again" , 'danger');
     }
   };
+  const deleteProduct = async (productId) => {
+    try {
+      if(window.confirm("Are you sure")){
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}admin/delete-product/${productId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'bearer ' + token,
+          },
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw err;
+        }
+        showError('Product deleted successfully', 'success');
+        fetchProducts(); // Refresh the product list after deletion
+      }
+    } catch (err) {
+      showError('Cannot delete the product, please try again', 'danger');
+    }
+  };
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -70,7 +90,6 @@ const Inventory = () => {
                 <thead>
                   <tr>
                     <th>Product</th>
-                    <th>Product ID</th>
                     <th>Title</th>
                     <th>Price</th>
                     <th>Gender</th>
@@ -81,14 +100,13 @@ const Inventory = () => {
                     <th>XXL</th>
                     <th>Visibility</th>
                     <th>Top Product</th>
-                    <th>Edit</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody className={styles.table}>
                   {filter.map((product, index) => (
                     <tr key={index}>
                       <td><Link to={'/admin/product/' + product._id +'/' + token}><img src={product.mainImage} alt={product.title} style={{ width: "8rem", height: "auto", borderRadius: '10px' }} /></Link></td>
-                      <td>{product._id}</td>
                       <td>{product.title}</td>
                       <td>{product.price}</td>
                       <td>{product.gender}</td>
@@ -111,7 +129,24 @@ const Inventory = () => {
                           top={true}
                         />
                       </td>
-                      <td><p onClick={() => {setProduct(product); setShowModal(true);}}>Edit</p></td>
+                      <td>
+                      <Button
+                          variant="primary"
+                          onClick={() => {
+                            setProduct(product);
+                            setShowModal(true);
+                          }}
+                        >
+                          Edit
+                        </Button>{' '}
+                        <Button
+                          variant="danger"
+                          onClick={() => deleteProduct(product._id)}
+                        >
+                          Delete
+                        </Button>
+
+                      </td>
                     </tr>
                   ))}
                 </tbody>

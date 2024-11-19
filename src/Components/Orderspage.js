@@ -36,6 +36,7 @@ const OrdersPage = () => {
   useEffect(() => {
     orderLoader();
   } , [])
+  window.scroll(0,0);
   return (
     <div className={classes.ordersPage}>
       <h1>My Orders</h1>
