@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link , useNavigate } from 'react-router-dom';
 import Card from '../Components/Card';
 import classes from './ProductPage.module.css';
 import { Pagination, Spinner } from 'react-bootstrap';
@@ -9,7 +9,7 @@ import { getFullSize } from '../utils/cartUtils/convertSize';
 const Product = () => {
   const { showError } = useError();
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   // Get initial query parameters
   const initialPage = parseInt(searchParams.get('page')) || 1;
   const initialGender = searchParams.get('gender') || "null";
@@ -47,12 +47,9 @@ const Product = () => {
 
   // Synchronize query state with URL parameters
   useEffect(() => {
-    setSearchParams({
-      page: query.currentPage,
-      ...(query.gender !== "null" && { gender: query.gender }),
-    });
+    navigate(`?page=${query.currentPage}${query.gender !== "null" ? `&gender=${query.gender}` : ''}`, { replace: true });
     fetchProducts();
-  }, [query]);
+  }, [query, navigate]);
 
   // Handle page change
   const handlePageChange = (page) => {
@@ -70,11 +67,9 @@ const Product = () => {
   // Restore scroll position after fetching products
   useEffect(() => {
     if (products.length) {
-      const scrollPosition = sessionStorage.getItem('scroll');
-      if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition, 10));
-        sessionStorage.removeItem('scroll');
-      }
+      const scrollPosition = sessionStorage.getItem('scroll') || 0;
+      window.scrollTo(0, parseInt(scrollPosition, 10));
+      sessionStorage.setItem('scroll' , 0);
     }
   }, [products]);
   const handlePageUpdateChange = (number) => {

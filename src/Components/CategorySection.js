@@ -30,7 +30,7 @@ const CategorySection = () => {
     <FadeInComponent>
     <div className={styles.CardsContainer}>
         {categories.map((category, index) => (
-          <Link to={`/products/?gender=${category.gender}`} style={{'textDecoration' : 'none'}}>
+          <Link to={`/products/?gender=${category.gender}&page=1`} style={{'textDecoration' : 'none'}} key={index}>
             <div key={index} className={styles.categoryCard}>
               <img
                 src={category.imageUrl}

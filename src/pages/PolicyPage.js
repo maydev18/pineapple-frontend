@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './PolicyPage.module.css';
 
 const ReturnPolicy = () => {
-  
+  window.scroll(0,0);
   return (
     
     <div className={styles.policyContainer}>

@@ -16,7 +16,7 @@ const ContactUs = () => {
         <div className={styles.contactCard}>
           <Icon icon="ic:baseline-phone" className={styles.icon} />
           <h3>Whatsapp </h3>
-          <p><a href="https://wa.me/9911501073">+91 9911501073</a></p>
+          <p><a href="https://wa.me/+919911501073">+91 9911501073</a></p>
         </div>
 
         <div className={styles.contactCard}>
