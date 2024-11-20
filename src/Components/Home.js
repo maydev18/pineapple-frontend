@@ -38,7 +38,7 @@ const Hero = () => {
       <CategorySection/>
       <AboutUs />
       <ContactUs />
-      <CategorySection/>
+    
     </>
   );
 };
