@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./CategorySection.module.css";
-import pic from "../images/about5.png";
-import pic2 from "../images/pic4.jpg";
+import pic from "../images/about5.jpg";
+import pic2 from "../images/pic2.jpg";
 import FadeInComponent from './Fade';
 import { Link } from "react-router-dom";
 
