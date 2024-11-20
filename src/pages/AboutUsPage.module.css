@@ -170,6 +170,21 @@ imageContainer {
     .headerTitle {
       font-size: 2rem;
     }
+
+    .headerBanner {
+     
+      margin: 0;
+      border-radius: 0;
+     
+  }
+
+    .headerBanner p{
+      
+       
+        line-height: 1.7;
+        font-size: 14px;
+    
+    }
   }
   
   @media (max-width: 480px) {
@@ -180,4 +195,20 @@ imageContainer {
     .textBlock p {
       font-size: 0.9rem;
     }
+
+    
+    .headerBanner {
+     
+      margin: 0;
+      border-radius: 0;
+     
+  }
+
+  .headerBanner p{
+      
+       
+    line-height: 1.7;
+    font-size: 14px;
+
+}
   }

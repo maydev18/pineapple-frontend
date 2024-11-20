@@ -33,7 +33,9 @@ const AboutUsPage = () => {
           <p>
             We believe that fashion has the power to transcend mere aesthetics. We're a brand that understands the beauty of introversion. 
             We know that sometimes, the most powerful statements are made in silence. That's why we create clothes that help you express 
-            yourself, without saying a word.
+            yourself, without saying a word. <br/> At Pineapple , we consider clothing an extension of who you are. Our reason is to empower people through style that blends consolation, functionality, and self-expression. We’re devoted to offering exceptional clothing that makes you feel assured, stylish, and prepared to conquer the world.  
+
+
           </p>
         </div>
         {/* Image for Purpose */}
@@ -51,8 +53,13 @@ const AboutUsPage = () => {
         <div className={styles.textBlock}>
           <h2>Our Designs</h2>
           <p>
-            Our t-shirts are designed to be your armor, your comfort zone, and your voice. We use soft fabrics, minimalist designs, and empowering 
-            messages to help you express yourself, without screaming.
+            
+Every piece in our collection is thoughtfully crafted with you in mind. From everyday necessities to ambitious statement pieces, our designs have a good time range and individuality. We satisfaction ourselves on:  
+Uncompromising Quality: Using top rate fabric and materials for sturdiness and comfort.<br/>  <br/>  
+<strong>Timeless Style: </strong>Creating flexible designs that adapt to ever-changing tendencies.  <br/>  
+<strong>Sustainability:</strong> Incorporating eco-friendly practices, from responsibly sourced fabrics to environmentally conscious packaging.<br/>    
+<strong>Inclusive Fashion:</strong> Catering to all sizes, shapes, and private patterns due to the fact everybody deserves to appear and sense top notch.<br/>  
+
           </p>
         </div>
       </section>
@@ -60,11 +67,15 @@ const AboutUsPage = () => {
       {/* Brand History Section */}
       <section className={styles.sectionHistory}>
         <div className={styles.textBlock}>
-          <h2>ABOUT US...</h2>
+          <h2>Our Future Goals</h2>
           <p>
-            PINEAPPLE was born from a desire to create more than just clothes. We wanted to craft pieces that would make you feel seen, heard, 
-            and understood. WHO struggled to find clothes that reflected their personality – quiet, yet bold; reserved, yet expressive. So, 
-            they created PINEAPPLE to fill that gap.
+          As we grow, so does our commitment to making a superb effect on the area. Here’s what we envision:<br/><br/>
+<strong>Expanding Sustainability Efforts:</strong> Innovating our methods to be one hundred% carbon-impartial and increasing using recycled materials.<br/>
+<strong>Global Reach: </strong>Bringing our unique designs to fashion fanatics international while collaborating with artisans to sell traditional craftsmanship.  <br/>
+<strong>Community Building:</strong> Partnering with organizations to guide underprivileged groups and pressure significant alternatives.  <br/>
+<strong>Community Building:</strong> Partnering with organizations to guide underprivileged groups and pressure significant alternatives.  <br/>
+<strong>Empowering Creativity:</strong> Continuously pushing boundaries to inspire creativity, individuality, and self belief in our customers.<br/>
+
           </p>
         </div>
         {/* Image for History */}
