@@ -14,15 +14,16 @@ const ContactUs = () => {
         </div>
 
         <div className={styles.contactCard}>
-          <Icon icon="ic:baseline-phone" className={styles.icon} />
+        <a href="https://wa.me/+919911501073"><Icon icon="ic:baseline-phone" className={styles.icon} />
           <h3>Whatsapp </h3>
-          <p><a href="https://wa.me/+919911501073">+91 9911501073</a></p>
+          <p>+91 9911501073</p>
+          </a>
         </div>
 
         <div className={styles.contactCard}>
-          <Icon icon="ic:baseline-email" className={styles.icon} />
+        <a href="mailto:pineappleindiaofficial@gmail.com"><Icon icon="ic:baseline-email" className={styles.icon} />
           <h3>Email Address</h3>
-          <a href="mailto:pineappleindiaofficial@gmail.com">pineappleindiaofficial@gmail.com</a> 
+          pineappleindiaofficial@gmail.com</a> 
         </div>
       </div>
     </section>
