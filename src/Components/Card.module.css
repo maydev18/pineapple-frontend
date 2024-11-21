@@ -1,23 +1,21 @@
 /* Card.module.css */
 
-/* Existing styles */
-
+/* Base styles */
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  border-color: transparent;
   background-color: white;
   padding: 10px;
-  margin: 0;
-  width: 100%;
-  max-width: 300px; /* Limit the max-width for larger screens */
-  height: 520px;
+  margin: 0 auto; /* Center align on smaller screens */
+  width: 100%; /* Full width on smaller screens */
+  max-width: 300px; /* Constrain max-width */
+  height: 500px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 4px 4px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
-  overflow: hidden; /* Ensure the card contains the images */
+  overflow: hidden; /* Ensure images don't overflow */
 }
 
 .card:hover {
@@ -25,11 +23,11 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Image styling */
 .cardImageWrapper {
-  
   width: 100%;
-  padding-top: 130%;
-  text-decoration: none;
+  padding-top: 150%;
+  position: relative;
 }
 
 .cardImage,
@@ -38,8 +36,8 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 80%;
-  object-fit: cover; 
+  height: 100%;
+  object-fit: contain;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -55,113 +53,115 @@
   opacity: 0;
 }
 
+/* Text content */
 .cardTitle {
-  font-size: 20px;
-  margin: 3.5rem 0 0.7rem 0 ;
+  font-size: 14px;
+  margin-top: 1rem;
   text-transform: capitalize;
-  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #333;
 }
 
 .cardPrice {
   font-size: 16px;
-  text-decoration: none;
- 
- 
+  color: #555;
+  margin-bottom: 0.5rem;
 }
 
-.cardPrice span{
+.cardPrice span {
   text-decoration: line-through;
   color: red;
-  font-size: 17px;
-  font-weight: 300;
-  margin-bottom: 1rem;
- 
+  font-size: 15px;
+  margin-right: 0.5rem;
 }
 
 .cardDescription {
   font-size: 14px;
-  color: black;
+  color: #555;
 }
 
-/* Responsive design adjustments */
-@media (max-width: 768px) {
-  .card {
-    max-width: 100%; 
-    padding: 12px; 
-    height: 300px;
-  }
-
-  .cardTitle {
-    font-size: 18px;
-    margin-top: 1rem; 
-  }
-
-  .cardPrice {
-    font-size: 14px; 
-    padding: 0;
-  }
-
-  .cardDescription {
-    font-size: 12px;
-}
-}
-@media (max-width: 480px) {
-  .card {
-    max-width: 100%;
-    padding: 8px;
-    margin-bottom: 25px;
-    height: 325px;
-  }
-
-  .cardTitle {
-    font-size: 16px; 
-    margin-top: 1rem;
-  }
-  .cardPrice {
-    font-size: 12px; 
-    padding: 0;
-  }
-  .cardDescription {
-    font-size: 10px; 
-  }
-
-  .cardImage,
-.cardHoverImage {
-  
-  height: 60%;
-  
-}
-
-}
-
-
+/* Sold Out Overlay */
 .soldOutOverlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 500px;
   height: 100%;
-  background-color: rgba(185, 185, 185, 0.521); 
-  z-index: 1; /* Make sure it appears above the image */
+  background-color: rgba(185, 185, 185, 0.6);
+  z-index: 1;
 }
 
 .soldOutLabel {
   position: absolute;
-  top: 4%; 
+  top: 5%;
   left: 5%;
-  background-color: var(--green); 
+  background-color: var(--green);
   color: white;
-  
-  padding: 10px; 
-  border-radius: 5px; 
-  z-index: 100; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.soldOutLabel p{
+.soldOutLabel p {
   font-weight: 300;
-  font-size: 18px; /* Font size */
-  margin-bottom: 0;
+  font-size: 18px;
+  margin: 0;
   color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .card {
+    max-width: 250px; /* Reduce card width */
+    padding: 8px;
+    height: 400px; /* Reduce card height */
+  }
+
+  .cardImageWrapper{
+    position: static;
+  }
+
+  .cardTitle {
+    font-size: 14px;
+    margin-top: 0.8rem;
+  }
+
+  .cardPrice {
+    font-size: 14px;
+  }
+
+  .cardDescription {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    max-width: 150px; /* Further reduce card width */
+    padding: 5px;
+    margin-bottom: 15px;
+    height: 280px; /* Further reduce card height */
+  }
+
+  .cardImage,
+  .cardHoverImage {
+    height: 70%; 
+    padding-top: 0.7rem;
+  }
+
+  .cardTitle {
+    font-size: 12px;
+    margin-top: 0.5rem;
+  }
+
+  .cardPrice {
+    font-size: 12px;
+  }
+
+  .cardDescription {
+    font-size: 10px;
+  }
 }
