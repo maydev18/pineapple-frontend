@@ -64,10 +64,10 @@ const AuthModal = ({ isOpen, onClose }) => {
     }
   };
   const closeModal = () => {
-    setMobileNumber(null);
-    setIsOtpScreen(null);
-    setIsLoading(null);
-    setOtp(null);
+    setMobileNumber("");
+    setIsOtpScreen(false);
+    setIsLoading(false);
+    setOtp("");
     seterr("");
     onClose();
   }
