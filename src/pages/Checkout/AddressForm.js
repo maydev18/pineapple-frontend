@@ -217,8 +217,6 @@ const AddressForm = ({ updateSelectedAddress }) => {
                                                 <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" }}>Phone: {address.phone}</p>
                                                 <p style={{ color: 'black', fontSize: '16px', fontWeight: "300" , textTransform: "lowercase" }}>Email: {address.email}</p>
                                             </div>
-
-
                                         </div>
                                     </div>} />
                                 <Collapse in={selectedAddress === address._id && isEditOpen}>
@@ -256,14 +254,14 @@ const AddressForm = ({ updateSelectedAddress }) => {
                                                 onChange={handleInputChange}
                                                 placeholder=" "
                                                 required />
-                                            <label htmlFor="secondLine">Address Line 2 <span style={{ color: 'red' }}>*</span></label>
+                                            <label htmlFor="secondLine">Address Line 2</label>
                                             <input
                                                 type="text"
                                                 name="secondLine"
                                                 value={addressFields.secondLine}
                                                 onChange={handleInputChange}
                                                 placeholder=" " />
-                                            <label htmlFor="state">State</label>
+                                            <label htmlFor="state">State <span style={{ color: 'red' }}>*</span></label>
                                             <input
                                                 type="text"
                                                 name="state"
@@ -287,7 +285,7 @@ const AddressForm = ({ updateSelectedAddress }) => {
                                                 onChange={handleInputChange}
                                                 placeholder=" "
                                                 required />
-                                            <label htmlFor="landmark">Landmark <span style={{ color: 'red' }}>*</span></label>
+                                            <label htmlFor="landmark">Landmark</label>
                                             <input
                                                 type="text"
                                                 name="landmark"
@@ -381,7 +379,7 @@ const AddressForm = ({ updateSelectedAddress }) => {
                             placeholder=" "
                             required />
 
-                        <label htmlFor="name" >Address Line 2 <span style={{ color: 'red' }}>*</span></label>
+                        <label htmlFor="name" >Address Line 2</label>
 
                         <input
                             type="text"
@@ -417,7 +415,7 @@ const AddressForm = ({ updateSelectedAddress }) => {
                             onChange={handleInputChange}
                             placeholder=" "
                             required />
-                        <label htmlFor="landmark">Landmark <span style={{ color: 'red' }}>*</span> </label>
+                        <label htmlFor="landmark">Landmark</label>
                         <input
                             type="text"
                             name="landmark"
