@@ -102,6 +102,7 @@ const Checkout = () => {
             setIsLoading(false);
         }
     };
+    console.log(checkoutDetails);
     return (
         <div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
