@@ -89,6 +89,7 @@ const AddressForm = ({ updateSelectedAddress }) => {
                 addressID: ''
             });
             setIsAddOpen(false);
+            handleAddressesChecked(add._id);
         } catch (err) {
             showError(err.message, 'danger');
         }
@@ -151,6 +152,9 @@ const AddressForm = ({ updateSelectedAddress }) => {
                 throw err;
             }
             setAddresses(savedAddresses.filter(address => address._id !== id));
+            if(id === selectedAddress){
+                handleAddressesChecked(null);
+            }
         } catch (err) {
             showError("Failed to delete the address", 'danger');
         }
@@ -159,6 +163,7 @@ const AddressForm = ({ updateSelectedAddress }) => {
         }
     };
     const handleEditClick = (address) => {
+        handleAddressesChecked(address._id);
         setAddressFields({
             fullName: address.fullName,
             firstLine: address.firstLine,
@@ -172,9 +177,7 @@ const AddressForm = ({ updateSelectedAddress }) => {
             addressID: address._id
         });
         setIsEditOpen(!isEditOpen);
-        updateSelectedAddress(address._id);
         setIsAddOpen(false);
-        setSelectedAddress(address._id);
     }
     const handleAddClick = () => {
         setAddressFields({
@@ -200,8 +203,8 @@ const AddressForm = ({ updateSelectedAddress }) => {
         <div>
             {savedAddresses.length > 0 ? (
                 savedAddresses.map((address, index) => (
-                    <div key={address._id}>
-                        <Card className={classes.savedAddresscard} key={address._id}>
+                    <div key={index}>
+                        <Card className={classes.savedAddresscard}>
                             <Card.Body>
                                 <Form.Check
                                     type='radio'

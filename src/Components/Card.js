@@ -5,8 +5,8 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor, allSize
   return (
     <div className={styles.card}>
       <div className={styles.cardImageWrapper}>
-        <img src={image} alt="title" className={styles.cardImage}/>
-        <img src={hoverImage} alt="title" className={styles.cardHoverImage}/>
+        <img src={image} alt={title} className={styles.cardImage} />
+        <img src={hoverImage} alt={title} className={styles.cardHoverImage} />
         {allSizesOutOfStock && (
           <div className={styles.soldOutOverlay}>
             <span className={styles.soldOutLabel}>
@@ -15,8 +15,16 @@ const Card = ({ image, hoverImage, title, price, titleColor, priceColor, allSize
           </div>
         )}
       </div>
-      <h2 className={styles.cardTitle} style={{ color: titleColor, textAlign: 'center', fontWeight: 400 }}>{title}</h2>
-      <p className={styles.cardPrice} style={{ color: priceColor }}>  <span>₹ 899 </span>  INR {price}</p>
+      <h2
+        className={styles.cardTitle}
+        style={{ color: titleColor }}
+        title={title} // Tooltip to show full title on hover
+      >
+        {title}
+      </h2>
+      <p className={styles.cardPrice} style={{ color: priceColor }}>
+        <span>₹ 899</span> INR {price}
+      </p>
     </div>
   );
 };
