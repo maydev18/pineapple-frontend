@@ -12,18 +12,18 @@ import { useAuth } from '../../context/AuthContext';
 
 const Checkout = () => {
     const navigate = useNavigate();
-    const [checkoutDetails , setCheckoutDetails] = useState({
-        methodOfPayment : null,
-        addressID : null
+    const [checkoutDetails, setCheckoutDetails] = useState({
+        methodOfPayment: null,
+        addressID: null
     })
     const { showError } = useError();
-    const {cart , total , quantity , discount , fetchCart} = useCart();
-    const {token} = useAuth();
-    const[isloading , setIsLoading] = useState(false);
-    const generateOrderId = async() => {
-        const res = await fetch(`${process.env.REACT_APP_BASE_URL}checkout` , {
-            headers : {
-                'Authorization' : 'Bearer ' + token
+    const { cart, total, quantity, discount, fetchCart } = useCart();
+    const { token } = useAuth();
+    const [isloading, setIsLoading] = useState(false);
+    const generateOrderId = async () => {
+        const res = await fetch(`${process.env.REACT_APP_BASE_URL}checkout`, {
+            headers: {
+                'Authorization': 'Bearer ' + token
             }
         })
         if (!res.ok) {
@@ -53,7 +53,10 @@ const Checkout = () => {
                 },
                 "theme": {
                     "color": "#0E201D"
-                }
+                },
+                "prefill": { 
+                    "contact": localStorage.getItem('phone') ? localStorage.getItem('phone') : ""
+                },
             };
             var rzp1 = new window.Razorpay(options);
             rzp1.on('payment.failed', function (response) {
@@ -63,14 +66,14 @@ const Checkout = () => {
         } catch (err) {
             showError(err.message, 'danger');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
 
-    const createOrder = async (data ) => {
+    const createOrder = async (data) => {
         setIsLoading(true);
-        try{
+        try {
             const order = {
                 orderID: data.razorpay_order_id,
                 paymentID: data.razorpay_payment_id,
@@ -95,17 +98,17 @@ const Checkout = () => {
             showError("Order successful", 'success');
             fetchCart();
         }
-        catch(err){
-            showError(err.message , 'danger');
+        catch (err) {
+            showError(err.message, 'danger');
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     };
     return (
         <div className={classes.Checkoutcontainer}>
             <div className={classes.container}>
-                <AddressBox 
+                <AddressBox
                     checkoutDetails={checkoutDetails}
                     setCheckoutDetails={setCheckoutDetails}
                 />
@@ -120,7 +123,7 @@ const Checkout = () => {
                                 title={item.productID.title}
                                 quantity={item.quantity}
                                 price={item.productID.price}
-                                checkout={true} 
+                                checkout={true}
                             />
                         ))}
                     </div>
@@ -137,19 +140,19 @@ const Checkout = () => {
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>Total Discount: </strong>
-                                <div>{discount === 0 ? "--": discount}</div>
+                                <div>{discount === 0 ? "--" : discount}</div>
                             </div>
                             {
                                 discount === 0 &&
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                    (Add ₹{600-total} worth of items more to get a flat 10% off)
+                                    (Add ₹{600 - total} worth of items more to get a flat 10% off)
                                 </div>
                             }
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>Shipping Charges: </strong>
-                                <div>₹ {!checkoutDetails.methodOfPayment? "--" : (checkoutDetails.methodOfPayment === 'cod' ? 100 : 0)}</div>
+                                <div>₹ {!checkoutDetails.methodOfPayment ? "--" : (checkoutDetails.methodOfPayment === 'cod' ? 100 : 0)}</div>
                             </div>
-                            <hr/>
+                            <hr />
                             <div style={{ display: "flex", justifyContent: "space-between", paddingTop: '12px' }}>
                                 <div><h3>Total Price: </h3></div>
                                 <div> ₹
@@ -159,12 +162,12 @@ const Checkout = () => {
                     </div>
                     {/* if the address or method of payment is null */}
                     {(!checkoutDetails.methodOfPayment || !checkoutDetails.addressID) ? (
-                        <p style={{color: 'grey', fontSize: '16px', marginTop: '12px'}}>*please select delivery address and mode of payment to confirm your order</p>
+                        <p style={{ color: 'grey', fontSize: '16px', marginTop: '12px' }}>*please select delivery address and mode of payment to confirm your order</p>
                     ) : (
                         isloading ? (
                             <Spinner />
                         ) : (
-                            <button className={classes.completeOrder} onClick={checkoutDetails.methodOfPayment === 'prepaid' ? handleCheckout : () => {createOrder({})}}>{checkoutDetails.methodOfPayment === 'cod' ? "Confirm your order" : "Proceed to Payment"}</button>
+                            <button className={classes.completeOrder} onClick={checkoutDetails.methodOfPayment === 'prepaid' ? handleCheckout : () => { createOrder({}) }}>{checkoutDetails.methodOfPayment === 'cod' ? "Confirm your order" : "Proceed to Payment"}</button>
                         )
                     )}
                 </div>
