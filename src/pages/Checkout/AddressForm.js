@@ -75,7 +75,6 @@ const AddressForm = ({ updateSelectedAddress }) => {
                 throw err;
             }
             const add = await res.json();
-            console.log(add);
             setAddresses([...savedAddresses, add]);
             setAddressFields({
                 fullName: '',
@@ -153,7 +152,6 @@ const AddressForm = ({ updateSelectedAddress }) => {
                 throw err;
             }
             setAddresses(savedAddresses.filter(address => address._id !== id));
-            console.log(selectedAddress);
             if(id === selectedAddress){
                 handleAddressesChecked(null);
             }
