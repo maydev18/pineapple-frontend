@@ -5,7 +5,8 @@ import classes from './ProductPage.module.css';
 import { Pagination, Spinner } from 'react-bootstrap';
 import { useError } from '../context/ErrorContext';
 import { getFullSize } from '../utils/cartUtils/convertSize';
-
+import io from "socket.io-client";
+const socket = io(process.env.REACT_APP_BASE_URL);
 const Product = () => {
   const { showError } = useError();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,6 +50,20 @@ const Product = () => {
   useEffect(() => {
     navigate(`?page=${query.currentPage}${query.gender !== "null" ? `&gender=${query.gender}` : ''}`, { replace: true });
     fetchProducts();
+    // Listen for socket updates
+    socket.on("productUpdated", (updatedProduct) => {
+      setProducts((products) =>
+        products.map((product) =>
+          product._id === updatedProduct._id ? updatedProduct : product
+        )
+      );
+    });
+
+    // Clean up the socket listener when the component unmounts
+    return () => {
+      socket.off("orderStatusUpdated");
+      socket.disconnect();
+    };
   }, [query, navigate]);
 
   // Handle page change

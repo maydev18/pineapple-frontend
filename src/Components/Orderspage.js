@@ -4,7 +4,10 @@ import classes from './Orderspage.module.css';
 import { useError } from '../context/ErrorContext';
 import { useAuth } from '../context/AuthContext';
 import { Spinner } from 'react-bootstrap';
-import { AlignCenter } from 'react-bootstrap-icons';
+
+import io from "socket.io-client";
+const socket = io(process.env.REACT_APP_BASE_URL);
+
 const OrdersPage = () => {
   const {showError} = useError();
   const {token} = useAuth();
@@ -34,8 +37,24 @@ const OrdersPage = () => {
     }
   }
   useEffect(() => {
+    // Fetch initial orders
+
     orderLoader();
-  } , [])
+
+    socket.on("orderStatusUpdated", (updatedOrder) => {
+      onOrdersChange((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderID === updatedOrder.orderID ? updatedOrder : order
+        )
+      );
+    });
+
+    // Clean up the socket listener when the component unmounts
+    return () => {
+      socket.off("orderStatusUpdated");
+      socket.disconnect();
+    };
+  }, []);
   window.scroll(0,0);
   return (
     <div className={classes.ordersPage}>

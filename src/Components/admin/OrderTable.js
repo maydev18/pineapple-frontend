@@ -9,7 +9,10 @@ import { getsize } from '../../utils/cartUtils/convertSize';
 import { useError } from '../../context/ErrorContext';
 import { useAuth } from '../../context/AuthContext';
 import * as XLSX from 'xlsx'
+import io from "socket.io-client";
+const socket = io(process.env.REACT_APP_BASE_URL);
 const sortIcon = <ArrowDownward />;
+
 
 const customStyles = {
   headCells: {
@@ -159,6 +162,19 @@ const Demo = () => {
         data = data.reverse();
         setOrders(data);
         setFilter(data);
+        socket.on("orderCancelled", (updatedOrder) => {
+          setOrders((orders) =>
+            orders.map((order) =>
+              order.orderID === updatedOrder.orderID ? updatedOrder : order
+            )
+          );
+        });
+    
+        // Clean up the socket listener when the component unmounts
+        return () => {
+          socket.off("orderStatusUpdated");
+          socket.disconnect();
+        };
       }
       catch(err){
         showError(err.message , 'danger');

@@ -70,7 +70,7 @@ const ExchangeItemsTable = () => {
                           src={product.product.image}
                           alt={product.product.title}
                           className={styles.productImage}
-                          thumbnail
+                          // thumbnail
                         />
                       </div>
                       <div className={styles.productInfo}>
