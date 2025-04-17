@@ -4,65 +4,59 @@ import classes from './Orderspage.module.css';
 import { useError } from '../context/ErrorContext';
 import { useAuth } from '../context/AuthContext';
 import { Spinner } from 'react-bootstrap';
-
+import { useQuery } from '@tanstack/react-query';
 import io from "socket.io-client";
-const socket = io(process.env.REACT_APP_BASE_URL);
+
 
 const OrdersPage = () => {
   const {showError} = useError();
   const {token} = useAuth();
-  const [orders,onOrdersChange] = useState([]);
-  const [isLoading , setIsLoading] = useState(false);
-  async function orderLoader() {
-    try {
-      setIsLoading(true);
+  const [orders, setOrders] = useState([]);
+  const {isPending , isError , data , error} = useQuery({
+    queryKey : ['orders'] ,
+    queryFn : async () => {
       const res = await fetch(`${process.env.REACT_APP_BASE_URL}orders`, {
         headers: {
           'Authorization': 'bearer ' + token
         }
       });
       if (!res.ok) {
-        const err = await res.json();
-        throw err;
+        throw new Error('Failed to fetch orders');
       }
-      let resData = await res.json();
-      resData = resData.reverse()
-      onOrdersChange(resData);
-    }
-    catch (err) {
-      showError(err.message, 'danger');
-    }
-    finally{
-      setIsLoading(false);
-    }
-  }
+      return res.json(); 
+    },
+  });
   useEffect(() => {
-    // Fetch initial orders
-
-    orderLoader();
-
+    if(data) setOrders(data);
+  } , [data])
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_BASE_URL);
     socket.on("orderStatusUpdated", (updatedOrder) => {
-      onOrdersChange((prevOrders) =>
+      setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.orderID === updatedOrder.orderID ? updatedOrder : order
         )
       );
     });
-
-    // Clean up the socket listener when the component unmounts
     return () => {
       socket.off("orderStatusUpdated");
       socket.disconnect();
     };
   }, []);
+  
+  if(isPending){
+    return <Spinner/>;
+  }
+  if(isError){
+    showError(error.message, 'danger');
+  }
   window.scroll(0,0);
   return (
     <div className={classes.ordersPage}>
       <h1>My Orders</h1>
-      {(orders.length === 0 && !isLoading) ? (
+      {(orders.length === 0) ? (
         <p style={{color: 'grey', fontSize: '18px' , textAlign: 'center'}}>No orders yet</p> 
-      ) : (
-        isLoading ? <Spinner/> : 
+      ): (
         orders.map((order, index) => (
           <OrderItem
             key={index}
