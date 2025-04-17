@@ -12,7 +12,6 @@ import Orderspage from './Components/Orderspage';
 import Dashboard from './Components/admin/Dashboard';
 import AddProducts from './Components/admin/AddProducts';
 import PlacedOrder from './Components/admin/PlacedOrders';
-import EditProduct from './Components/admin/EditProduct';
 import Inventory from './Components/admin/Inventory';
 import ReturnPolicy from './pages/PolicyPage';
 import Exchange from './Components/admin/Exchange';
@@ -77,10 +76,6 @@ export const router = createBrowserRouter([
           {
             path : 'placedorder',
             element : <PlacedOrder />
-          },
-          {
-            path : 'edit',
-            element : <EditProduct/>
           },
           {
             path : 'inventory',

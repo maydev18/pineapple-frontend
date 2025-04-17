@@ -7,23 +7,16 @@ import { Spinner } from 'react-bootstrap';
 import { useQuery } from '@tanstack/react-query';
 import io from "socket.io-client";
 
-
+import useApiClient from '../utils/axios';
 const OrdersPage = () => {
   const {showError} = useError();
-  const {token} = useAuth();
   const [orders, setOrders] = useState([]);
+  const apiClient = useApiClient();
   const {isPending , isError , data , error} = useQuery({
     queryKey : ['orders'] ,
     queryFn : async () => {
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}orders`, {
-        headers: {
-          'Authorization': 'bearer ' + token
-        }
-      });
-      if (!res.ok) {
-        throw new Error('Failed to fetch orders');
-      }
-      return res.json(); 
+        const res = await apiClient.get('orders');
+        return res.data;
     },
   });
   useEffect(() => {
@@ -50,7 +43,6 @@ const OrdersPage = () => {
   if(isError){
     showError(error.message, 'danger');
   }
-  window.scroll(0,0);
   return (
     <div className={classes.ordersPage}>
       <h1>My Orders</h1>
