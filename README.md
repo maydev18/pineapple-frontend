@@ -1,9 +1,8 @@
 # 🧾 Project Name
 
-A brief one-liner about what your frontend does (e.g., "A React-based e-commerce UI for XYZ").
-A react-based e-commerece website for PINEAPPLE
+A react-based e-commerece website for PINEAPPLE.
 
-## 🚀 Features (Highlight Key Ones)
+## 🚀 Key Features
 - User authentication (Login/Signup with OTP or with google account)
 - Sleek UI for browsing the products
 - Add to cart, address management, checkout
