@@ -58,7 +58,7 @@ const Footer = () => {
       </div>
 
       <div className={styles.footerBottom}>
-        <p>&copy; 2024 Pineapple | All rights reserved</p> 
+        <p>&copy; 2025 Pineapple | All rights reserved</p> 
         <div className={styles.socialMediaIcons}>
                 <a href="https://www.instagram.com/thepineapple.in_?igsh=MTg1azk5MTY1aXU0dQ==" target="_blank" rel="noopener noreferrer" >
                   <Icon icon="mdi:instagram" width="18" height="18" color='white' style={{margin: '0 6px'}}/>
