@@ -3,8 +3,9 @@ import styles from './AboutUsPage.module.css';
 import aboutus1 from '../images/about1.jpeg';
 import aboutus2 from '../images/about2.png';
 import aboutus3 from '../images/about3.png';
-
+import useScrollDepth from '../hooks/useScrollDepth';
 const AboutUsPage = () => {
+  useScrollDepth();
   return (
     <div className={styles.aboutUsPage}>
       

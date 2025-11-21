@@ -9,7 +9,7 @@ import AddressBox from './AddressBox';
 import logo from '../../images/logo_black.png';
 import { Spinner } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthContext';
-
+import { trackClick } from '../../analytics';
 const Checkout = () => {
     const navigate = useNavigate();
     const [checkoutDetails, setCheckoutDetails] = useState({
@@ -72,6 +72,7 @@ const Checkout = () => {
     };
 
     const createOrder = async (data) => {
+        trackClick("Confirm your order");
         setIsLoading(true);
         try {
             const order = {

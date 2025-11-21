@@ -13,7 +13,8 @@ import { getFullSize } from '../utils/cartUtils/convertSize';
 import { CartContext } from '../context/CartContext';
 import sizeChart from '../images/size.png';
 import { format } from 'date-fns';
-
+import { trackClick } from '../analytics';
+import useScrollDepth from '../hooks/useScrollDepth';
 const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
 const ProductPage = () => {
@@ -26,7 +27,7 @@ const ProductPage = () => {
 
   const handleCloseSizeChart = () => setShowSizeChart(false);
   const handleShowSizeChart = () => setShowSizeChart(true);
-
+  useScrollDepth();
   
     const data = useLoaderData();
     const product = data.product;
@@ -35,6 +36,7 @@ const ProductPage = () => {
     const productID = product._id;
 
     const handleAddToCart = async () => {
+      trackClick(`add to cart -  ${product.title}`)
     const size = getFullSize(selectedSize);
     setIsSubmitting(true);
     await addToCart(productID, size);

@@ -17,6 +17,10 @@ import ReturnPolicy from './pages/PolicyPage';
 import Exchange from './Components/admin/Exchange';
 import PrivateRoute from './router/PrivateRouter';
 import AboutUsPage from './pages/AboutUsPage';
+import { useEffect } from 'react';
+import { initGA , trackPageView} from './analytics';
+import { useLocation } from 'react-router-dom';
+import {saveUTMParams} from "./utils/utm";
 export const router = createBrowserRouter([
   {
     path : '/',
@@ -100,10 +104,26 @@ export const router = createBrowserRouter([
   }
 ]);
 
+function GAListener() {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+
+  return null;
+}
 function App() {
+  useEffect(() => {
+    saveUTMParams();
+    initGA();
+  } , []);
   return (
     <>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router}>
+        <GAListener />
+      </RouterProvider>
     </>
   );
 }

@@ -5,6 +5,7 @@ import classes from './ProductPage.module.css';
 import { Pagination, Spinner } from 'react-bootstrap';
 import { useError } from '../context/ErrorContext';
 import { getFullSize } from '../utils/cartUtils/convertSize';
+import useScrollDepth from '../hooks/useScrollDepth';
 import io from "socket.io-client";
 const socket = io(process.env.REACT_APP_BASE_URL);
 const Product = () => {
@@ -14,7 +15,8 @@ const Product = () => {
   // Get initial query parameters
   const initialPage = parseInt(searchParams.get('page')) || 1;
   const initialGender = searchParams.get('gender') || "null";
-
+  
+  useScrollDepth();
   const [query, setQuery] = useState({
     currentPage: initialPage,
     gender: initialGender,

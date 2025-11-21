@@ -1,3 +1,5 @@
+/* global gtag */
+
 import React from 'react';
 import { Link , json} from 'react-router-dom';
 import ProductsShowcase from '../Components/ProductsShowcase';
@@ -6,10 +8,20 @@ import AboutUs from '../Components/AboutUs';
 import FadeInComponent from '../Components/Fade';
 import classes from './Home.module.css';
 import CategorySection from './CategorySection';
-
-
-
+import { getSavedUTM } from '../utils/utm';
+import {trackClick} from "../analytics";
 const Hero = () => {
+  const clickHandler = () => {
+    const utm = getSavedUTM();
+
+    // CTR event
+    gtag("event", "buy_now_click", {
+      event_category: "engagement",
+      event_label: "Buy now",
+      ...utm
+    });
+    trackClick("Buy now - Hero Button")
+  }
   return (
     <>  
       <div className={classes.hero}>
@@ -26,7 +38,7 @@ const Hero = () => {
           <div className={classes.heroButtons}>
            
             <Link to="/products">
-              <button  className="button">BUY NOW</button>
+              <button  className="button" onClick={clickHandler}>BUY NOW</button>
             </Link>
            
           </div>
