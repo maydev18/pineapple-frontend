@@ -5,7 +5,7 @@ import title from '../images/title_aboutus.png'
 
 const AboutUs = () => {
   return (
-    <div className={styles.aboutUsSection} style={{ backgroundImage: `url(https://pineapple-product-images.s3.ap-south-1.amazonaws.com/aboutus.png)` }}>
+    <div className={styles.aboutUsSection} style={{ backgroundImage: `url(https://pineapplle-product-images.s3.ap-south-1.amazonaws.com/About.png)` }}>
       <div className={styles.content}>
         <FadeInComponent>
        
