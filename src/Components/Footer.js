@@ -35,7 +35,7 @@ const Footer = () => {
               
               <p>For any inquiries, feel free to contact us at</p>
               <p style={{ textTransform: 'none' }}>
-               <a href="mailto:pineappleindiaofficial@gmail.com">pineappleindiaofficial@gmail.com</a> 
+               <a href="mailto:abc@gmail.com">abc@gmail.com</a> 
               </p>
             </li>
           </ul>
